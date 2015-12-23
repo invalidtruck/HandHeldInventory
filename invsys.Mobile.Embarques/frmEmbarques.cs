@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlServerCe;
 using System.Net;
-using invsys.Mobile.Embarques.com.somee.wspedidos;
+using invsys.Mobile.Embarques.embarques_srv;
 using ErikEJ.SqlCe;
 
 namespace invsys.Mobile.Embarques
@@ -244,7 +244,7 @@ namespace invsys.Mobile.Embarques
 
         private void menuItem2_Click(object sender, EventArgs e)
         {
-            //int num = (int)new FrmInventario(this.idusuario).ShowDialog();
+            int num = (int)new FrmInventario(this.idusuario).ShowDialog();
         }
 
         private void tabCaptura_Click(object sender, EventArgs e)

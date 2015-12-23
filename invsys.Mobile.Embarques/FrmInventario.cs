@@ -8,13 +8,20 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlServerCe;
 using ErikEJ.SqlCe;
-using invsys.Mobile.Embarques.com.somee.wspedidos;
+using invsys.Mobile.Embarques.embarques_srv;
 using System.Net;
 
 namespace invsys.Mobile.Embarques
 {
     public partial class FrmInventario : Form
     {
+        public FrmInventario(int idusuario)
+        {
+            this.idusuario = idusuario;
+            this.InitializeComponent();
+            this.dir = this.dir.Substring(0, this.dir.LastIndexOf("\\"));
+            this.cnn = new SqlCeConnection("Data Source=" + (this.dir + "\\EmbInv.sdf"));
+        }
         public FrmInventario()
         {
             InitializeComponent();

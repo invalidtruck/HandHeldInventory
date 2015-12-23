@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://localhost/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://localhost/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://localhost/">
+      <s:element name="Test">
+        <s:complexType />
+      </s:element>
+      <s:element name="TestResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TestResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetParameter">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sFiltro" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetParameterResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetParameterResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetValues">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MinValue" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="MaxValue" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetValuesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetValuesResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetValues1">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MinValue" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="MaxValue" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Tabla" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetValues1Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetValues1Result" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFiltro">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetFiltroResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFiltroResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetInventory">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sFiltro" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetInventoryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetInventoryResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertEmbarque">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="parametro" type="tns:EmbarqueEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="EmbarqueEntity">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="IdEmbarque" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Descripcion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CB" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="FechaAlta" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="Peso" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="IdUsuario" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="InsertEmbarqueResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="InsertEmbarqueResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertEmbarque_Detalle">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="parametro" type="tns:Embarque_DetalleEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Embarque_DetalleEntity">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="IdEmbarque" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="IdSalidaDatosAll" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Peso" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="FechaAlta" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="InsertEmbarque_DetalleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="InsertEmbarque_DetalleResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertInventory">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="parametro" type="tns:InventarioEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="InventarioEntity">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="IdInventarioServer" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="CodigoArticulo" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Cantidad" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Medida" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Almacen" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Lote" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Longitud" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Norma" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Espesor" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Descripcion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Ubicacion" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="IdUsuario" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="InsertInventoryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="InsertInventoryResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="TestSoapIn">
+    <wsdl:part name="parameters" element="tns:Test" />
+  </wsdl:message>
+  <wsdl:message name="TestSoapOut">
+    <wsdl:part name="parameters" element="tns:TestResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetParameterSoapIn">
+    <wsdl:part name="parameters" element="tns:GetParameter" />
+  </wsdl:message>
+  <wsdl:message name="GetParameterSoapOut">
+    <wsdl:part name="parameters" element="tns:GetParameterResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetValuesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetValues" />
+  </wsdl:message>
+  <wsdl:message name="GetValuesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetValuesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetValues1SoapIn">
+    <wsdl:part name="parameters" element="tns:GetValues1" />
+  </wsdl:message>
+  <wsdl:message name="GetValues1SoapOut">
+    <wsdl:part name="parameters" element="tns:GetValues1Response" />
+  </wsdl:message>
+  <wsdl:message name="GetFiltroSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFiltro" />
+  </wsdl:message>
+  <wsdl:message name="GetFiltroSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFiltroResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetInventorySoapIn">
+    <wsdl:part name="parameters" element="tns:GetInventory" />
+  </wsdl:message>
+  <wsdl:message name="GetInventorySoapOut">
+    <wsdl:part name="parameters" element="tns:GetInventoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertEmbarqueSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertEmbarque" />
+  </wsdl:message>
+  <wsdl:message name="InsertEmbarqueSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertEmbarqueResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertEmbarque_DetalleSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertEmbarque_Detalle" />
+  </wsdl:message>
+  <wsdl:message name="InsertEmbarque_DetalleSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertEmbarque_DetalleResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertInventorySoapIn">
+    <wsdl:part name="parameters" element="tns:InsertInventory" />
+  </wsdl:message>
+  <wsdl:message name="InsertInventorySoapOut">
+    <wsdl:part name="parameters" element="tns:InsertInventoryResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WSPedidosSoap">
+    <wsdl:operation name="Test">
+      <wsdl:input message="tns:TestSoapIn" />
+      <wsdl:output message="tns:TestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetParameter">
+      <wsdl:input message="tns:GetParameterSoapIn" />
+      <wsdl:output message="tns:GetParameterSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetValues">
+      <wsdl:input message="tns:GetValuesSoapIn" />
+      <wsdl:output message="tns:GetValuesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetValues1">
+      <wsdl:input message="tns:GetValues1SoapIn" />
+      <wsdl:output message="tns:GetValues1SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFiltro">
+      <wsdl:input message="tns:GetFiltroSoapIn" />
+      <wsdl:output message="tns:GetFiltroSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetInventory">
+      <wsdl:input message="tns:GetInventorySoapIn" />
+      <wsdl:output message="tns:GetInventorySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertEmbarque">
+      <wsdl:input message="tns:InsertEmbarqueSoapIn" />
+      <wsdl:output message="tns:InsertEmbarqueSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertEmbarque_Detalle">
+      <wsdl:input message="tns:InsertEmbarque_DetalleSoapIn" />
+      <wsdl:output message="tns:InsertEmbarque_DetalleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertInventory">
+      <wsdl:input message="tns:InsertInventorySoapIn" />
+      <wsdl:output message="tns:InsertInventorySoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WSPedidosSoap" type="tns:WSPedidosSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Test">
+      <soap:operation soapAction="http://localhost/Test" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetParameter">
+      <soap:operation soapAction="http://localhost/GetParameter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetValues">
+      <soap:operation soapAction="http://localhost/GetValues" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetValues1">
+      <soap:operation soapAction="http://localhost/GetValues1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFiltro">
+      <soap:operation soapAction="http://localhost/GetFiltro" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInventory">
+      <soap:operation soapAction="http://localhost/GetInventory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertEmbarque">
+      <soap:operation soapAction="http://localhost/InsertEmbarque" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertEmbarque_Detalle">
+      <soap:operation soapAction="http://localhost/InsertEmbarque_Detalle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertInventory">
+      <soap:operation soapAction="http://localhost/InsertInventory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WSPedidosSoap12" type="tns:WSPedidosSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Test">
+      <soap12:operation soapAction="http://localhost/Test" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetParameter">
+      <soap12:operation soapAction="http://localhost/GetParameter" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetValues">
+      <soap12:operation soapAction="http://localhost/GetValues" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetValues1">
+      <soap12:operation soapAction="http://localhost/GetValues1" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFiltro">
+      <soap12:operation soapAction="http://localhost/GetFiltro" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInventory">
+      <soap12:operation soapAction="http://localhost/GetInventory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertEmbarque">
+      <soap12:operation soapAction="http://localhost/InsertEmbarque" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertEmbarque_Detalle">
+      <soap12:operation soapAction="http://localhost/InsertEmbarque_Detalle" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertInventory">
+      <soap12:operation soapAction="http://localhost/InsertInventory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WSPedidos">
+    <wsdl:port name="WSPedidosSoap" binding="tns:WSPedidosSoap">
+      <soap:address location="http://embarques-srv:81/WSPedidos.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WSPedidosSoap12" binding="tns:WSPedidosSoap12">
+      <soap12:address location="http://embarques-srv:81/WSPedidos.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

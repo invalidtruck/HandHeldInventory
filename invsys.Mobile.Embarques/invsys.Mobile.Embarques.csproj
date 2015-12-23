@@ -52,23 +52,21 @@
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SqlServerCe, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3be235df1c8d2ad3, processorArchitecture=MSIL">
-      <Private>False</Private>
+    <Reference Include="System.Data, Version=3.5.0.0, Culture=neutral, PublicKeyToken=969db8053d3322ac, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLSQL\System.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SqlServerCe, Version=3.5.1.0, Culture=neutral, PublicKeyToken=3be235df1c8d2ad3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLSQL\System.Data.SqlServerCe.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EmbInvDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EmbInvDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="FrmAddEmbarque.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,11 +110,29 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\embarques-srv\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
+    <WebReferenceUrl Include="http://embarques-srv:81/WSPedidos.asmx">
+      <UrlBehavior>Static</UrlBehavior>
+      <RelPath>Web References\embarques-srv\</RelPath>
+      <UpdateFromURL>http://embarques-srv:81/WSPedidos.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>
+      </CachedAppSettingsObjectName>
+      <CachedSettingsPropName>
+      </CachedSettingsPropName>
+    </WebReferenceUrl>
     <WebReferenceUrl Include="http://wspedidos.somee.com/wspedidos.asmx">
       <UrlBehavior>Static</UrlBehavior>
       <RelPath>Web References\com.somee.wspedidos\</RelPath>
@@ -132,28 +148,23 @@
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>
-    <None Include="EmbInvDataSet.xsc">
-      <DependentUpon>EmbInvDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="EmbInvDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>EmbInvDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="EmbInvDataSet.xss">
-      <DependentUpon>EmbInvDataSet.xsd</DependentUpon>
-    </None>
     <None Include="Web References\com.somee.wspedidos\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\com.somee.wspedidos\wspedidos.disco" />
     <None Include="Web References\com.somee.wspedidos\wspedidos.wsdl" />
+    <None Include="Web References\embarques-srv\WSPedidos.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="EmbInv.sdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Web References\embarques-srv\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\embarques-srv\WSPedidos.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>
