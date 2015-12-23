@@ -1,4 +1,5 @@
-﻿using System;
+﻿#define DEBUG
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,6 +10,7 @@ using System.Windows.Forms;
 using System.Data.SqlServerCe;
 using System.Net;
 using invsys.Mobile.Embarques.embarques_srv;
+using some= invsys.Mobile.Embarques.com.somee.wspedidos;
 using ErikEJ.SqlCe;
 
 namespace invsys.Mobile.Embarques
@@ -42,14 +44,19 @@ namespace invsys.Mobile.Embarques
         {
             try
             {
-                WSPedidos wsPedidos = new WSPedidos();
+#if DEBUG
+                var wsPedidos = new some.WSPedidos();
+#else
+                var wsPedidos = new WSPedidos();
+#endif
                 ServicePointManager.Expect100Continue = false;
                 this.cmbFiltro.DataSource = (object)wsPedidos.GetFiltro().Tables[0];
                 this.cmbFiltro.ValueMember = "idfiltro";
                 this.cmbFiltro.DisplayMember = "descripcion";
             }
-            catch (Exception  )
+            catch (Exception  ex)
             {
+                ex.Message.ToString();
             }
         }
 
@@ -138,7 +145,7 @@ namespace invsys.Mobile.Embarques
             }
             try
             {
-                SqlCeCommand sqlCeCommand1 = new SqlCeCommand("select count(1) from EmarqueMaterial where  CodigoBarras= @CB ", this.cnn);
+                SqlCeCommand sqlCeCommand1 = new SqlCeCommand("select count(1) from EmbarqueMaterial where  CodigoBarras= @CB ", this.cnn);
                 if (this.cnn.State == ConnectionState.Closed)
                     this.cnn.Open();
                 if ((int)sqlCeCommand1.ExecuteScalar() > 0)

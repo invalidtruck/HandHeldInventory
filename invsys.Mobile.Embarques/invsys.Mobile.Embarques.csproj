@@ -47,7 +47,7 @@
   <ItemGroup>
     <Reference Include="ErikEJ.SqlCe.NetCF, Version=2.1.6.7, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\proyectos\Handheld\SqlCeBulkCopy.2.1.6.11\ErikEJ.SqlCe.NetCF.dll</HintPath>
+      <HintPath>DLLSQL\ErikEJ.SqlCe.NetCF.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="System" />
