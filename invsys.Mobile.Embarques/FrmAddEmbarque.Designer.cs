@@ -67,9 +67,7 @@ namespace invsys.Mobile.Embarques
             this.Cancelar.Size = new Size(72, 20);
             this.Cancelar.TabIndex = 3;
             this.Cancelar.Text = "Cancelar";
-            this.Cancelar.Click += new EventHandler(this.Cancelar_Click);
-            this.AutoScaleDimensions = new SizeF(96f, 96f);
-          
+            this.Cancelar.Click += new EventHandler(this.Cancelar_Click); 
             this.AutoScroll = true;
             this.ClientSize = new Size(240, 268);
             this.Controls.Add((Control)this.Cancelar);

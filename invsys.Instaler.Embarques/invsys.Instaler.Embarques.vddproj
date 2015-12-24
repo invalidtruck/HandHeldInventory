@@ -279,7 +279,7 @@
             "SourcePath" = "8:System.Data.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_9D22F540BC2643BF8022D4F726E4D65B"
+            "Folder" = "8:_85A953557D4744C986F61A7984D34CA0"
             "Condition" = "8:"
             "Vital" = "11:TRUE"
             "ReadOnly" = "11:FALSE"
@@ -391,7 +391,7 @@
             "SourcePath" = "8:System.Data.SqlServerCe.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_9D22F540BC2643BF8022D4F726E4D65B"
+            "Folder" = "8:_85A953557D4744C986F61A7984D34CA0"
             "Condition" = "8:"
             "Vital" = "11:TRUE"
             "ReadOnly" = "11:FALSE"
@@ -503,7 +503,7 @@
             "SourcePath" = "8:ErikEJ.SqlCe.NetCF.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_9D22F540BC2643BF8022D4F726E4D65B"
+            "Folder" = "8:_85A953557D4744C986F61A7984D34CA0"
             "Condition" = "8:"
             "Vital" = "11:TRUE"
             "ReadOnly" = "11:FALSE"
@@ -564,6 +564,15 @@
             "Property" = "8:%CE1%"
                 "Folders"
                 {
+                    "{5943FCFD-5B64-4EE4-96C9-4618EC95352A}:_85A953557D4744C986F61A7984D34CA0"
+                    {
+                    "Name" = "8:Invsys"
+                    "Condition" = "8:"
+                    "Property" = "8:_541AD176EBF7489D97A8D9EBB7D313BA"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
         }
@@ -580,12 +589,38 @@
         }
         "ProjectOutput"
         {
+            "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_5F53DC15D0184BEDB3C2EFD58CA444C9"
+            {
+            "SourcePath" = "8:"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_85A953557D4744C986F61A7984D34CA0"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:0"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:ContentFiles"
+            "OutputProjectGuid" = "8:{71C9D17A-9A61-40CC-B3FB-8BFA34781AC1}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
             "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_F7D67F8AEA74452EAF546E12FE708E15"
             {
             "SourcePath" = "8:..\\invsys.Mobile.Embarques\\obj\\Debug\\invsys.Mobile.Embarques.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_9D22F540BC2643BF8022D4F726E4D65B"
+            "Folder" = "8:_85A953557D4744C986F61A7984D34CA0"
             "Condition" = "8:"
             "Vital" = "11:TRUE"
             "ReadOnly" = "11:FALSE"

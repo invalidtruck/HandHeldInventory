@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using System.Data.SqlServerCe;
 using System.Net;
 using invsys.Mobile.Embarques.embarques_srv;
-using some= invsys.Mobile.Embarques.com.somee.wspedidos;
+using some = invsys.Mobile.Embarques.com.somee.wspedidos;
 using ErikEJ.SqlCe;
 
 namespace invsys.Mobile.Embarques
@@ -36,6 +36,7 @@ namespace invsys.Mobile.Embarques
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            this.AutoScaleMode = AutoScaleMode.Dpi;
             this.CargarFiltro();
             this.CargarEmbarques();
         }
@@ -44,7 +45,7 @@ namespace invsys.Mobile.Embarques
         {
             try
             {
-#if DEBUG
+#if !DEBUG
                 var wsPedidos = new some.WSPedidos();
 #else
                 var wsPedidos = new WSPedidos();
@@ -54,9 +55,9 @@ namespace invsys.Mobile.Embarques
                 this.cmbFiltro.ValueMember = "idfiltro";
                 this.cmbFiltro.DisplayMember = "descripcion";
             }
-            catch (Exception  ex)
+            catch (Exception ex)
             {
-                ex.Message.ToString();
+                MessageBox.Show(ex.Message.ToString());
             }
         }
 

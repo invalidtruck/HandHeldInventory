@@ -23,6 +23,7 @@ namespace invsys.Mobile.Embarques
         private Label label3;
         private Button BtnSalir;
         private SqlCeConnection cnn;
+
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
@@ -46,7 +47,6 @@ namespace invsys.Mobile.Embarques
         {
             this.components = new System.ComponentModel.Container();
             this.mainMenu1 = new System.Windows.Forms.MainMenu();
-             
             ComponentResourceManager componentResourceManager = new ComponentResourceManager(typeof(frmLogin));
             this.label1 = new Label();
             this.label2 = new Label();
@@ -86,7 +86,7 @@ namespace invsys.Mobile.Embarques
             this.BtnLogin.Text = "Acceder";
             this.BtnLogin.Click += new EventHandler(this.BtnLogin_Click);
             this.pictureBox1.Dock = DockStyle.Top;
- 
+
             this.pictureBox1.Location = new Point(0, 20);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new Size(240, 65);
@@ -105,8 +105,6 @@ namespace invsys.Mobile.Embarques
             this.BtnSalir.TabIndex = 8;
             this.BtnSalir.Text = "Salir";
             this.BtnSalir.Click += new EventHandler(this.BtnSalir_Click);
-            this.AutoScaleDimensions = new SizeF(96f, 96f);
- 
             this.AutoScroll = true;
             this.ClientSize = new Size(240, 294);
             this.Controls.Add((Control)this.pictureBox1);

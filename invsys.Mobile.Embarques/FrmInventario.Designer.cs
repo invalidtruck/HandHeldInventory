@@ -73,7 +73,7 @@ namespace invsys.Mobile.Embarques
         /// </summary>
         private void InitializeComponent()
         {
-
+        
             this.label11.Text = "Filtro carga:";
             this.cmbFiltro.Items.Add((object)"4x0");
             this.cmbFiltro.Items.Add((object)"6x0");
@@ -233,8 +233,7 @@ namespace invsys.Mobile.Embarques
             this.dgvInventario.Location = new Point(0, 0);
             this.dgvInventario.Name = "dgvInventario";
             this.dgvInventario.Size = new Size(232, 239);
-            this.dgvInventario.TabIndex = 0;
-            this.AutoScaleDimensions = new SizeF(96f, 96f); 
+            this.dgvInventario.TabIndex = 0; 
             this.AutoScroll = true;
             this.ClientSize = new Size(240, 268);
             this.Controls.Add((Control)this.tabControl1);

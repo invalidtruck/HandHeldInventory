@@ -88,6 +88,7 @@ namespace invsys.Mobile.Embarques
         /// </summary>
         private void InitializeComponent()
         {
+           
             this.tabControl1 = new TabControl();
             this.tabCaptura = new TabPage();
             this.label1 = new Label();
@@ -372,8 +373,7 @@ namespace invsys.Mobile.Embarques
             this.menuItem3.Click += new EventHandler(this.menuItem3_Click);
             this.menuItem6.Enabled = false;
             this.menuItem6.Text = "TEST";
-            this.menuItem6.Click += new EventHandler(this.menuItem6_Click);
-            this.AutoScaleDimensions = new SizeF(96f, 96f);
+            this.menuItem6.Click += new EventHandler(this.menuItem6_Click); 
             this.AutoScroll = true;
             this.ClientSize = new Size(240, 268);
             this.Controls.Add((Control)this.tabControl1);
