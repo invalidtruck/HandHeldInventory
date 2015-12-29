@@ -3,68 +3,20 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Drawing;
 using System;
+
 namespace invsys.Mobile.Embarques
 {
-    partial class frmEmbarques
+    partial class FrmEmbarquesNew
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
+        private System.ComponentModel.IContainer components = null;
         private string dir = Assembly.GetExecutingAssembly().GetName().CodeBase;
-        private string dirApp = Assembly.GetExecutingAssembly().GetName().CodeBase;
+        private string cnnstr = "";
         private float peso = 0.0f;
         private float pesoMaterial = 0.0f;
         private bool refrescar = false;
-        private string cnnstr = "";
-        private IContainer components = (IContainer)null;
-       
-        private TabControl tabControl1;
-        private TabPage tabCaptura;
-        private TabPage tabLista;
-        private TextBox txtCB;
-        private Label lblTubo;
-        private DataGrid dgvCatalogo;
-        private Button BtnAgregar;
-        private Button BtnLimpiar;
-        private Label label3;
-        private Label lblArt;
-        private Button BtnBuscar;
-        private Panel pnlDesc;
-        private Label lblUbicacion;
-        private Label label14;
-        private Label lblEspesor;
-        private Label label12;
-        private Label lblNorma;
-        private Label label10;
-        private Label lblLongitud;
-        private Label label8;
-        private Label lblLote;
-        private Label label6;
-        private Label lblMedida;
-        private Label label4;
-        private Label label17;
-        private ComboBox cmbEmbarque;
-        private Label lblDesc;
-        private Label label15;
-        private Label lblAlmacen;
-        private Label label7;
-        private MainMenu mainMenu1;
-        private MenuItem menuItem1;
-        private MenuItem menuItem2;
-        private Label lblId;
-        private MenuItem menuItem4;
-        private MenuItem menuNuevoEmbarque;
-        private MenuItem MenuCargarDatos;
-        private Button BtnGrabar;
-        private Label lblPesoTeorico;
-        private Label label11;
-        private MenuItem menuItem5;
-        private Label lblIdSalida;
-        private MenuItem menuItem3;
-        private Label label1;
-        private ComboBox cmbFiltro;
-        private MenuItem menuItem6;
-
         public int idusuario { get; set; }
 
         /// <summary>
@@ -88,6 +40,7 @@ namespace invsys.Mobile.Embarques
         /// </summary>
         private void InitializeComponent()
         {
+            this.lblIdSalida = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabCaptura = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
@@ -97,7 +50,6 @@ namespace invsys.Mobile.Embarques
             this.label17 = new System.Windows.Forms.Label();
             this.cmbEmbarque = new System.Windows.Forms.ComboBox();
             this.pnlDesc = new System.Windows.Forms.Panel();
-            this.lblIdSalida = new System.Windows.Forms.Label();
             this.lblPesoTeorico = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.lblAlmacen = new System.Windows.Forms.Label();
@@ -140,6 +92,14 @@ namespace invsys.Mobile.Embarques
             this.tabLista.SuspendLayout();
             this.SuspendLayout();
             // 
+            // lblIdSalida
+            // 
+            this.lblIdSalida.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
+            this.lblIdSalida.Location = new System.Drawing.Point(10, 194);
+            this.lblIdSalida.Name = "lblIdSalida";
+            this.lblIdSalida.Size = new System.Drawing.Size(31, 15);
+            this.lblIdSalida.Visible = false;
+            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabCaptura);
@@ -149,7 +109,7 @@ namespace invsys.Mobile.Embarques
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(240, 268);
-            this.tabControl1.TabIndex = 0;
+            this.tabControl1.TabIndex = 1;
             // 
             // tabCaptura
             // 
@@ -170,7 +130,6 @@ namespace invsys.Mobile.Embarques
             this.tabCaptura.Name = "tabCaptura";
             this.tabCaptura.Size = new System.Drawing.Size(240, 245);
             this.tabCaptura.Text = "Captura";
-            this.tabCaptura.Click += new System.EventHandler(this.tabCaptura_Click);
             // 
             // label1
             // 
@@ -216,7 +175,6 @@ namespace invsys.Mobile.Embarques
             this.cmbEmbarque.Name = "cmbEmbarque";
             this.cmbEmbarque.Size = new System.Drawing.Size(144, 22);
             this.cmbEmbarque.TabIndex = 8;
-            this.cmbEmbarque.SelectedIndexChanged += new System.EventHandler(this.cmbEmbarque_SelectedIndexChanged_1);
             // 
             // pnlDesc
             // 
@@ -243,14 +201,6 @@ namespace invsys.Mobile.Embarques
             this.pnlDesc.Location = new System.Drawing.Point(7, 85);
             this.pnlDesc.Name = "pnlDesc";
             this.pnlDesc.Size = new System.Drawing.Size(212, 216);
-            // 
-            // lblIdSalida
-            // 
-            this.lblIdSalida.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.lblIdSalida.Location = new System.Drawing.Point(10, 194);
-            this.lblIdSalida.Name = "lblIdSalida";
-            this.lblIdSalida.Size = new System.Drawing.Size(31, 15);
-            this.lblIdSalida.Visible = false;
             // 
             // lblPesoTeorico
             // 
@@ -431,16 +381,16 @@ namespace invsys.Mobile.Embarques
             this.tabLista.Controls.Add(this.dgvCatalogo);
             this.tabLista.Location = new System.Drawing.Point(0, 0);
             this.tabLista.Name = "tabLista";
-            this.tabLista.Size = new System.Drawing.Size(240, 245);
+            this.tabLista.Size = new System.Drawing.Size(232, 242);
             this.tabLista.Text = "Lista";
             // 
             // label3
             // 
             this.label3.BackColor = System.Drawing.Color.Silver;
             this.label3.Dock = System.Windows.Forms.DockStyle.Right;
-            this.label3.Location = new System.Drawing.Point(128, 0);
+            this.label3.Location = new System.Drawing.Point(120, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(112, 102);
+            this.label3.Size = new System.Drawing.Size(112, 99);
             this.label3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // lblArt
@@ -449,7 +399,7 @@ namespace invsys.Mobile.Embarques
             this.lblArt.Dock = System.Windows.Forms.DockStyle.Left;
             this.lblArt.Location = new System.Drawing.Point(0, 0);
             this.lblArt.Name = "lblArt";
-            this.lblArt.Size = new System.Drawing.Size(113, 102);
+            this.lblArt.Size = new System.Drawing.Size(113, 99);
             this.lblArt.Text = "Art: 0";
             this.lblArt.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
@@ -457,9 +407,9 @@ namespace invsys.Mobile.Embarques
             // 
             this.dgvCatalogo.BackgroundColor = System.Drawing.Color.White;
             this.dgvCatalogo.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.dgvCatalogo.Location = new System.Drawing.Point(0, 102);
+            this.dgvCatalogo.Location = new System.Drawing.Point(0, 99);
             this.dgvCatalogo.Name = "dgvCatalogo";
-            this.dgvCatalogo.Size = new System.Drawing.Size(240, 143);
+            this.dgvCatalogo.Size = new System.Drawing.Size(232, 143);
             this.dgvCatalogo.TabIndex = 1;
             // 
             // mainMenu1
@@ -489,7 +439,6 @@ namespace invsys.Mobile.Embarques
             // menuNuevoEmbarque
             // 
             this.menuNuevoEmbarque.Text = "Nuevo Embarque";
-            this.menuNuevoEmbarque.Click += new System.EventHandler(this.menuNuevoEmbarque_Click);
             // 
             // MenuCargarDatos
             // 
@@ -512,16 +461,17 @@ namespace invsys.Mobile.Embarques
             this.menuItem6.Text = "TEST";
             this.menuItem6.Click += new System.EventHandler(this.menuItem6_Click);
             // 
-            // frmEmbarques
+            // FrmEmbarquesNew
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(240, 268);
             this.Controls.Add(this.tabControl1);
             this.Menu = this.mainMenu1;
-            this.Name = "frmEmbarques";
+            this.Name = "FrmEmbarquesNew";
             this.Text = "Embarques";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.FrmEmbarquesNew_Load_1);
             this.Activated += new System.EventHandler(this.Main_Activated);
             this.tabControl1.ResumeLayout(false);
             this.tabCaptura.ResumeLayout(false);
@@ -533,7 +483,52 @@ namespace invsys.Mobile.Embarques
 
         #endregion
 
+        private System.Windows.Forms.Label lblIdSalida;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabCaptura;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cmbFiltro;
+        private System.Windows.Forms.Button BtnGrabar;
+        private System.Windows.Forms.Label lblId;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.ComboBox cmbEmbarque;
+        private System.Windows.Forms.Panel pnlDesc;
+        private System.Windows.Forms.Label lblPesoTeorico;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label lblAlmacen;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblDesc;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label lblUbicacion;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label lblEspesor;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label lblNorma;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label lblLongitud;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lblLote;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblMedida;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button BtnBuscar;
+        private System.Windows.Forms.Button BtnLimpiar;
+        private System.Windows.Forms.Button BtnAgregar;
+        private System.Windows.Forms.TextBox txtCB;
+        private System.Windows.Forms.Label lblTubo;
+        private System.Windows.Forms.TabPage tabLista;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblArt;
+        private System.Windows.Forms.DataGrid dgvCatalogo;
+        private System.Windows.Forms.MainMenu mainMenu1;
+        private System.Windows.Forms.MenuItem menuItem1;
+        private System.Windows.Forms.MenuItem menuItem2;
+        private System.Windows.Forms.MenuItem menuItem4;
+        private System.Windows.Forms.MenuItem menuNuevoEmbarque;
+        private System.Windows.Forms.MenuItem MenuCargarDatos;
+        private System.Windows.Forms.MenuItem menuItem5;
+        private System.Windows.Forms.MenuItem menuItem3;
+        private System.Windows.Forms.MenuItem menuItem6;
 
     }
 }
-

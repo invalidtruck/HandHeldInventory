@@ -13,7 +13,7 @@ namespace invsys.Mobile.Embarques
         [MTAThread]
         static void Main()
         {
-            Application.Run(new frmLogin());
+            Application.Run(new FrmLoginNew());
         }
     }
 }

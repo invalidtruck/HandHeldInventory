@@ -1,5 +1,4 @@
-﻿#define DEBUG
-using System;
+﻿using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,17 +14,17 @@ using ErikEJ.SqlCe;
 
 namespace invsys.Mobile.Embarques
 {
-    public partial class frmEmbarques : Form
+    public partial class FrmEmbarquesNew : Form
     {
         private SqlCeConnection cnn;
-        public frmEmbarques()
+        public FrmEmbarquesNew()
         {
-            InitializeComponent();
+             InitializeComponent();
             this.dir = this.dir.Substring(0, this.dir.LastIndexOf("\\"));
             this.cnnstr = "Data Source=" + (this.dir + "\\EmbInv.sdf") + ";Max Database Size=4091";
             this.cnn = new SqlCeConnection(this.cnnstr);
         }
-        public frmEmbarques(int iduser)
+        public FrmEmbarquesNew(int iduser)
         {
             this.idusuario = iduser;
             this.InitializeComponent();
@@ -33,14 +32,12 @@ namespace invsys.Mobile.Embarques
             this.cnnstr = "Data Source=" + (this.dir + "\\EmbInv.sdf") + ";Max Database Size=4091";
             this.cnn = new SqlCeConnection(this.cnnstr);
         }
-
-        private void Form1_Load(object sender, EventArgs e)
+        private void FrmEmbarquesNew_Load_1(object sender, EventArgs e)
         {
             this.AutoScaleMode = AutoScaleMode.Dpi;
             this.CargarFiltro();
             this.CargarEmbarques();
         }
-
         private void CargarFiltro()
         {
             try
@@ -50,7 +47,7 @@ namespace invsys.Mobile.Embarques
 #else
                 var wsPedidos = new WSPedidos();
 #endif
-                lblDesc.Text = wsPedidos.Url.ToString();
+      //          lblDesc.Text = wsPedidos.Url.ToString();
                 ServicePointManager.Expect100Continue = false;
                 this.cmbFiltro.DataSource = (object)wsPedidos.GetFiltro().Tables[0];
                 this.cmbFiltro.ValueMember = "idfiltro";
@@ -489,7 +486,7 @@ namespace invsys.Mobile.Embarques
                 int num = (int)MessageBox.Show("Error:\n" + ex.Message);
             }
         }
-
+             
         private void BULK(DataTable dt)
         {
             SqlCeBulkCopyOptions options = new SqlCeBulkCopyOptions();
@@ -505,3 +502,4 @@ namespace invsys.Mobile.Embarques
         }
     }
 }
+

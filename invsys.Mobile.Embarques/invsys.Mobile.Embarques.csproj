@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{71C9D17A-9A61-40CC-B3FB-8BFA34781AC1}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -79,6 +79,12 @@
     <Compile Include="frmEmbarques.Designer.cs">
       <DependentUpon>frmEmbarques.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmEmbarquesNew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmEmbarquesNew.Designer.cs">
+      <DependentUpon>FrmEmbarquesNew.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmInventario.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -91,10 +97,28 @@
     <Compile Include="frmLogin.Designer.cs">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmLoginNew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmLoginNew.Designer.cs">
+      <DependentUpon>FrmLoginNew.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmEmbarques.resx">
       <DependentUpon>frmEmbarques.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmEmbarquesNew.resx">
+      <DependentUpon>FrmEmbarquesNew.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLogin.resx">
+      <DependentUpon>frmLogin.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmLoginNew.resx">
+      <DependentUpon>FrmLoginNew.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -104,11 +128,6 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Web References\com.somee.wspedidos\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.map</DependentUpon>
     </Compile>
     <Compile Include="Web References\embarques-srv\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -133,38 +152,21 @@
       <CachedSettingsPropName>
       </CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://wspedidos.somee.com/wspedidos.asmx">
-      <UrlBehavior>Static</UrlBehavior>
-      <RelPath>Web References\com.somee.wspedidos\</RelPath>
-      <UpdateFromURL>http://wspedidos.somee.com/wspedidos.asmx</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>
-      </CachedAppSettingsObjectName>
-      <CachedSettingsPropName>
-      </CachedSettingsPropName>
-    </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Web References\com.somee.wspedidos\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Web References\com.somee.wspedidos\wspedidos.disco" />
-    <None Include="Web References\com.somee.wspedidos\wspedidos.wsdl" />
     <None Include="Web References\embarques-srv\WSPedidos.wsdl" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="EmbInv.sdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="Web References\embarques-srv\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\embarques-srv\WSPedidos.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="EmbInv.sdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>
