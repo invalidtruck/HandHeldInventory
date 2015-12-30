@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{71C9D17A-9A61-40CC-B3FB-8BFA34781AC1}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -84,12 +84,6 @@
     </Compile>
     <Compile Include="FrmEmbarquesNew.Designer.cs">
       <DependentUpon>FrmEmbarquesNew.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FrmInventario.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmInventario.Designer.cs">
-      <DependentUpon>FrmInventario.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmInventarioNew.cs">
       <SubType>Form</SubType>

@@ -39,13 +39,9 @@ namespace invsys.Mobile.Embarques
             this.mainMenu1 = new System.Windows.Forms.MainMenu();
             this.cmbFiltro = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.lblIdArt = new System.Windows.Forms.Label();
             this.BtnAñadir = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.nudCantidad = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
             this.txtDesc = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.txtUbicacion = new System.Windows.Forms.TextBox();
@@ -67,9 +63,10 @@ namespace invsys.Mobile.Embarques
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.lblTotal = new System.Windows.Forms.Label();
             this.dgvInventario = new System.Windows.Forms.DataGrid();
             this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmbFiltro
@@ -94,28 +91,21 @@ namespace invsys.Mobile.Embarques
             this.cmbFiltro.Items.Add("8x4");
             this.cmbFiltro.Items.Add("10x6");
             this.cmbFiltro.Items.Add("HELUCOIDAL");
-            this.cmbFiltro.Location = new System.Drawing.Point(98, 3);
+            this.cmbFiltro.Location = new System.Drawing.Point(106, 3);
             this.cmbFiltro.Name = "cmbFiltro";
-            this.cmbFiltro.Size = new System.Drawing.Size(126, 22);
+            this.cmbFiltro.Size = new System.Drawing.Size(111, 22);
             this.cmbFiltro.TabIndex = 67;
             // 
             // label11
             // 
-            this.label11.Location = new System.Drawing.Point(4, 3);
+            this.label11.Location = new System.Drawing.Point(7, 5);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(100, 20);
+            this.label11.Size = new System.Drawing.Size(93, 20);
             this.label11.Text = "Filtro carga:";
-            // 
-            // lblIdArt
-            // 
-            this.lblIdArt.Location = new System.Drawing.Point(31, 343);
-            this.lblIdArt.Name = "lblIdArt";
-            this.lblIdArt.Size = new System.Drawing.Size(160, 23);
-            this.lblIdArt.Visible = false;
             // 
             // BtnAñadir
             // 
-            this.BtnAñadir.Location = new System.Drawing.Point(106, 305);
+            this.BtnAñadir.Location = new System.Drawing.Point(95, 320);
             this.BtnAñadir.Name = "BtnAñadir";
             this.BtnAñadir.Size = new System.Drawing.Size(120, 33);
             this.BtnAñadir.TabIndex = 56;
@@ -123,195 +113,154 @@ namespace invsys.Mobile.Embarques
             // 
             // label10
             // 
-            this.label10.Location = new System.Drawing.Point(135, 40);
+            this.label10.Location = new System.Drawing.Point(115, 28);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(35, 20);
+            this.label10.Size = new System.Drawing.Size(49, 20);
             this.label10.Text = "Cant:";
             this.label10.Visible = false;
             // 
             // nudCantidad
             // 
-            this.nudCantidad.Location = new System.Drawing.Point(178, 38);
+            this.nudCantidad.Location = new System.Drawing.Point(170, 25);
             this.nudCantidad.Name = "nudCantidad";
             this.nudCantidad.Size = new System.Drawing.Size(46, 22);
             this.nudCantidad.TabIndex = 46;
             this.nudCantidad.Visible = false;
             // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Location = new System.Drawing.Point(0, 0);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(100, 22);
-            this.numericUpDown1.TabIndex = 48;
-            // 
-            // numericUpDown2
-            // 
-            this.numericUpDown2.Location = new System.Drawing.Point(0, 0);
-            this.numericUpDown2.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(100, 22);
-            this.numericUpDown2.TabIndex = 47;
-            this.numericUpDown2.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // numericUpDown3
-            // 
-            this.numericUpDown3.Location = new System.Drawing.Point(0, 0);
-            this.numericUpDown3.Name = "numericUpDown3";
-            this.numericUpDown3.Size = new System.Drawing.Size(100, 22);
-            this.numericUpDown3.TabIndex = 46;
-            this.numericUpDown3.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
             // txtDesc
             // 
-            this.txtDesc.Location = new System.Drawing.Point(74, 64);
+            this.txtDesc.Location = new System.Drawing.Point(82, 75);
             this.txtDesc.MaxLength = 255;
             this.txtDesc.Multiline = true;
             this.txtDesc.Name = "txtDesc";
-            this.txtDesc.Size = new System.Drawing.Size(150, 46);
+            this.txtDesc.Size = new System.Drawing.Size(135, 46);
             this.txtDesc.TabIndex = 45;
             // 
             // label9
             // 
-            this.label9.Location = new System.Drawing.Point(4, 67);
+            this.label9.Location = new System.Drawing.Point(12, 78);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(72, 20);
+            this.label9.Size = new System.Drawing.Size(72, 43);
             this.label9.Text = "Descripción:";
             // 
             // txtUbicacion
             // 
-            this.txtUbicacion.Location = new System.Drawing.Point(74, 278);
+            this.txtUbicacion.Location = new System.Drawing.Point(82, 289);
             this.txtUbicacion.MaxLength = 80;
             this.txtUbicacion.Name = "txtUbicacion";
-            this.txtUbicacion.Size = new System.Drawing.Size(150, 21);
+            this.txtUbicacion.Size = new System.Drawing.Size(135, 21);
             this.txtUbicacion.TabIndex = 44;
             // 
             // label8
             // 
-            this.label8.Location = new System.Drawing.Point(6, 281);
+            this.label8.Location = new System.Drawing.Point(14, 292);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(62, 20);
+            this.label8.Size = new System.Drawing.Size(64, 20);
             this.label8.Text = "Ubicación:";
             // 
             // txtEspesor
             // 
-            this.txtEspesor.Location = new System.Drawing.Point(74, 251);
+            this.txtEspesor.Location = new System.Drawing.Point(82, 262);
             this.txtEspesor.MaxLength = 80;
             this.txtEspesor.Name = "txtEspesor";
-            this.txtEspesor.Size = new System.Drawing.Size(150, 21);
+            this.txtEspesor.Size = new System.Drawing.Size(135, 21);
             this.txtEspesor.TabIndex = 43;
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(6, 254);
+            this.label7.Location = new System.Drawing.Point(14, 265);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(53, 20);
+            this.label7.Size = new System.Drawing.Size(64, 20);
             this.label7.Text = "Espesor:";
             // 
             // txtNorma
             // 
-            this.txtNorma.Location = new System.Drawing.Point(74, 224);
+            this.txtNorma.Location = new System.Drawing.Point(82, 235);
             this.txtNorma.MaxLength = 80;
             this.txtNorma.Name = "txtNorma";
-            this.txtNorma.Size = new System.Drawing.Size(150, 21);
+            this.txtNorma.Size = new System.Drawing.Size(135, 21);
             this.txtNorma.TabIndex = 42;
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(6, 227);
+            this.label6.Location = new System.Drawing.Point(14, 238);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 20);
+            this.label6.Size = new System.Drawing.Size(64, 20);
             this.label6.Text = "Norma:";
             // 
             // txtLongitud
             // 
-            this.txtLongitud.Location = new System.Drawing.Point(74, 197);
+            this.txtLongitud.Location = new System.Drawing.Point(82, 208);
             this.txtLongitud.MaxLength = 80;
             this.txtLongitud.Name = "txtLongitud";
-            this.txtLongitud.Size = new System.Drawing.Size(150, 21);
+            this.txtLongitud.Size = new System.Drawing.Size(135, 21);
             this.txtLongitud.TabIndex = 41;
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(6, 200);
+            this.label5.Location = new System.Drawing.Point(14, 211);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(62, 20);
             this.label5.Text = "Longitud:";
             // 
             // txtLote
             // 
-            this.txtLote.Location = new System.Drawing.Point(74, 170);
+            this.txtLote.Location = new System.Drawing.Point(82, 181);
             this.txtLote.MaxLength = 80;
             this.txtLote.Name = "txtLote";
-            this.txtLote.Size = new System.Drawing.Size(150, 21);
+            this.txtLote.Size = new System.Drawing.Size(135, 21);
             this.txtLote.TabIndex = 40;
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(6, 173);
+            this.label4.Location = new System.Drawing.Point(14, 184);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(53, 20);
+            this.label4.Size = new System.Drawing.Size(64, 20);
             this.label4.Text = "Lote:";
             // 
             // txtAlmacen
             // 
-            this.txtAlmacen.Location = new System.Drawing.Point(74, 143);
+            this.txtAlmacen.Location = new System.Drawing.Point(82, 154);
             this.txtAlmacen.MaxLength = 80;
             this.txtAlmacen.Name = "txtAlmacen";
-            this.txtAlmacen.Size = new System.Drawing.Size(150, 21);
+            this.txtAlmacen.Size = new System.Drawing.Size(135, 21);
             this.txtAlmacen.TabIndex = 39;
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(6, 146);
+            this.label3.Location = new System.Drawing.Point(14, 157);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(62, 20);
             this.label3.Text = "Almacen:";
             // 
             // txtMedida
             // 
-            this.txtMedida.Location = new System.Drawing.Point(74, 116);
+            this.txtMedida.Location = new System.Drawing.Point(82, 127);
             this.txtMedida.MaxLength = 80;
             this.txtMedida.Name = "txtMedida";
-            this.txtMedida.Size = new System.Drawing.Size(150, 21);
+            this.txtMedida.Size = new System.Drawing.Size(135, 21);
             this.txtMedida.TabIndex = 38;
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(4, 117);
+            this.label2.Location = new System.Drawing.Point(12, 128);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 20);
+            this.label2.Size = new System.Drawing.Size(64, 20);
             this.label2.Text = "Medida:";
             // 
             // txtCB
             // 
-            this.txtCB.Location = new System.Drawing.Point(74, 37);
+            this.txtCB.Location = new System.Drawing.Point(81, 48);
             this.txtCB.MaxLength = 25;
             this.txtCB.Name = "txtCB";
-            this.txtCB.Size = new System.Drawing.Size(150, 21);
+            this.txtCB.Size = new System.Drawing.Size(135, 21);
             this.txtCB.TabIndex = 37;
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(4, 40);
+            this.label1.Location = new System.Drawing.Point(12, 51);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 20);
+            this.label1.Size = new System.Drawing.Size(31, 20);
             this.label1.Text = "Lote:";
             // 
             // tabControl1
@@ -319,41 +268,57 @@ namespace invsys.Mobile.Embarques
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.None;
-            this.tabControl1.Location = new System.Drawing.Point(0, 338);
+            this.tabControl1.Location = new System.Drawing.Point(3, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(227, 25);
+            this.tabControl1.Size = new System.Drawing.Size(223, 332);
             this.tabControl1.TabIndex = 68;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.BtnAñadir);
+            this.tabPage1.Controls.Add(this.label10);
+            this.tabPage1.Controls.Add(this.nudCantidad);
+            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Controls.Add(this.cmbFiltro);
+            this.tabPage1.Controls.Add(this.txtCB);
+            this.tabPage1.Controls.Add(this.label11);
+            this.tabPage1.Controls.Add(this.txtUbicacion);
+            this.tabPage1.Controls.Add(this.label2);
+            this.tabPage1.Controls.Add(this.txtMedida);
+            this.tabPage1.Controls.Add(this.label3);
+            this.tabPage1.Controls.Add(this.txtDesc);
+            this.tabPage1.Controls.Add(this.txtAlmacen);
+            this.tabPage1.Controls.Add(this.label9);
+            this.tabPage1.Controls.Add(this.label4);
+            this.tabPage1.Controls.Add(this.label8);
+            this.tabPage1.Controls.Add(this.txtLote);
+            this.tabPage1.Controls.Add(this.txtEspesor);
+            this.tabPage1.Controls.Add(this.label5);
+            this.tabPage1.Controls.Add(this.label7);
+            this.tabPage1.Controls.Add(this.txtLongitud);
+            this.tabPage1.Controls.Add(this.txtNorma);
+            this.tabPage1.Controls.Add(this.label6);
             this.tabPage1.Location = new System.Drawing.Point(0, 0);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(227, 2);
-            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.Size = new System.Drawing.Size(223, 309);
+            this.tabPage1.Text = "Agregar Lote";
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.dgvInventario);
             this.tabPage2.Location = new System.Drawing.Point(0, 0);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(219, 0);
+            this.tabPage2.Size = new System.Drawing.Size(215, 306);
             this.tabPage2.Text = "Material en Inventario";
-            // 
-            // lblTotal
-            // 
-            this.lblTotal.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblTotal.Location = new System.Drawing.Point(0, 0);
-            this.lblTotal.Name = "lblTotal";
-            this.lblTotal.Size = new System.Drawing.Size(227, 20);
-            this.lblTotal.Text = "Total:";
             // 
             // dgvInventario
             // 
             this.dgvInventario.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.dgvInventario.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvInventario.Location = new System.Drawing.Point(0, 20);
+            this.dgvInventario.Location = new System.Drawing.Point(0, 0);
             this.dgvInventario.Name = "dgvInventario";
-            this.dgvInventario.Size = new System.Drawing.Size(227, 346);
+            this.dgvInventario.Size = new System.Drawing.Size(215, 306);
             this.dgvInventario.TabIndex = 0;
             // 
             // FrmInventarioNew
@@ -362,40 +327,13 @@ namespace invsys.Mobile.Embarques
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(240, 268);
-            this.Controls.Add(this.dgvInventario);
-            this.Controls.Add(this.lblTotal);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtCB);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.txtMedida);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.txtAlmacen);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.txtLote);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.txtLongitud);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.txtNorma);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.txtEspesor);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.txtUbicacion);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.txtDesc);
-            this.Controls.Add(this.numericUpDown3);
-            this.Controls.Add(this.numericUpDown2);
-            this.Controls.Add(this.numericUpDown1);
-            this.Controls.Add(this.nudCantidad);
-            this.Controls.Add(this.label10);
-            this.Controls.Add(this.BtnAñadir);
-            this.Controls.Add(this.lblIdArt);
-            this.Controls.Add(this.label11);
-            this.Controls.Add(this.cmbFiltro);
             this.Menu = this.mainMenu1;
             this.Name = "FrmInventarioNew";
             this.Text = "Inventario";
             this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -404,13 +342,9 @@ namespace invsys.Mobile.Embarques
 
         private ComboBox cmbFiltro;
         private Label label11;
-        private Label lblIdArt;
         private Button BtnAñadir;
         private Label label10;
         private NumericUpDown nudCantidad;
-        private NumericUpDown numericUpDown1;
-        private NumericUpDown numericUpDown2;
-        private NumericUpDown numericUpDown3;
         private TextBox txtDesc;
         private Label label9;
         private TextBox txtUbicacion;
@@ -432,7 +366,6 @@ namespace invsys.Mobile.Embarques
         private TabControl tabControl1;
         private TabPage tabPage1;
         private TabPage tabPage2;
-        private Label lblTotal;
         private DataGrid dgvInventario;
 
         public int idusuario { get; set; }

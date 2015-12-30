@@ -255,7 +255,7 @@ namespace invsys.Mobile.Embarques
 
         private void menuItem2_Click(object sender, EventArgs e)
         {
-            int num = (int)new FrmInventario(this.idusuario).ShowDialog();
+            int num = (int)new FrmInventarioNew(this.idusuario).ShowDialog();
         }
 
         private void tabCaptura_Click(object sender, EventArgs e)
