@@ -129,7 +129,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Web References\embarques-srv\Reference.cs">
+    <Compile Include="Web References\com.somee.wspedidos\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -139,10 +139,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://embarques-srv:81/WSPedidos.asmx">
+    <WebReferenceUrl Include="http://wspedidos.somee.com/wspedidos.asmx">
       <UrlBehavior>Static</UrlBehavior>
-      <RelPath>Web References\embarques-srv\</RelPath>
-      <UpdateFromURL>http://embarques-srv:81/WSPedidos.asmx</UpdateFromURL>
+      <RelPath>Web References\com.somee.wspedidos\</RelPath>
+      <UpdateFromURL>http://wspedidos.somee.com/wspedidos.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -154,19 +154,15 @@
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Web References\embarques-srv\WSPedidos.wsdl" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Web References\embarques-srv\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Web References\embarques-srv\WSPedidos.disco" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="EmbInv.sdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Web References\com.somee.wspedidos\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\com.somee.wspedidos\wspedidos.disco" />
+    <None Include="Web References\com.somee.wspedidos\wspedidos.wsdl" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>

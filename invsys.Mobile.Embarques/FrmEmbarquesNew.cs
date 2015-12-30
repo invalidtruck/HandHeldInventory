@@ -8,8 +8,10 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlServerCe;
 using System.Net;
-using invsys.Mobile.Embarques.embarques_srv;
-using some = invsys.Mobile.Embarques.embarques_srv;
+//using invsys.Mobile.Embarques.embarques_srv;
+//using some = invsys.Mobile.Embarques.embarques_srv;
+using invsys.Mobile.Embarques.com.somee.wspedidos;
+using some = invsys.Mobile.Embarques.com.somee.wspedidos;
 using ErikEJ.SqlCe;
 
 namespace invsys.Mobile.Embarques
@@ -47,8 +49,9 @@ namespace invsys.Mobile.Embarques
 #else
                 var wsPedidos = new WSPedidos();
 #endif
-      //          lblDesc.Text = wsPedidos.Url.ToString();
+                lblDesc.Text = wsPedidos.Url.ToString();
                 ServicePointManager.Expect100Continue = false;
+                DataSet obj = wsPedidos.GetFiltro();
                 this.cmbFiltro.DataSource = (object)wsPedidos.GetFiltro().Tables[0];
                 this.cmbFiltro.ValueMember = "idfiltro";
                 this.cmbFiltro.DisplayMember = "descripcion";
