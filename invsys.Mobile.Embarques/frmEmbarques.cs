@@ -321,7 +321,7 @@ namespace invsys.Mobile.Embarques
 
         private void cmbEmbarque_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-            this.pnlDesc.Enabled = true;
+           // this.pnlDesc.Enabled = true;
            
             this.Limpiar();
             this.CargarEmbarques_Detalle();

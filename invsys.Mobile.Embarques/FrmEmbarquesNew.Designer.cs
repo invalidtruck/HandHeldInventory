@@ -197,8 +197,7 @@ namespace invsys.Mobile.Embarques
             this.pnlDesc.Controls.Add(this.lblLote);
             this.pnlDesc.Controls.Add(this.label6);
             this.pnlDesc.Controls.Add(this.lblMedida);
-            this.pnlDesc.Controls.Add(this.label4);
-            this.pnlDesc.Enabled = false;
+            this.pnlDesc.Controls.Add(this.label4); 
             this.pnlDesc.Location = new System.Drawing.Point(7, 85);
             this.pnlDesc.Name = "pnlDesc";
             this.pnlDesc.Size = new System.Drawing.Size(212, 216);
@@ -330,8 +329,7 @@ namespace invsys.Mobile.Embarques
             this.label4.Text = "Medida:";
             // 
             // BtnBuscar
-            // 
-            this.BtnBuscar.Enabled = false;
+            //  
             this.BtnBuscar.Location = new System.Drawing.Point(192, 31);
             this.BtnBuscar.Name = "BtnBuscar";
             this.BtnBuscar.Size = new System.Drawing.Size(27, 20);
@@ -358,8 +356,7 @@ namespace invsys.Mobile.Embarques
             this.BtnAgregar.Click += new System.EventHandler(this.BtnAdd_Click);
             // 
             // txtCB
-            // 
-            this.txtCB.Enabled = false;
+            //  
             this.txtCB.Location = new System.Drawing.Point(75, 30);
             this.txtCB.MaxLength = 25;
             this.txtCB.Name = "txtCB";
