@@ -100,7 +100,7 @@ namespace invsys.Mobile.Embarques
                 SqlCeDataReader sqlCeDataReader = sqlCeCommand.ExecuteReader();
                 if (sqlCeDataReader.Read())
                 {
-                    this.txtCB.Enabled = false;
+                    
                     this.peso += (float)sqlCeDataReader["peso"];
                     this.lblAlmacen.Text = sqlCeDataReader["Almacen"].ToString();
                     this.lblDesc.Text = sqlCeDataReader["Descripcion"].ToString();
@@ -128,7 +128,7 @@ namespace invsys.Mobile.Embarques
                     this.lblMedida.Text = "";
                     this.lblNorma.Text = "";
                     this.lblPesoTeorico.Text = "";
-                    this.txtCB.Enabled = true;
+                 
                 }
             }
             catch (Exception ex)
@@ -322,7 +322,7 @@ namespace invsys.Mobile.Embarques
         private void cmbEmbarque_SelectedIndexChanged_1(object sender, EventArgs e)
         {
             this.pnlDesc.Enabled = true;
-            this.txtCB.Enabled = true;
+           
             this.Limpiar();
             this.CargarEmbarques_Detalle();
         }

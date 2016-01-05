@@ -407,8 +407,7 @@ namespace invsys.Mobile.Embarques
             this.BtnAgregar.Click += new System.EventHandler(this.BtnAdd_Click);
             // 
             // txtCB
-            // 
-            this.txtCB.Enabled = false;
+            //  
             this.txtCB.Location = new System.Drawing.Point(75, 30);
             this.txtCB.MaxLength = 25;
             this.txtCB.Name = "txtCB";
