@@ -8,9 +8,9 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlServerCe;
 using ErikEJ.SqlCe;
-//using invsys.Mobile.Embarques.embarques_srv;
-using invsys.Mobile.Embarques.com.somee.wspedidos;
-using some = invsys.Mobile.Embarques.com.somee.wspedidos;
+using invsys.Mobile.Embarques.embarques;
+//using invsys.Mobile.Embarques.com.somee.wspedidos;
+//using some = invsys.Mobile.Embarques.com.somee.wspedidos;
 
 using System.Net;
 

@@ -64,6 +64,7 @@ namespace invsys.Mobile.Embarques
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dgvInventario = new System.Windows.Forms.DataGrid();
+            this.lblIdArt = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -276,6 +277,7 @@ namespace invsys.Mobile.Embarques
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.lblIdArt);
             this.tabPage1.Controls.Add(this.BtnAñadir);
             this.tabPage1.Controls.Add(this.label10);
             this.tabPage1.Controls.Add(this.nudCantidad);
@@ -320,6 +322,12 @@ namespace invsys.Mobile.Embarques
             this.dgvInventario.Name = "dgvInventario";
             this.dgvInventario.Size = new System.Drawing.Size(215, 306);
             this.dgvInventario.TabIndex = 0;
+            // 
+            // lblIdArt
+            // 
+            this.lblIdArt.Location = new System.Drawing.Point(37, 26);
+            this.lblIdArt.Name = "lblIdArt";
+            this.lblIdArt.Size = new System.Drawing.Size(100, 20);
             // 
             // FrmInventarioNew
             // 
@@ -372,6 +380,7 @@ namespace invsys.Mobile.Embarques
         private string dir = Assembly.GetExecutingAssembly().GetName().CodeBase;
         private bool refrescar = false;
         private SqlCeConnection cnn;
+        private Label lblIdArt;
      
     }
 }

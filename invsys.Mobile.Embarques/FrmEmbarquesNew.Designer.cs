@@ -86,6 +86,7 @@ namespace invsys.Mobile.Embarques
             this.menuItem5 = new System.Windows.Forms.MenuItem();
             this.menuItem3 = new System.Windows.Forms.MenuItem();
             this.menuItem6 = new System.Windows.Forms.MenuItem();
+            this.MenuSalir = new System.Windows.Forms.MenuItem();
             this.tabControl1.SuspendLayout();
             this.tabCaptura.SuspendLayout();
             this.pnlDesc.SuspendLayout();
@@ -434,11 +435,13 @@ namespace invsys.Mobile.Embarques
             this.menuItem4.MenuItems.Add(this.menuItem5);
             this.menuItem4.MenuItems.Add(this.menuItem3);
             this.menuItem4.MenuItems.Add(this.menuItem6);
+            this.menuItem4.MenuItems.Add(this.MenuSalir);
             this.menuItem4.Text = "Acciones";
             // 
             // menuNuevoEmbarque
             // 
             this.menuNuevoEmbarque.Text = "Nuevo Embarque";
+            this.menuNuevoEmbarque.Click += new System.EventHandler(this.menuNuevoEmbarque_Click);
             // 
             // MenuCargarDatos
             // 
@@ -460,6 +463,13 @@ namespace invsys.Mobile.Embarques
             this.menuItem6.Enabled = false;
             this.menuItem6.Text = "TEST";
             this.menuItem6.Click += new System.EventHandler(this.menuItem6_Click);
+            // 
+            // MenuSalir
+            // 
+            this.MenuSalir.Checked = true;
+            this.MenuSalir.Text = "Salir";
+            this.MenuSalir.Popup += new System.EventHandler(this.MenuSalir_Popup);
+            this.MenuSalir.Click += new System.EventHandler(this.MenuSalir_Click);
             // 
             // FrmEmbarquesNew
             // 
@@ -529,6 +539,7 @@ namespace invsys.Mobile.Embarques
         private System.Windows.Forms.MenuItem menuItem5;
         private System.Windows.Forms.MenuItem menuItem3;
         private System.Windows.Forms.MenuItem menuItem6;
+        private MenuItem MenuSalir;
 
     }
 }

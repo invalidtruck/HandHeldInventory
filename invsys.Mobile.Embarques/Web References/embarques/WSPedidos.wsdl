@@ -470,10 +470,10 @@
   </wsdl:binding>
   <wsdl:service name="WSPedidos">
     <wsdl:port name="WSPedidosSoap" binding="tns:WSPedidosSoap">
-      <soap:address location="http://wspedidos.somee.com/wspedidos.asmx" />
+      <soap:address location="http://embarques-srv:81/WSPedidos.asmx" />
     </wsdl:port>
     <wsdl:port name="WSPedidosSoap12" binding="tns:WSPedidosSoap12">
-      <soap12:address location="http://wspedidos.somee.com/wspedidos.asmx" />
+      <soap12:address location="http://embarques-srv:81/WSPedidos.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{71C9D17A-9A61-40CC-B3FB-8BFA34781AC1}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -134,7 +134,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Web References\com.somee.wspedidos\Reference.cs">
+    <Compile Include="Web References\embarques\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -144,10 +144,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://wspedidos.somee.com/wspedidos.asmx">
+    <WebReferenceUrl Include="http://embarques-srv:81/WSPedidos.asmx">
       <UrlBehavior>Static</UrlBehavior>
-      <RelPath>Web References\com.somee.wspedidos\</RelPath>
-      <UpdateFromURL>http://wspedidos.somee.com/wspedidos.asmx</UpdateFromURL>
+      <RelPath>Web References\embarques\</RelPath>
+      <UpdateFromURL>http://embarques-srv:81/WSPedidos.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -162,12 +162,12 @@
     <Content Include="EmbInv.sdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Web References\com.somee.wspedidos\Reference.map">
+    <None Include="Web References\embarques\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Web References\com.somee.wspedidos\wspedidos.disco" />
-    <None Include="Web References\com.somee.wspedidos\wspedidos.wsdl" />
+    <None Include="Web References\embarques\WSPedidos.disco" />
+    <None Include="Web References\embarques\WSPedidos.wsdl" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>

@@ -8,10 +8,10 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlServerCe;
 using System.Net;
-//using invsys.Mobile.Embarques.embarques_srv;
-//using some = invsys.Mobile.Embarques.embarques_srv;
-using invsys.Mobile.Embarques.com.somee.wspedidos;
-using some = invsys.Mobile.Embarques.com.somee.wspedidos;
+using invsys.Mobile.Embarques.embarques;
+using some = invsys.Mobile.Embarques.embarques;
+//using invsys.Mobile.Embarques.com.somee.wspedidos;
+//using some = invsys.Mobile.Embarques.com.somee.wspedidos;
 using ErikEJ.SqlCe;
 
 namespace invsys.Mobile.Embarques
@@ -51,7 +51,7 @@ namespace invsys.Mobile.Embarques
 #endif
                 lblDesc.Text = wsPedidos.Url.ToString();
                 ServicePointManager.Expect100Continue = false;
-                DataSet obj = wsPedidos.GetFiltro();
+               
                 this.cmbFiltro.DataSource = (object)wsPedidos.GetFiltro().Tables[0];
                 this.cmbFiltro.ValueMember = "idfiltro";
                 this.cmbFiltro.DisplayMember = "descripcion";
@@ -253,7 +253,7 @@ namespace invsys.Mobile.Embarques
 
         private void menuItem2_Click(object sender, EventArgs e)
         {
-            int num = (int)new FrmInventario(this.idusuario).ShowDialog();
+            int num = (int)new FrmInventarioNew(this.idusuario).ShowDialog();
         }
 
         private void tabCaptura_Click(object sender, EventArgs e)
@@ -263,7 +263,7 @@ namespace invsys.Mobile.Embarques
         private void menuNuevoEmbarque_Click(object sender, EventArgs e)
         {
             this.refrescar = true;
-            //int num = (int)new frmAddEmbarque(this.idusuario).ShowDialog();
+            int num = (int)new FrmAddEmbarque(this.idusuario).ShowDialog();
         }
 
         private void CargarDatosWS()
@@ -502,6 +502,16 @@ namespace invsys.Mobile.Embarques
                 bc.WriteToServer(dt);
             }
 
+        }
+
+        private void MenuSalir_Popup(object sender, EventArgs e)
+        {
+
+        }
+
+        private void MenuSalir_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
