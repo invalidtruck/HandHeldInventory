@@ -21,7 +21,7 @@ namespace invsys.Mobile.Embarques
         private SqlCeConnection cnn;
         public FrmEmbarquesNew()
         {
-             InitializeComponent();
+            InitializeComponent();
             this.dir = this.dir.Substring(0, this.dir.LastIndexOf("\\"));
             this.cnnstr = "Data Source=" + (this.dir + "\\EmbInv.sdf") + ";Max Database Size=4091";
             this.cnn = new SqlCeConnection(this.cnnstr);
@@ -51,7 +51,7 @@ namespace invsys.Mobile.Embarques
 #endif
                 lblDesc.Text = wsPedidos.Url.ToString();
                 ServicePointManager.Expect100Continue = false;
-               
+
                 this.cmbFiltro.DataSource = (object)wsPedidos.GetFiltro().Tables[0];
                 this.cmbFiltro.ValueMember = "idfiltro";
                 this.cmbFiltro.DisplayMember = "descripcion";
@@ -147,11 +147,15 @@ namespace invsys.Mobile.Embarques
             }
             try
             {
-                SqlCeCommand sqlCeCommand1 = new SqlCeCommand("select count(1) from EmbarqueMaterial where  CodigoBarras= @CB ", this.cnn);
+                var sqlCeCommand1 = new SqlCeCommand("select count(1) from EmbarqueMaterial where  CodigoBarras= @CB ", this.cnn);
+                sqlCeCommand1.Parameters.AddWithValue("@CB", txtCB.Text);
                 if (this.cnn.State == ConnectionState.Closed)
                     this.cnn.Open();
                 if ((int)sqlCeCommand1.ExecuteScalar() > 0)
+                {
+                    MessageBox.Show("Ese lote ya fue utilizado ");
                     return;
+                }
                 this.cnn.Close();
                 float num2 = (float)((double)Convert.ToSingle(this.lblLongitud.Text) * (double)Convert.ToSingle(this.lblPesoTeorico.Text) / 1000.0);
                 this.peso += num2;
@@ -166,7 +170,8 @@ namespace invsys.Mobile.Embarques
                 sqlCeCommand2.Parameters.AddWithValue("@CB", (object)this.txtCB.Text);
                 sqlCeCommand2.Parameters.AddWithValue("@IdSalida", (object)this.lblIdSalida.Text);
                 sqlCeCommand2.Parameters.AddWithValue("@Peso", (object)num2);
-                this.cnn.Open();
+                if (this.cnn.State == ConnectionState.Closed)
+                    this.cnn.Open();
                 sqlCeCommand2.ExecuteReader();
                 SqlCeCommand sqlCeCommand3 = new SqlCeCommand("update embarque set peso = @peso where idEmbarque = @IdEmbarque", this.cnn);
                 sqlCeCommand3.Parameters.AddWithValue("@peso", (object)this.peso);
@@ -489,7 +494,7 @@ namespace invsys.Mobile.Embarques
                 int num = (int)MessageBox.Show("Error:\n" + ex.Message);
             }
         }
-             
+
         private void BULK(DataTable dt)
         {
             SqlCeBulkCopyOptions options = new SqlCeBulkCopyOptions();
