@@ -67,10 +67,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FrmAddEmbarque.cs">
+    <Compile Include="Old\FrmAddEmbarque.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmAddEmbarque.Designer.cs">
+    <Compile Include="Old\FrmAddEmbarque.Designer.cs">
       <DependentUpon>FrmAddEmbarque.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmAddEmbarqueN.cs">
@@ -79,10 +79,10 @@
     <Compile Include="FrmAddEmbarqueN.Designer.cs">
       <DependentUpon>FrmAddEmbarqueN.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmEmbarques.cs">
+    <Compile Include="Old\frmEmbarques.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmEmbarques.Designer.cs">
+    <Compile Include="Old\frmEmbarques.Designer.cs">
       <DependentUpon>frmEmbarques.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmEmbarquesNew.cs">
@@ -97,10 +97,10 @@
     <Compile Include="FrmInventarioNew.Designer.cs">
       <DependentUpon>FrmInventarioNew.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmLogin.cs">
+    <Compile Include="Old\frmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmLogin.Designer.cs">
+    <Compile Include="Old\frmLogin.Designer.cs">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmLoginNew.cs">
@@ -114,7 +114,7 @@
     <EmbeddedResource Include="FrmAddEmbarqueN.resx">
       <DependentUpon>FrmAddEmbarqueN.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmEmbarques.resx">
+    <EmbeddedResource Include="Old\frmEmbarques.resx">
       <DependentUpon>frmEmbarques.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -126,7 +126,7 @@
       <DependentUpon>FrmInventarioNew.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmLogin.resx">
+    <EmbeddedResource Include="Old\frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
