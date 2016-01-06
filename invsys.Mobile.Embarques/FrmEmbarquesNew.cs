@@ -49,7 +49,7 @@ namespace invsys.Mobile.Embarques
 #else
                 var wsPedidos = new WSPedidos();
 #endif
-                lblDesc.Text = wsPedidos.Url.ToString();
+                
                 ServicePointManager.Expect100Continue = false;
 
                 this.cmbFiltro.DataSource = (object)wsPedidos.GetFiltro().Tables[0];
@@ -268,7 +268,7 @@ namespace invsys.Mobile.Embarques
         private void menuNuevoEmbarque_Click(object sender, EventArgs e)
         {
             this.refrescar = true;
-            int num = (int)new FrmAddEmbarque(this.idusuario).ShowDialog();
+            int num = (int)new FrmAddEmbarqueN(this.idusuario).ShowDialog();
         }
 
         private void CargarDatosWS()
@@ -516,7 +516,7 @@ namespace invsys.Mobile.Embarques
 
         private void MenuSalir_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            Application.Exit(); 
         }
     }
 }
