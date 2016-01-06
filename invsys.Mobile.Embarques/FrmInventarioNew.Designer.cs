@@ -37,6 +37,11 @@ namespace invsys.Mobile.Embarques
         private void InitializeComponent()
         {
             this.mainMenu1 = new System.Windows.Forms.MainMenu();
+            this.menuItem1 = new System.Windows.Forms.MenuItem();
+            this.menuItem2 = new System.Windows.Forms.MenuItem();
+            this.menuItem3 = new System.Windows.Forms.MenuItem();
+            this.menuItem4 = new System.Windows.Forms.MenuItem();
+            this.menuItem5 = new System.Windows.Forms.MenuItem();
             this.cmbFiltro = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
             this.BtnAñadir = new System.Windows.Forms.Button();
@@ -62,13 +67,47 @@ namespace invsys.Mobile.Embarques
             this.label1 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.lblIdArt = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dgvInventario = new System.Windows.Forms.DataGrid();
-            this.lblIdArt = new System.Windows.Forms.Label();
+            this.menuItem6 = new System.Windows.Forms.MenuItem();
+            this.button1 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // mainMenu1
+            // 
+            this.mainMenu1.MenuItems.Add(this.menuItem1);
+            this.mainMenu1.MenuItems.Add(this.menuItem3);
+            // 
+            // menuItem1
+            // 
+            this.menuItem1.MenuItems.Add(this.menuItem2);
+            this.menuItem1.Text = "Modulos";
+            // 
+            // menuItem2
+            // 
+            this.menuItem2.Text = "Embarque";
+            this.menuItem2.Click += new System.EventHandler(this.menuItem2_Click);
+            // 
+            // menuItem3
+            // 
+            this.menuItem3.MenuItems.Add(this.menuItem4);
+            this.menuItem3.MenuItems.Add(this.menuItem5);
+            this.menuItem3.MenuItems.Add(this.menuItem6);
+            this.menuItem3.Text = "Acciones";
+            // 
+            // menuItem4
+            // 
+            this.menuItem4.Text = "Cargar Datos ( WiFi)";
+            this.menuItem4.Click += new System.EventHandler(this.menuItem4_Click_1);
+            // 
+            // menuItem5
+            // 
+            this.menuItem5.Text = "Enviar Inventario (WiFi)";
+            this.menuItem5.Click += new System.EventHandler(this.menuItem5_Click_1);
             // 
             // cmbFiltro
             // 
@@ -114,9 +153,9 @@ namespace invsys.Mobile.Embarques
             // 
             // label10
             // 
-            this.label10.Location = new System.Drawing.Point(115, 28);
+            this.label10.Location = new System.Drawing.Point(106, 28);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(49, 20);
+            this.label10.Size = new System.Drawing.Size(58, 20);
             this.label10.Text = "Cant:";
             this.label10.Visible = false;
             // 
@@ -254,7 +293,7 @@ namespace invsys.Mobile.Embarques
             this.txtCB.Location = new System.Drawing.Point(81, 48);
             this.txtCB.MaxLength = 25;
             this.txtCB.Name = "txtCB";
-            this.txtCB.Size = new System.Drawing.Size(135, 21);
+            this.txtCB.Size = new System.Drawing.Size(96, 21);
             this.txtCB.TabIndex = 37;
             // 
             // label1
@@ -277,6 +316,7 @@ namespace invsys.Mobile.Embarques
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.button1);
             this.tabPage1.Controls.Add(this.lblIdArt);
             this.tabPage1.Controls.Add(this.BtnAñadir);
             this.tabPage1.Controls.Add(this.label10);
@@ -306,6 +346,12 @@ namespace invsys.Mobile.Embarques
             this.tabPage1.Size = new System.Drawing.Size(223, 309);
             this.tabPage1.Text = "Agregar Lote";
             // 
+            // lblIdArt
+            // 
+            this.lblIdArt.Location = new System.Drawing.Point(37, 26);
+            this.lblIdArt.Name = "lblIdArt";
+            this.lblIdArt.Size = new System.Drawing.Size(100, 20);
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.dgvInventario);
@@ -323,11 +369,19 @@ namespace invsys.Mobile.Embarques
             this.dgvInventario.Size = new System.Drawing.Size(215, 306);
             this.dgvInventario.TabIndex = 0;
             // 
-            // lblIdArt
+            // menuItem6
             // 
-            this.lblIdArt.Location = new System.Drawing.Point(37, 26);
-            this.lblIdArt.Name = "lblIdArt";
-            this.lblIdArt.Size = new System.Drawing.Size(100, 20);
+            this.menuItem6.Text = "Eliminar Inventario";
+            this.menuItem6.Click += new System.EventHandler(this.menuItem6_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(183, 51);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(34, 20);
+            this.button1.TabIndex = 77;
+            this.button1.Text = "...";
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // FrmInventarioNew
             // 
@@ -381,6 +435,13 @@ namespace invsys.Mobile.Embarques
         private bool refrescar = false;
         private SqlCeConnection cnn;
         private Label lblIdArt;
+        private MenuItem menuItem1;
+        private MenuItem menuItem2;
+        private MenuItem menuItem3;
+        private MenuItem menuItem4;
+        private MenuItem menuItem5;
+        private MenuItem menuItem6;
+        private Button button1;
      
     }
 }
