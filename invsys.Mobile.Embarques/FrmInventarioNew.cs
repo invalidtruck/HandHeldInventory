@@ -56,6 +56,25 @@ namespace invsys.Mobile.Embarques
                 this.cnn.Close();
             }
         }
+        private void EliminaLote(string cb)
+        {
+            try
+            {
+                SqlCeCommand sqlCeCommand = new SqlCeCommand("DELETE FROM Inventario where cb =@cb", this.cnn);
+                sqlCeCommand.Parameters.AddWithValue("@cb", cb);
+                if (this.cnn.State == ConnectionState.Closed)
+                    this.cnn.Open();
+                sqlCeCommand.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                int num = (int)MessageBox.Show("Fallo al eliminar la información");
+            }
+            finally
+            {
+                this.cnn.Close();
+            }
+        }
         private void Clean()
         {
             this.txtAlmacen.Text = "";
@@ -278,6 +297,6 @@ namespace invsys.Mobile.Embarques
         }
         #endregion
 
-   
+
     }
 }
