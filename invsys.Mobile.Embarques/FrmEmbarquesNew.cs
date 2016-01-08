@@ -535,6 +535,15 @@ namespace invsys.Mobile.Embarques
         {
             Application.Exit(); 
         }
+
+        private void dgvCatalogo_DoubleClick(object sender, EventArgs e)
+        {
+            //int iRow = dgvCatalogo.CurrentCell.RowNumber();
+            var manager = (CurrencyManager)this.BindingContext[dgvCatalogo.DataSource];
+            var currentIndex = manager.Position;
+            manager.RemoveAt(currentIndex);
+            manager.Refresh();
+        }
     }
 }
 
