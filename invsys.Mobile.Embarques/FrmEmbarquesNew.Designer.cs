@@ -13,6 +13,7 @@ namespace invsys.Mobile.Embarques
         /// </summary>
         private System.ComponentModel.IContainer components = null;
         private string dir = Assembly.GetExecutingAssembly().GetName().CodeBase;
+        private int IdHandHeld = 0;
         private string cnnstr = "";
         private float peso = 0.0f;
         private float pesoMaterial = 0.0f;

@@ -8,11 +8,14 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlServerCe;
 using System.Net;
-using invsys.Mobile.Embarques.embarques;
-using some = invsys.Mobile.Embarques.embarques;
-//using invsys.Mobile.Embarques.com.somee.wspedidos;
-//using some = invsys.Mobile.Embarques.com.somee.wspedidos;
+//using invsys.Mobile.Embarques.embarques;
+//using some = invsys.Mobile.Embarques.embarques;
+using invsys.Mobile.Embarques.wspedidos;
+using some = invsys.Mobile.Embarques.wspedidos;
 using ErikEJ.SqlCe;
+using System.IO;
+using System;
+
 
 namespace invsys.Mobile.Embarques
 {
@@ -25,6 +28,8 @@ namespace invsys.Mobile.Embarques
             this.dir = this.dir.Substring(0, this.dir.LastIndexOf("\\"));
             this.cnnstr = "Data Source=" + (this.dir + "\\EmbInv.sdf") + ";Max Database Size=4091";
             this.cnn = new SqlCeConnection(this.cnnstr);
+           
+
         }
         public FrmEmbarquesNew(int iduser)
         {
@@ -33,6 +38,18 @@ namespace invsys.Mobile.Embarques
             this.dir = this.dir.Substring(0, this.dir.LastIndexOf("\\"));
             this.cnnstr = "Data Source=" + (this.dir + "\\EmbInv.sdf") + ";Max Database Size=4091";
             this.cnn = new SqlCeConnection(this.cnnstr);
+            try
+            {
+                IPHostEntry ipEntry = Dns.GetHostByName(Dns.GetHostName());
+                IPAddress[] addr = ipEntry.AddressList;
+                this.IdHandHeld = Convert.ToInt32(addr[0].ToString().Replace(".", ""));
+            }
+            catch (Exception ex)
+            {
+                
+                throw ex;
+            }
+            
         }
         private void FrmEmbarquesNew_Load_1(object sender, EventArgs e)
         {
@@ -284,14 +301,14 @@ namespace invsys.Mobile.Embarques
                 DataTable dataTable2;
                 try
                 {
-                    dataTable2 = wsPedidos.GetParameter(this.cmbFiltro.Text).Tables[0];
+                    dataTable2 = wsPedidos.GetParameter(this.cmbFiltro.Text,this.IdHandHeld).Tables[0];
                 }
                 catch (Exception)
                 {
                     int num = (int)MessageBox.Show("No se puede conectar al servidor, favor de verificar su conexion");
                     return;
                 }
-                int MinValue = 0;
+                int MinValue = (int)dataTable2.Rows[0][0];
                 int MaxValue = (int)dataTable2.Rows[0][1];
                 str = string.Concat(new object[4]
         {
@@ -300,7 +317,7 @@ namespace invsys.Mobile.Embarques
           (object) MaxValue,
           (object) "\n"
         });
-                this.BULK(wsPedidos.GetValues(MinValue, MaxValue).Tables[0]);
+                this.BULK(wsPedidos.GetValues(MinValue, MaxValue, this.IdHandHeld).Tables[0]);
                 int num1 = (int)MessageBox.Show("Termine con la carga");
             }
             catch (WebException ex)
