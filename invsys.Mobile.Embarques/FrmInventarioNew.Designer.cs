@@ -42,6 +42,7 @@ namespace invsys.Mobile.Embarques
             this.menuItem3 = new System.Windows.Forms.MenuItem();
             this.menuItem4 = new System.Windows.Forms.MenuItem();
             this.menuItem5 = new System.Windows.Forms.MenuItem();
+            this.menuItem6 = new System.Windows.Forms.MenuItem();
             this.cmbFiltro = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
             this.BtnAñadir = new System.Windows.Forms.Button();
@@ -67,11 +68,10 @@ namespace invsys.Mobile.Embarques
             this.label1 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button1 = new System.Windows.Forms.Button();
             this.lblIdArt = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dgvInventario = new System.Windows.Forms.DataGrid();
-            this.menuItem6 = new System.Windows.Forms.MenuItem();
-            this.button1 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -108,6 +108,11 @@ namespace invsys.Mobile.Embarques
             // 
             this.menuItem5.Text = "Enviar Inventario (WiFi)";
             this.menuItem5.Click += new System.EventHandler(this.menuItem5_Click_1);
+            // 
+            // menuItem6
+            // 
+            this.menuItem6.Text = "Eliminar Inventario";
+            this.menuItem6.Click += new System.EventHandler(this.menuItem6_Click);
             // 
             // cmbFiltro
             // 
@@ -346,6 +351,15 @@ namespace invsys.Mobile.Embarques
             this.tabPage1.Size = new System.Drawing.Size(223, 309);
             this.tabPage1.Text = "Agregar Lote";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(183, 51);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(34, 20);
+            this.button1.TabIndex = 77;
+            this.button1.Text = "...";
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // lblIdArt
             // 
             this.lblIdArt.Location = new System.Drawing.Point(37, 26);
@@ -357,7 +371,7 @@ namespace invsys.Mobile.Embarques
             this.tabPage2.Controls.Add(this.dgvInventario);
             this.tabPage2.Location = new System.Drawing.Point(0, 0);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(215, 306);
+            this.tabPage2.Size = new System.Drawing.Size(223, 309);
             this.tabPage2.Text = "Material en Inventario";
             // 
             // dgvInventario
@@ -366,22 +380,9 @@ namespace invsys.Mobile.Embarques
             this.dgvInventario.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvInventario.Location = new System.Drawing.Point(0, 0);
             this.dgvInventario.Name = "dgvInventario";
-            this.dgvInventario.Size = new System.Drawing.Size(215, 306);
+            this.dgvInventario.Size = new System.Drawing.Size(223, 309);
             this.dgvInventario.TabIndex = 0;
-            // 
-            // menuItem6
-            // 
-            this.menuItem6.Text = "Eliminar Inventario";
-            this.menuItem6.Click += new System.EventHandler(this.menuItem6_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(183, 51);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(34, 20);
-            this.button1.TabIndex = 77;
-            this.button1.Text = "...";
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.dgvInventario.DoubleClick += new System.EventHandler(this.dgvInventario_DoubleClick);
             // 
             // FrmInventarioNew
             // 

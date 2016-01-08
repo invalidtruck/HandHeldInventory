@@ -297,6 +297,32 @@ namespace invsys.Mobile.Embarques
         }
         #endregion
 
+        private void dgvInventario_DoubleClick(object sender, EventArgs e)
+        {
+            var manager = (CurrencyManager)this.BindingContext[dgvInventario.DataSource];
+            var row2Del = ((System.Data.DataRowView)(manager.Current)).Row[1].ToString();
+            if (MessageBox.Show("Desea eliminar del inventario el lote :" + row2Del, "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+            {
+                //int iRow = dgvCatalogo.CurrentCell.RowNumber();
+                var currentIndex = manager.Position;
+                manager.RemoveAt(currentIndex);
+                manager.Refresh();
+                // borrar en BD
+                try
+                {
+                    if (this.cnn.State == ConnectionState.Closed)
+                        this.cnn.Open();
+                    var cmd = new SqlCeCommand("DELETE FROM Inventario where CodigoBarras = @cb", this.cnn);
+                    cmd.Parameters.AddWithValue("@cb", row2Del);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        }
+
 
     }
 }

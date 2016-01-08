@@ -28,7 +28,7 @@ namespace invsys.Mobile.Embarques
             this.dir = this.dir.Substring(0, this.dir.LastIndexOf("\\"));
             this.cnnstr = "Data Source=" + (this.dir + "\\EmbInv.sdf") + ";Max Database Size=4091";
             this.cnn = new SqlCeConnection(this.cnnstr);
-           
+
 
         }
         public FrmEmbarquesNew(int iduser)
@@ -42,14 +42,23 @@ namespace invsys.Mobile.Embarques
             {
                 IPHostEntry ipEntry = Dns.GetHostByName(Dns.GetHostName());
                 IPAddress[] addr = ipEntry.AddressList;
-                this.IdHandHeld = Convert.ToInt32(addr[0].ToString().Replace(".", ""));
+                foreach (var ips in addr)
+                {
+                    try
+                    {
+                        this.IdHandHeld = Convert.ToInt32(addr[0].ToString().Replace(".", ""));
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+
             }
             catch (Exception ex)
             {
-                
                 throw ex;
             }
-            
+
         }
         private void FrmEmbarquesNew_Load_1(object sender, EventArgs e)
         {
@@ -66,7 +75,7 @@ namespace invsys.Mobile.Embarques
 #else
                 var wsPedidos = new WSPedidos();
 #endif
-                
+
                 ServicePointManager.Expect100Continue = false;
 
                 this.cmbFiltro.DataSource = (object)wsPedidos.GetFiltro().Tables[0];
@@ -301,7 +310,7 @@ namespace invsys.Mobile.Embarques
                 DataTable dataTable2;
                 try
                 {
-                    dataTable2 = wsPedidos.GetParameter(this.cmbFiltro.Text,this.IdHandHeld).Tables[0];
+                    dataTable2 = wsPedidos.GetParameter(this.cmbFiltro.Text, this.IdHandHeld).Tables[0];
                 }
                 catch (Exception)
                 {
@@ -533,16 +542,34 @@ namespace invsys.Mobile.Embarques
 
         private void MenuSalir_Click(object sender, EventArgs e)
         {
-            Application.Exit(); 
+            Application.Exit();
         }
 
         private void dgvCatalogo_DoubleClick(object sender, EventArgs e)
         {
-            //int iRow = dgvCatalogo.CurrentCell.RowNumber();
             var manager = (CurrencyManager)this.BindingContext[dgvCatalogo.DataSource];
-            var currentIndex = manager.Position;
-            manager.RemoveAt(currentIndex);
-            manager.Refresh();
+            var row2Del = ((System.Data.DataRowView)(manager.Current)).Row[1].ToString();
+            if (MessageBox.Show("Desea eliminar del embarque el lote :" + row2Del, "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+            {
+                //int iRow = dgvCatalogo.CurrentCell.RowNumber();
+                var currentIndex = manager.Position;
+                manager.RemoveAt(currentIndex);
+                manager.Refresh();
+                // borrar en BD
+                try
+                {
+                    if (this.cnn.State == ConnectionState.Closed)
+                        this.cnn.Open();
+                    var cmd = new SqlCeCommand("DELETE FROM EmbarqueMaterial where idembarque = @idEmbarque and CodigoBarras = @cb", this.cnn);
+                    cmd.Parameters.AddWithValue("@idEmbarque", cmbEmbarque.SelectedValue);
+                    cmd.Parameters.AddWithValue("@cb", row2Del);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
         }
     }
 }
