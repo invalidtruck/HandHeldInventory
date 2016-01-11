@@ -281,7 +281,7 @@ namespace invsys.Mobile.Embarques
                 DataTable dataTable2;
                 try
                 {
-                    dataTable2 = wsPedidos.GetParameter(this.cmbFiltro.Text).Tables[0];
+                    dataTable2 = wsPedidos.GetParameter(this.cmbFiltro.Text,idhand).Tables[0];
                 }
                 catch (Exception)
                 {

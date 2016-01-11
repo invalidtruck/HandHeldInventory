@@ -52,16 +52,18 @@ namespace invsys.Mobile.Embarques.embarques {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost/GetParameter", RequestNamespace="http://localhost/", ResponseNamespace="http://localhost/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetParameter(string sFiltro) {
+        public System.Data.DataSet GetParameter(string sFiltro, int iIdHandheld) {
             object[] results = this.Invoke("GetParameter", new object[] {
-                        sFiltro});
+                        sFiltro,
+                        iIdHandheld});
             return ((System.Data.DataSet)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginGetParameter(string sFiltro, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginGetParameter(string sFiltro, int iIdHandheld, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("GetParameter", new object[] {
-                        sFiltro}, callback, asyncState);
+                        sFiltro,
+                        iIdHandheld}, callback, asyncState);
         }
         
         /// <remarks/>
@@ -72,49 +74,26 @@ namespace invsys.Mobile.Embarques.embarques {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost/GetValues", RequestNamespace="http://localhost/", ResponseNamespace="http://localhost/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetValues(int MinValue, int MaxValue) {
+        public System.Data.DataSet GetValues(int MinValue, int MaxValue, int IdHandHeld) {
             object[] results = this.Invoke("GetValues", new object[] {
                         MinValue,
-                        MaxValue});
+                        MaxValue,
+                        IdHandHeld});
             return ((System.Data.DataSet)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginGetValues(int MinValue, int MaxValue, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginGetValues(int MinValue, int MaxValue, int IdHandHeld, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("GetValues", new object[] {
                         MinValue,
-                        MaxValue}, callback, asyncState);
+                        MaxValue,
+                        IdHandHeld}, callback, asyncState);
         }
         
         /// <remarks/>
         public System.Data.DataSet EndGetValues(System.IAsyncResult asyncResult) {
             object[] results = this.EndInvoke(asyncResult);
             return ((System.Data.DataSet)(results[0]));
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost/GetValues1", RequestNamespace="http://localhost/", ResponseNamespace="http://localhost/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        [return: System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
-        public byte[] GetValues1(int MinValue, int MaxValue, string Tabla) {
-            object[] results = this.Invoke("GetValues1", new object[] {
-                        MinValue,
-                        MaxValue,
-                        Tabla});
-            return ((byte[])(results[0]));
-        }
-        
-        /// <remarks/>
-        public System.IAsyncResult BeginGetValues1(int MinValue, int MaxValue, string Tabla, System.AsyncCallback callback, object asyncState) {
-            return this.BeginInvoke("GetValues1", new object[] {
-                        MinValue,
-                        MaxValue,
-                        Tabla}, callback, asyncState);
-        }
-        
-        /// <remarks/>
-        public byte[] EndGetValues1(System.IAsyncResult asyncResult) {
-            object[] results = this.EndInvoke(asyncResult);
-            return ((byte[])(results[0]));
         }
         
         /// <remarks/>

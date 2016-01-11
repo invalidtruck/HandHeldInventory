@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{71C9D17A-9A61-40CC-B3FB-8BFA34781AC1}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -67,23 +67,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Old\FrmAddEmbarque.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Old\FrmAddEmbarque.Designer.cs">
-      <DependentUpon>FrmAddEmbarque.cs</DependentUpon>
-    </Compile>
     <Compile Include="FrmAddEmbarqueN.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FrmAddEmbarqueN.Designer.cs">
       <DependentUpon>FrmAddEmbarqueN.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Old\frmEmbarques.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Old\frmEmbarques.Designer.cs">
-      <DependentUpon>frmEmbarques.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmEmbarquesNew.cs">
       <SubType>Form</SubType>
@@ -97,12 +85,6 @@
     <Compile Include="FrmInventarioNew.Designer.cs">
       <DependentUpon>FrmInventarioNew.cs</DependentUpon>
     </Compile>
-    <Compile Include="Old\frmLogin.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Old\frmLogin.Designer.cs">
-      <DependentUpon>frmLogin.cs</DependentUpon>
-    </Compile>
     <Compile Include="FrmLoginNew.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,20 +96,12 @@
     <EmbeddedResource Include="FrmAddEmbarqueN.resx">
       <DependentUpon>FrmAddEmbarqueN.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Old\frmEmbarques.resx">
-      <DependentUpon>frmEmbarques.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="FrmEmbarquesNew.resx">
       <DependentUpon>FrmEmbarquesNew.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmInventarioNew.resx">
       <DependentUpon>FrmInventarioNew.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Old\frmLogin.resx">
-      <DependentUpon>frmLogin.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmLoginNew.resx">

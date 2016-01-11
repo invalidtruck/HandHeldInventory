@@ -65,7 +65,7 @@ namespace invsys.Mobile.Embarques
 #if !DEBUG
                 var wsPedidos = new some.WSPedidos();
 #else
-                var wsPedidos = new  WSPedidos();
+                var wsPedidos = new WSPedidos();
 #endif
 
                 ServicePointManager.Expect100Continue = false;
@@ -421,13 +421,13 @@ namespace invsys.Mobile.Embarques
             try
             {
                 ServicePointManager.Expect100Continue = false;
-                SqlCeCommand sqlCeCommand = new SqlCeCommand("select * from embarque", this.cnn);
-                WSPedidos wsPedidos = new WSPedidos();
+                var sqlCeCommand = new SqlCeCommand("select * from embarque", this.cnn);
+                var wsPedidos = new WSPedidos();
                 this.cnn.Open();
-                SqlCeDataReader sqlCeDataReader1 = sqlCeCommand.ExecuteReader();
-                DataTable dataTable1 = new DataTable();
+                var sqlCeDataReader1 = sqlCeCommand.ExecuteReader();
+                var dataTable1 = new DataTable();
                 dataTable1.Load((IDataReader)sqlCeDataReader1);
-                foreach (DataRow dataRow1 in (InternalDataCollectionBase)dataTable1.Rows)
+                foreach (DataRow dataRow1 in dataTable1.Rows)
                 {
                     EmbarqueEntity parametro1 = new EmbarqueEntity()
                     {
@@ -438,11 +438,12 @@ namespace invsys.Mobile.Embarques
                         Descripcion = dataRow1["Descripcion"].ToString()
                     };
                     wsPedidos.InsertEmbarque(parametro1);
-                    SqlCeDataReader sqlCeDataReader2 = new SqlCeCommand("select * from embarqueMaterial", this.cnn).ExecuteReader();
-                    DataTable dataTable2 = new DataTable();
-                    dataTable2.Load((IDataReader)sqlCeDataReader2);
-                    foreach (DataRow dataRow2 in (InternalDataCollectionBase)dataTable2.Rows)
+                    var sqlCeDataReader2 = new SqlCeCommand("select * from embarqueMaterial", this.cnn).ExecuteReader();
+                    var dataTable2 = new DataTable();
+                    dataTable2.Load(sqlCeDataReader2);
+                    foreach (DataRow dataRow2 in dataTable2.Rows)
                     {
+                        string lote = dataRow2["CodigoBarras"].ToString();
                         Embarque_DetalleEntity parametro2 = new Embarque_DetalleEntity()
                         {
                             FechaAlta = DateTime.Now,
@@ -450,7 +451,10 @@ namespace invsys.Mobile.Embarques
                             Peso = Convert.ToDecimal(dataRow1["peso"]),
                             IdSalidaDatosAll = Convert.ToInt32(dataRow2["idSalidaDatos"])
                         };
-                        wsPedidos.InsertEmbarque_Detalle(parametro2);
+                        var cancelar = (int)wsPedidos.InsertEmbarque_Detalle(parametro2).Tables[0].Rows[0][0];
+                        if (cancelar == 1)
+                            MessageBox.Show(string.Format("El Lote {0} ya se encuentra en el embarque", lote));
+                            return;
                     }
                 }
                 this.BorrarEmbarques();

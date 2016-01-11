@@ -16,6 +16,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="sFiltro" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="iIdHandheld" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -38,6 +39,7 @@
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="MinValue" type="s:int" />
             <s:element minOccurs="1" maxOccurs="1" name="MaxValue" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="IdHandHeld" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -52,22 +54,6 @@
                 </s:sequence>
               </s:complexType>
             </s:element>
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetValues1">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="MinValue" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="MaxValue" type="s:int" />
-            <s:element minOccurs="0" maxOccurs="1" name="Tabla" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetValues1Response">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetValues1Result" type="s:base64Binary" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -226,12 +212,6 @@
   <wsdl:message name="GetValuesSoapOut">
     <wsdl:part name="parameters" element="tns:GetValuesResponse" />
   </wsdl:message>
-  <wsdl:message name="GetValues1SoapIn">
-    <wsdl:part name="parameters" element="tns:GetValues1" />
-  </wsdl:message>
-  <wsdl:message name="GetValues1SoapOut">
-    <wsdl:part name="parameters" element="tns:GetValues1Response" />
-  </wsdl:message>
   <wsdl:message name="GetFiltroSoapIn">
     <wsdl:part name="parameters" element="tns:GetFiltro" />
   </wsdl:message>
@@ -274,10 +254,6 @@
     <wsdl:operation name="GetValues">
       <wsdl:input message="tns:GetValuesSoapIn" />
       <wsdl:output message="tns:GetValuesSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetValues1">
-      <wsdl:input message="tns:GetValues1SoapIn" />
-      <wsdl:output message="tns:GetValues1SoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetFiltro">
       <wsdl:input message="tns:GetFiltroSoapIn" />
@@ -322,15 +298,6 @@
     </wsdl:operation>
     <wsdl:operation name="GetValues">
       <soap:operation soapAction="http://localhost/GetValues" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetValues1">
-      <soap:operation soapAction="http://localhost/GetValues1" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -406,15 +373,6 @@
     </wsdl:operation>
     <wsdl:operation name="GetValues">
       <soap12:operation soapAction="http://localhost/GetValues" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetValues1">
-      <soap12:operation soapAction="http://localhost/GetValues1" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
