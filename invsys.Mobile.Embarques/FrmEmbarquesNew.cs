@@ -1,20 +1,12 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 using System.Data.SqlServerCe;
 using System.Net;
-//using invsys.Mobile.Embarques.embarques;
-//using some = invsys.Mobile.Embarques.embarques;
-using invsys.Mobile.Embarques.wspedidos;
-using some = invsys.Mobile.Embarques.wspedidos;
+using System.Windows.Forms;
+//using some = invsys.Mobile.Embarques.wspedidos;
 using ErikEJ.SqlCe;
-using System.IO;
-using System;
+using invsys.Mobile.Embarques.embarques;
+
 
 
 namespace invsys.Mobile.Embarques
@@ -73,7 +65,7 @@ namespace invsys.Mobile.Embarques
 #if !DEBUG
                 var wsPedidos = new some.WSPedidos();
 #else
-                var wsPedidos = new WSPedidos();
+                var wsPedidos = new  WSPedidos();
 #endif
 
                 ServicePointManager.Expect100Continue = false;
