@@ -28,6 +28,19 @@ namespace invsys.Mobile.Embarques
         #region Metodos
         private void BULK(DataTable dt)
         {
+            try
+            {
+                var cmd = new SqlCeCommand("DELETE CatInventario", cnn);
+                if (cnn.State == ConnectionState.Closed)
+                    cnn.Open();
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+            }
+
+
             SqlCeBulkCopyOptions options = new SqlCeBulkCopyOptions();
 
             options = options |= SqlCeBulkCopyOptions.KeepNulls;
@@ -86,6 +99,7 @@ namespace invsys.Mobile.Embarques
             this.txtNorma.Text = "";
             this.txtUbicacion.Text = "";
             this.nudCantidad.Value = new Decimal(1);
+            this.txtCB.Text = "";
             this.txtCB.Focus();
             this.lblIdArt.Text = "";
             this.EnableDisable(false);
@@ -130,9 +144,9 @@ namespace invsys.Mobile.Embarques
             {
                 if (this.txtCB.Text.Trim() == "")
                     return;
-                SqlCeCommand sqlCeCommand = new SqlCeCommand("select * from CatInventario where CB = @CB", this.cnn);
+                SqlCeCommand sqlCeCommand = new SqlCeCommand("select * from CatInventario where Lote = @lote", this.cnn);
                 this.cnn.Open();
-                sqlCeCommand.Parameters.AddWithValue("@CB", txtCB.Text);
+                sqlCeCommand.Parameters.AddWithValue("@lote", txtCB.Text);
                 SqlCeDataReader sqlCeDataReader = sqlCeCommand.ExecuteReader();
                 DataTable dataTable = new DataTable();
                 dataTable.Load((IDataReader)sqlCeDataReader);
@@ -146,7 +160,7 @@ namespace invsys.Mobile.Embarques
                     this.txtEspesor.Text = dataTable.Rows[0]["Espesor"].ToString();
                     this.txtDesc.Text = dataTable.Rows[0]["Descripcion"].ToString();
                     this.txtUbicacion.Text = dataTable.Rows[0]["Ubicacion"].ToString();
-                    this.lblIdArt.Text = dataTable.Rows[0]["Id"].ToString();
+                    this.lblIdArt.Text = dataTable.Rows[0]["IdInventarioServer"].ToString();
                 }
                 else if (MessageBox.Show("No existe articulo con ese codigo de barras \n Desea agregarlo?", "Agregar", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 {
@@ -181,47 +195,7 @@ namespace invsys.Mobile.Embarques
             CargarInfoLote();
 
         }
-        private void BtnAñadir_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                this.cnn.Open();
-                if ((int)new SqlCeCommand("select count(1) from inventario where CodigoBarras= @CB", this.cnn).ExecuteScalar() > 0)
-                {
-                    if (new SqlCeCommand("UPDATE Inventario set cantidad = cantidad  + @cantidad where CodigoBarras = @CB").ExecuteNonQuery() > 0)
-                    {
-                        int num = (int)MessageBox.Show("Agregados!");
-                    }
-                }
-                else
-                {
-                    SqlCeCommand sqlCeCommand = new SqlCeCommand("INSERT INTO Inventario VALUES(@CB,@Cantidad,@Medida,@Almacen,@Lote,@Longitud,@Norma,@Espesor,@Desc,@ubicacion,@idUsuario,@id)", this.cnn);
-                    sqlCeCommand.Parameters.AddWithValue("@CB", (object)this.txtCB.Text);
-                    sqlCeCommand.Parameters.AddWithValue("@Cantidad", (object)0);
-                    sqlCeCommand.Parameters.AddWithValue("@Medida", (object)this.txtMedida.Text);
-                    sqlCeCommand.Parameters.AddWithValue("@Lote", (object)this.txtLote.Text);
-                    sqlCeCommand.Parameters.AddWithValue("@Longitud", (object)this.txtLongitud.Text);
-                    sqlCeCommand.Parameters.AddWithValue("@Norma", (object)this.txtNorma.Text);
-                    sqlCeCommand.Parameters.AddWithValue("@Espesor", (object)this.txtEspesor.Text);
-                    sqlCeCommand.Parameters.AddWithValue("@Desc", (object)this.txtDesc.Text);
-                    sqlCeCommand.Parameters.AddWithValue("@Almacen", (object)this.txtAlmacen.Text);
-                    sqlCeCommand.Parameters.AddWithValue("@ubicacion", (object)this.txtUbicacion.Text);
-                    sqlCeCommand.Parameters.AddWithValue("@id", (object)this.lblIdArt.Text);
-                    sqlCeCommand.Parameters.AddWithValue("@idUsuario", (object)this.idusuario);
-                    sqlCeCommand.ExecuteReader();
-                }
-                this.CargarInventario();
-                this.Clean();
-            }
-            catch (Exception ex)
-            {
-                int num = (int)MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                this.cnn.Close();
-            }
-        }
+
 
         private void menuItem2_Click(object sender, EventArgs e)
         {
@@ -274,6 +248,7 @@ namespace invsys.Mobile.Embarques
                     wsPedidos.InsertInventory(parametro);
                 }
                 this.EliminaInventario();
+                MessageBox.Show("Se ha enviado el inventario al servidor");
             }
             catch (Exception ex)
             {
@@ -295,8 +270,6 @@ namespace invsys.Mobile.Embarques
         {
             CargarInfoLote();
         }
-        #endregion
-
         private void dgvInventario_DoubleClick(object sender, EventArgs e)
         {
             var manager = (CurrencyManager)this.BindingContext[dgvInventario.DataSource];
@@ -318,10 +291,72 @@ namespace invsys.Mobile.Embarques
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+
                 }
             }
         }
+
+        private void BtnAñadir_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                    cnn.Open();
+
+                var cmd = new SqlCeCommand("select count(1) from inventario where lote= @lote", cnn);
+                cmd.Parameters.AddWithValue("@lote", txtCB.Text);
+                if ((int)cmd.ExecuteScalar() > 0)
+                {
+                    if (new SqlCeCommand("UPDATE Inventario set cantidad = cantidad  + @cantidad where CodigoBarras = @CB").ExecuteNonQuery() > 0)
+                    {
+                        int num = (int)MessageBox.Show("Agregados!");
+                    }
+                }
+                else
+                {
+                    var idInventarioServer = "0";
+                    if (lblIdArt.Text != "")
+                        idInventarioServer = lblIdArt.Text;
+
+                    var sqlCeCommand = new SqlCeCommand("INSERT INTO Inventario VALUES(@CB,@Cantidad,@Medida,@Almacen,@Lote,@Longitud,@Norma,@Espesor,@Desc,@ubicacion,@idUsuario,@idArticulo)", this.cnn);
+                    sqlCeCommand.Parameters.AddWithValue("@CB", txtCB.Text);
+                    sqlCeCommand.Parameters.AddWithValue("@Cantidad", 1);
+                    sqlCeCommand.Parameters.AddWithValue("@Medida", txtMedida.Text);
+                    sqlCeCommand.Parameters.AddWithValue("@Lote", txtLote.Text);
+                    sqlCeCommand.Parameters.AddWithValue("@Longitud", txtLongitud.Text);
+                    sqlCeCommand.Parameters.AddWithValue("@Norma", txtNorma.Text);
+                    sqlCeCommand.Parameters.AddWithValue("@Espesor", txtEspesor.Text);
+                    sqlCeCommand.Parameters.AddWithValue("@Desc", txtDesc.Text);
+                    sqlCeCommand.Parameters.AddWithValue("@Almacen", txtAlmacen.Text);
+                    sqlCeCommand.Parameters.AddWithValue("@ubicacion", txtUbicacion.Text);
+                    sqlCeCommand.Parameters.AddWithValue("@idArticulo", idInventarioServer);
+                    sqlCeCommand.Parameters.AddWithValue("@idUsuario", idusuario);
+                    sqlCeCommand.ExecuteReader();
+                }
+                this.CargarInventario();
+                this.Clean();
+            }
+            catch (Exception ex)
+            {
+                int num = (int)MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                this.cnn.Close();
+            }
+        }
+        #endregion
+
+        private void txtCB_KeyDown(object sender, KeyEventArgs e)
+        {
+
+            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Tab)
+            {
+                this.CargarInfoLote();
+            }
+        }
+
+
 
 
     }

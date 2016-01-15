@@ -7,7 +7,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlServerCe;
-    
+
 namespace invsys.Mobile.Embarques
 {
     public partial class FrmLoginNew : Form
@@ -23,12 +23,29 @@ namespace invsys.Mobile.Embarques
         {
             try
             {
-                new FrmEmbarquesNew(1).Show();
-                this.Hide();
+                if (cnn.State == ConnectionState.Closed)
+                    cnn.Open();
+
+                var cmd = new SqlCeCommand("select count(1) from catUsuarios where Usuario = @us and contrasena =@pass", cnn);
+                cmd.Parameters.AddWithValue("@us", textBox1.Text);
+                cmd.Parameters.AddWithValue("@pass", textBox2.Text);
+                if ((int)cmd.ExecuteScalar() > 0)
+                {
+                    new FrmEmbarquesNew(1).Show();
+                    this.Hide();
+                }
+                else
+                {
+                    MessageBox.Show("Usuario y/o contraseña no valida");
+                    textBox1.Text = "";
+                    textBox2.Text = "";
+                    textBox1.Focus();
+                }
+
             }
             catch (Exception ex)
             {
-                int num = (int)MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message);
             }
             finally
             {

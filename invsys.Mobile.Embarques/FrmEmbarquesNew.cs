@@ -340,32 +340,35 @@ namespace invsys.Mobile.Embarques
             this.CargarDatosWS();
         }
 
-        private void cmbEmbarque_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
-            this.pnlDesc.Enabled = true;
-            this.txtCB.Enabled = true;
-            this.Limpiar();
-            this.CargarEmbarques_Detalle();
-        }
-
         private void CargarEmbarques_Detalle()
         {
             try
             {
                 if (this.cmbEmbarque.Items.Count == 0)
                     return;
-                SqlCeCommand sqlCeCommand1 = new SqlCeCommand("select * from embarque where idembarque = @idEmbarque", this.cnn);
-                sqlCeCommand1.Parameters.AddWithValue("@IdEmbarque", this.cmbEmbarque.SelectedValue);
-                SqlCeDataReader sqlCeDataReader1 = sqlCeCommand1.ExecuteReader();
-                DataTable dataTable1 = new DataTable();
+                int idemb = 0;
+                try
+                {
+                    idemb = (int)((System.Data.DataRowView)(cmbEmbarque.SelectedValue)).Row[0];
+                }
+                catch (Exception ex)
+                {
+                    idemb = (int)cmbEmbarque.SelectedValue;
+                }
+                if (cnn.State == ConnectionState.Closed)
+                    cnn.Open();
+
+                var sqlCeCommand1 = new SqlCeCommand("select * from embarque where idembarque = @idEmbarque", this.cnn);
+                sqlCeCommand1.Parameters.AddWithValue("@IdEmbarque", idemb);
+                var sqlCeDataReader1 = sqlCeCommand1.ExecuteReader();
+                var dataTable1 = new DataTable();
                 dataTable1.Load((IDataReader)sqlCeDataReader1);
                 this.peso = dataTable1.Rows.Count <= 0 ? 0.0f : (dataTable1.Rows[0].IsNull("peso") ? 0.0f : Convert.ToSingle(dataTable1.Rows[0]["peso"]));
-                SqlCeCommand sqlCeCommand2 = new SqlCeCommand("select * from EmbarqueMaterial where idEmbarque = @IdEmbarque", this.cnn);
-                sqlCeCommand2.Parameters.AddWithValue("@IdEmbarque", this.cmbEmbarque.SelectedValue);
-                if (this.cnn.State == ConnectionState.Closed)
-                    this.cnn.Open();
-                SqlCeDataReader sqlCeDataReader2 = sqlCeCommand2.ExecuteReader();
-                DataTable dataTable2 = new DataTable();
+                var sqlCeCommand2 = new SqlCeCommand("select * from EmbarqueMaterial where idEmbarque = @IdEmbarque", this.cnn);
+                sqlCeCommand2.Parameters.AddWithValue("@IdEmbarque", idemb);
+
+                var sqlCeDataReader2 = sqlCeCommand2.ExecuteReader();
+                var dataTable2 = new DataTable();
                 dataTable2.Load((IDataReader)sqlCeDataReader2);
                 if (dataTable2.Rows.Count > 0)
                 {
@@ -374,7 +377,7 @@ namespace invsys.Mobile.Embarques
                 }
                 this.dgvCatalogo.DataSource = (object)dataTable2;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
             finally
@@ -454,7 +457,7 @@ namespace invsys.Mobile.Embarques
                         var cancelar = (int)wsPedidos.InsertEmbarque_Detalle(parametro2).Tables[0].Rows[0][0];
                         if (cancelar == 1)
                             MessageBox.Show(string.Format("El Lote {0} ya se encuentra en el embarque", lote));
-                            return;
+                        return;
                     }
                 }
                 this.BorrarEmbarques();
@@ -493,6 +496,7 @@ namespace invsys.Mobile.Embarques
                 new SqlCeCommand("DELETE FROM EMBARQUE", this.cnn).ExecuteNonQuery();
                 new SqlCeCommand("DELETE FROM EmbarqueMaterial", this.cnn).ExecuteNonQuery();
                 int num = (int)MessageBox.Show("Se ha eliminado la información de embarques");
+                this.CargarEmbarques();
             }
             catch (Exception ex)
             {
@@ -563,8 +567,101 @@ namespace invsys.Mobile.Embarques
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+
                 }
+                finally { cnn.Close(); }
+            }
+        }
+
+        private void cmbEmbarque_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.pnlDesc.Enabled = true;
+            this.txtCB.Enabled = true;
+            this.Limpiar();
+            this.CargarEmbarques_Detalle();
+        }
+
+        private void txtCB_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Tab)
+            {
+                this.validarLote();
+            }
+        }
+        /// <summary>
+        /// Transferir pedido a otro
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void menuItem7_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                panel1.Visible = true;
+                //cargar los combos
+                var cmd = new SqlCeCommand("select * from embarque", cnn);
+                if (cnn.State == ConnectionState.Closed) cnn.Open();
+                var dr = cmd.ExecuteReader();
+                var dt = new DataTable();
+                dt.Load(dr);
+                cmbDe.DataSource = dt;
+                cmbDe.DisplayMember = "Descripcion";
+                cmbDe.ValueMember = "IdEmbarque";
+
+                var cmd2 = new SqlCeCommand("select * from embarque", cnn);
+                if (cnn.State == ConnectionState.Closed) cnn.Open();
+                var dr2 = cmd.ExecuteReader();
+                var dt2 = new DataTable();
+                dt2.Load(dr2);
+
+                cmbA.DataSource = dt2;
+                cmbA.DisplayMember = "Descripcion";
+                cmbA.ValueMember = "IdEmbarque";
+            }
+            catch (Exception ex)
+            {
+            }
+            finally { cnn.Close(); }
+        }
+
+        private void BtnCanTrans_Click(object sender, EventArgs e)
+        {
+            this.panel1.Visible = false;
+            // TO DO , agregar los combobox
+        }
+
+        private void btnTransfer_Click(object sender, EventArgs e)
+        {
+            if (cmbDe.SelectedValue != cmbA.SelectedValue)
+            {
+                try
+                {
+                    var iDEmA = (int)cmbA.SelectedValue;
+                    var iDEmDe = (int)cmbDe.SelectedValue;
+
+                    var cmd = new SqlCeCommand(
+                        "UPDATE EmbarqueMaterial SET IdEmbarque=@IdEmA Where IdEmbarque = @IdEmDe",
+                        cnn);
+                    cmd.Parameters.AddWithValue("@IdEmA", iDEmA);
+                    cmd.Parameters.AddWithValue("@IdEmDe", iDEmDe);
+                    if (cnn.State == ConnectionState.Closed) cnn.Open();
+                    cmd.ExecuteNonQuery();
+                    this.CargarEmbarques_Detalle();
+                    MessageBox.Show("Se ha transferido el Pedido");
+                    panel1.Visible = false;
+
+                }
+                catch (Exception ex)
+                {
+                }
+                finally
+                {
+                    cnn.Close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Es el mismo pedido, favor de seleccionar otro");
             }
         }
     }

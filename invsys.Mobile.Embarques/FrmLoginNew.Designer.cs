@@ -38,6 +38,7 @@ namespace invsys.Mobile.Embarques
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmLoginNew));
             this.mainMenu1 = new System.Windows.Forms.MainMenu();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -46,19 +47,21 @@ namespace invsys.Mobile.Embarques
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.BtnAcceder = new System.Windows.Forms.Button();
             this.BtnSalir = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.Font = new System.Drawing.Font("Tahoma", 16F, System.Drawing.FontStyle.Bold);
-            this.label1.Location = new System.Drawing.Point(0, 13);
+            this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(237, 26);
-            this.label1.Text = "INVENTARIO";
+            this.label1.Size = new System.Drawing.Size(240, 26);
+            this.label1.Text = "EMBARQUES";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // label2
             // 
+            this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Location = new System.Drawing.Point(4, 106);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(100, 20);
@@ -82,6 +85,7 @@ namespace invsys.Mobile.Embarques
             // 
             this.textBox2.Location = new System.Drawing.Point(4, 162);
             this.textBox2.Name = "textBox2";
+            this.textBox2.PasswordChar = '*';
             this.textBox2.Size = new System.Drawing.Size(233, 21);
             this.textBox2.TabIndex = 4;
             // 
@@ -103,6 +107,14 @@ namespace invsys.Mobile.Embarques
             this.BtnSalir.Text = "Salir";
             this.BtnSalir.Click += new System.EventHandler(this.BtnSalir_Click);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(34, 13);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(181, 99);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            // 
             // FrmLoginNew
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -116,9 +128,9 @@ namespace invsys.Mobile.Embarques
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.pictureBox1);
             this.Menu = this.mainMenu1;
             this.Name = "FrmLoginNew";
-            this.Text = "login";
             this.ResumeLayout(false);
 
         }
@@ -132,5 +144,6 @@ namespace invsys.Mobile.Embarques
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Button BtnAcceder;
         private System.Windows.Forms.Button BtnSalir;
+        private PictureBox pictureBox1;
     }
 }

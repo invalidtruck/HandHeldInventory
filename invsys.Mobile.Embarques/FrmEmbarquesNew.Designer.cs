@@ -44,6 +44,13 @@ namespace invsys.Mobile.Embarques
             this.lblIdSalida = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabCaptura = new System.Windows.Forms.TabPage();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.BtnCanTrans = new System.Windows.Forms.Button();
+            this.btnTransfer = new System.Windows.Forms.Button();
+            this.cmbA = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cmbDe = new System.Windows.Forms.ComboBox();
+            this.lblPed1 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.cmbFiltro = new System.Windows.Forms.ComboBox();
             this.BtnGrabar = new System.Windows.Forms.Button();
@@ -86,10 +93,10 @@ namespace invsys.Mobile.Embarques
             this.MenuCargarDatos = new System.Windows.Forms.MenuItem();
             this.menuItem5 = new System.Windows.Forms.MenuItem();
             this.menuItem3 = new System.Windows.Forms.MenuItem();
-            this.menuItem6 = new System.Windows.Forms.MenuItem();
             this.MenuSalir = new System.Windows.Forms.MenuItem();
             this.tabControl1.SuspendLayout();
             this.tabCaptura.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.pnlDesc.SuspendLayout();
             this.tabLista.SuspendLayout();
             this.SuspendLayout();
@@ -116,6 +123,7 @@ namespace invsys.Mobile.Embarques
             // tabCaptura
             // 
             this.tabCaptura.AutoScroll = true;
+            this.tabCaptura.Controls.Add(this.panel1);
             this.tabCaptura.Controls.Add(this.label1);
             this.tabCaptura.Controls.Add(this.cmbFiltro);
             this.tabCaptura.Controls.Add(this.BtnGrabar);
@@ -132,6 +140,66 @@ namespace invsys.Mobile.Embarques
             this.tabCaptura.Name = "tabCaptura";
             this.tabCaptura.Size = new System.Drawing.Size(240, 245);
             this.tabCaptura.Text = "Captura";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.BtnCanTrans);
+            this.panel1.Controls.Add(this.btnTransfer);
+            this.panel1.Controls.Add(this.cmbA);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.cmbDe);
+            this.panel1.Controls.Add(this.lblPed1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(227, 401);
+            this.panel1.Visible = false;
+            // 
+            // BtnCanTrans
+            // 
+            this.BtnCanTrans.Location = new System.Drawing.Point(144, 162);
+            this.BtnCanTrans.Name = "BtnCanTrans";
+            this.BtnCanTrans.Size = new System.Drawing.Size(72, 20);
+            this.BtnCanTrans.TabIndex = 6;
+            this.BtnCanTrans.Text = "Cancelar";
+            this.BtnCanTrans.Click += new System.EventHandler(this.BtnCanTrans_Click);
+            // 
+            // btnTransfer
+            // 
+            this.btnTransfer.Location = new System.Drawing.Point(7, 162);
+            this.btnTransfer.Name = "btnTransfer";
+            this.btnTransfer.Size = new System.Drawing.Size(72, 20);
+            this.btnTransfer.TabIndex = 5;
+            this.btnTransfer.Text = "Transferir";
+            this.btnTransfer.Click += new System.EventHandler(this.btnTransfer_Click);
+            // 
+            // cmbA
+            // 
+            this.cmbA.Location = new System.Drawing.Point(7, 123);
+            this.cmbA.Name = "cmbA";
+            this.cmbA.Size = new System.Drawing.Size(210, 22);
+            this.cmbA.TabIndex = 3;
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(7, 99);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(177, 20);
+            this.label2.Text = "Transferir pedido a:";
+            // 
+            // cmbDe
+            // 
+            this.cmbDe.Location = new System.Drawing.Point(9, 54);
+            this.cmbDe.Name = "cmbDe";
+            this.cmbDe.Size = new System.Drawing.Size(210, 22);
+            this.cmbDe.TabIndex = 1;
+            // 
+            // lblPed1
+            // 
+            this.lblPed1.Location = new System.Drawing.Point(9, 30);
+            this.lblPed1.Name = "lblPed1";
+            this.lblPed1.Size = new System.Drawing.Size(177, 20);
+            this.lblPed1.Text = "Pedido a Transferir:";
             // 
             // label1
             // 
@@ -169,7 +237,7 @@ namespace invsys.Mobile.Embarques
             this.label17.Location = new System.Drawing.Point(9, 6);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(64, 20);
-            this.label17.Text = "Embarque:";
+            this.label17.Text = "Pedido:";
             // 
             // cmbEmbarque
             // 
@@ -177,6 +245,7 @@ namespace invsys.Mobile.Embarques
             this.cmbEmbarque.Name = "cmbEmbarque";
             this.cmbEmbarque.Size = new System.Drawing.Size(144, 22);
             this.cmbEmbarque.TabIndex = 8;
+            this.cmbEmbarque.SelectedIndexChanged += new System.EventHandler(this.cmbEmbarque_SelectedIndexChanged);
             // 
             // pnlDesc
             // 
@@ -364,6 +433,7 @@ namespace invsys.Mobile.Embarques
             this.txtCB.Size = new System.Drawing.Size(111, 21);
             this.txtCB.TabIndex = 0;
             this.txtCB.Validated += new System.EventHandler(this.txtCB_Validated);
+            this.txtCB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCB_KeyDown);
             // 
             // lblTubo
             // 
@@ -389,7 +459,7 @@ namespace invsys.Mobile.Embarques
             this.label3.Dock = System.Windows.Forms.DockStyle.Right;
             this.label3.Location = new System.Drawing.Point(128, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(112, 102);
+            this.label3.Size = new System.Drawing.Size(112, 26);
             this.label3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // lblArt
@@ -398,7 +468,7 @@ namespace invsys.Mobile.Embarques
             this.lblArt.Dock = System.Windows.Forms.DockStyle.Left;
             this.lblArt.Location = new System.Drawing.Point(0, 0);
             this.lblArt.Name = "lblArt";
-            this.lblArt.Size = new System.Drawing.Size(113, 102);
+            this.lblArt.Size = new System.Drawing.Size(113, 26);
             this.lblArt.Text = "Art: 0";
             this.lblArt.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
@@ -406,9 +476,9 @@ namespace invsys.Mobile.Embarques
             // 
             this.dgvCatalogo.BackgroundColor = System.Drawing.Color.White;
             this.dgvCatalogo.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.dgvCatalogo.Location = new System.Drawing.Point(0, 102);
+            this.dgvCatalogo.Location = new System.Drawing.Point(0, 26);
             this.dgvCatalogo.Name = "dgvCatalogo";
-            this.dgvCatalogo.Size = new System.Drawing.Size(240, 143);
+            this.dgvCatalogo.Size = new System.Drawing.Size(240, 219);
             this.dgvCatalogo.TabIndex = 1;
             this.dgvCatalogo.DoubleClick += new System.EventHandler(this.dgvCatalogo_DoubleClick);
             // 
@@ -433,7 +503,6 @@ namespace invsys.Mobile.Embarques
             this.menuItem4.MenuItems.Add(this.MenuCargarDatos);
             this.menuItem4.MenuItems.Add(this.menuItem5);
             this.menuItem4.MenuItems.Add(this.menuItem3);
-            this.menuItem4.MenuItems.Add(this.menuItem6);
             this.menuItem4.MenuItems.Add(this.MenuSalir);
             this.menuItem4.Text = "Acciones";
             // 
@@ -457,12 +526,6 @@ namespace invsys.Mobile.Embarques
             this.menuItem3.Text = "Eliminar Embarques";
             this.menuItem3.Click += new System.EventHandler(this.menuItem3_Click);
             // 
-            // menuItem6
-            // 
-            this.menuItem6.Enabled = false;
-            this.menuItem6.Text = "TEST";
-            this.menuItem6.Click += new System.EventHandler(this.menuItem6_Click);
-            // 
             // MenuSalir
             // 
             this.MenuSalir.Checked = true;
@@ -475,15 +538,17 @@ namespace invsys.Mobile.Embarques
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.ClientSize = new System.Drawing.Size(240, 268);
             this.Controls.Add(this.tabControl1);
             this.Menu = this.mainMenu1;
             this.Name = "FrmEmbarquesNew";
-            this.Text = "Embarques";
+            this.Text = "Pedidos";
             this.Load += new System.EventHandler(this.FrmEmbarquesNew_Load_1);
             this.Activated += new System.EventHandler(this.Main_Activated);
             this.tabControl1.ResumeLayout(false);
             this.tabCaptura.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.pnlDesc.ResumeLayout(false);
             this.tabLista.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -537,8 +602,14 @@ namespace invsys.Mobile.Embarques
         private System.Windows.Forms.MenuItem MenuCargarDatos;
         private System.Windows.Forms.MenuItem menuItem5;
         private System.Windows.Forms.MenuItem menuItem3;
-        private System.Windows.Forms.MenuItem menuItem6;
         private MenuItem MenuSalir;
+        private Panel panel1;
+        private Label lblPed1;
+        private Button BtnCanTrans;
+        private Button btnTransfer;
+        private ComboBox cmbA;
+        private Label label2;
+        private ComboBox cmbDe;
 
     }
 }

@@ -44,6 +44,7 @@ namespace invsys.Mobile.Embarques
                 this.cnn.Open();
                 sqlCeCommand.ExecuteReader();
                 int num = (int)MessageBox.Show("Se ha grabado el embarque exitosamente");
+
             }
             catch (Exception ex)
             {

@@ -155,6 +155,7 @@ namespace invsys.Mobile.Embarques
             this.BtnAñadir.Size = new System.Drawing.Size(120, 33);
             this.BtnAñadir.TabIndex = 56;
             this.BtnAñadir.Text = "Añadir";
+            this.BtnAñadir.Click += new System.EventHandler(this.BtnAñadir_Click_1);
             // 
             // label10
             // 
@@ -300,6 +301,7 @@ namespace invsys.Mobile.Embarques
             this.txtCB.Name = "txtCB";
             this.txtCB.Size = new System.Drawing.Size(96, 21);
             this.txtCB.TabIndex = 37;
+            this.txtCB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCB_KeyDown);
             // 
             // label1
             // 
@@ -316,7 +318,7 @@ namespace invsys.Mobile.Embarques
             this.tabControl1.Location = new System.Drawing.Point(3, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(223, 332);
+            this.tabControl1.Size = new System.Drawing.Size(223, 382);
             this.tabControl1.TabIndex = 68;
             // 
             // tabPage1
@@ -348,7 +350,7 @@ namespace invsys.Mobile.Embarques
             this.tabPage1.Controls.Add(this.label6);
             this.tabPage1.Location = new System.Drawing.Point(0, 0);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(223, 309);
+            this.tabPage1.Size = new System.Drawing.Size(223, 359);
             this.tabPage1.Text = "Agregar Lote";
             // 
             // button1
@@ -371,7 +373,7 @@ namespace invsys.Mobile.Embarques
             this.tabPage2.Controls.Add(this.dgvInventario);
             this.tabPage2.Location = new System.Drawing.Point(0, 0);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(223, 309);
+            this.tabPage2.Size = new System.Drawing.Size(215, 356);
             this.tabPage2.Text = "Material en Inventario";
             // 
             // dgvInventario
@@ -380,7 +382,7 @@ namespace invsys.Mobile.Embarques
             this.dgvInventario.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvInventario.Location = new System.Drawing.Point(0, 0);
             this.dgvInventario.Name = "dgvInventario";
-            this.dgvInventario.Size = new System.Drawing.Size(223, 309);
+            this.dgvInventario.Size = new System.Drawing.Size(215, 356);
             this.dgvInventario.TabIndex = 0;
             this.dgvInventario.DoubleClick += new System.EventHandler(this.dgvInventario_DoubleClick);
             // 
