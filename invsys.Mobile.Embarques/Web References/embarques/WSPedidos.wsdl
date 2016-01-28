@@ -428,10 +428,10 @@
   </wsdl:binding>
   <wsdl:service name="WSPedidos">
     <wsdl:port name="WSPedidosSoap" binding="tns:WSPedidosSoap">
-      <soap:address location="http://embarques-srv:81/WSPedidos.asmx" />
+      <soap:address location="http://10.10.3.5:81/WSPedidos.asmx" />
     </wsdl:port>
     <wsdl:port name="WSPedidosSoap12" binding="tns:WSPedidosSoap12">
-      <soap12:address location="http://embarques-srv:81/WSPedidos.asmx" />
+      <soap12:address location="http://10.10.3.5:81/WSPedidos.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
