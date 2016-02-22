@@ -48,6 +48,8 @@ namespace invsys.Mobile.Embarques
             this.BtnAcceder = new System.Windows.Forms.Button();
             this.BtnSalir = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.ddlConexiones = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -91,18 +93,18 @@ namespace invsys.Mobile.Embarques
             // 
             // BtnAcceder
             // 
-            this.BtnAcceder.Location = new System.Drawing.Point(4, 201);
+            this.BtnAcceder.Location = new System.Drawing.Point(4, 224);
             this.BtnAcceder.Name = "BtnAcceder";
-            this.BtnAcceder.Size = new System.Drawing.Size(233, 31);
+            this.BtnAcceder.Size = new System.Drawing.Size(233, 19);
             this.BtnAcceder.TabIndex = 5;
             this.BtnAcceder.Text = "Acceder";
             this.BtnAcceder.Click += new System.EventHandler(this.BtnAcceder_Click);
             // 
             // BtnSalir
             // 
-            this.BtnSalir.Location = new System.Drawing.Point(4, 236);
+            this.BtnSalir.Location = new System.Drawing.Point(4, 249);
             this.BtnSalir.Name = "BtnSalir";
-            this.BtnSalir.Size = new System.Drawing.Size(233, 31);
+            this.BtnSalir.Size = new System.Drawing.Size(233, 18);
             this.BtnSalir.TabIndex = 6;
             this.BtnSalir.Text = "Salir";
             this.BtnSalir.Click += new System.EventHandler(this.BtnSalir_Click);
@@ -115,12 +117,28 @@ namespace invsys.Mobile.Embarques
             this.pictureBox1.Size = new System.Drawing.Size(181, 99);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             // 
+            // ddlConexiones
+            // 
+            this.ddlConexiones.Location = new System.Drawing.Point(43, 189);
+            this.ddlConexiones.Name = "ddlConexiones";
+            this.ddlConexiones.Size = new System.Drawing.Size(194, 22);
+            this.ddlConexiones.TabIndex = 11;
+            // 
+            // label4
+            // 
+            this.label4.Location = new System.Drawing.Point(4, 191);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(33, 20);
+            this.label4.Text = "BD:";
+            // 
             // FrmLoginNew
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(240, 268);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.ddlConexiones);
             this.Controls.Add(this.BtnSalir);
             this.Controls.Add(this.BtnAcceder);
             this.Controls.Add(this.textBox2);
@@ -131,6 +149,7 @@ namespace invsys.Mobile.Embarques
             this.Controls.Add(this.pictureBox1);
             this.Menu = this.mainMenu1;
             this.Name = "FrmLoginNew";
+            this.Load += new System.EventHandler(this.FrmLoginNew_Load);
             this.ResumeLayout(false);
 
         }
@@ -145,5 +164,7 @@ namespace invsys.Mobile.Embarques
         private System.Windows.Forms.Button BtnAcceder;
         private System.Windows.Forms.Button BtnSalir;
         private PictureBox pictureBox1;
+        private ComboBox ddlConexiones;
+        private Label label4;
     }
 }

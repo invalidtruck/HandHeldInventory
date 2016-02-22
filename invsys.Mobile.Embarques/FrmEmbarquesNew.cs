@@ -23,8 +23,9 @@ namespace invsys.Mobile.Embarques
 
 
         }
-        public FrmEmbarquesNew(int iduser)
+        public FrmEmbarquesNew(int iduser, int idCon)
         {
+            this.idConexion = idCon;
             this.idusuario = iduser;
             this.InitializeComponent();
             this.dir = this.dir.Substring(0, this.dir.LastIndexOf("\\"));

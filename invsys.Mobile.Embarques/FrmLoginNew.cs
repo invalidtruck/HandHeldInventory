@@ -57,5 +57,28 @@ namespace invsys.Mobile.Embarques
         {
             Application.Exit();
         }
+
+        private void FrmLoginNew_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                    cnn.Open();
+
+                var cmd = new SqlCeCommand("select * from catConexiones", cnn);
+                var dr = cmd.ExecuteReader();
+                var dt = new DataTable();
+                dt.Load(dr);
+                ddlConexiones.DataSource = dt;
+                ddlConexiones.ValueMember = "idConexion";
+                ddlConexiones.DisplayMember = "Descripcion";
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Favor de reportar el siguiente error al area de sistemas: \n" + ex.Message);
+            }
+        }
     }
 }

@@ -19,6 +19,7 @@ namespace invsys.Mobile.Embarques
         private float pesoMaterial = 0.0f;
         private bool refrescar = false;
         public int idusuario { get; set; }
+        public int idConexion { get; set; }
 
         /// <summary>
         /// Clean up any resources being used.
