@@ -4,16 +4,21 @@ using System.Data.SqlServerCe;
 using System.Net;
 using System.Windows.Forms;
 using ErikEJ.SqlCe;
-using invsys.Mobile.Embarques.embarques;
-
+//using invsys.Mobile.Embarques.wspedidos; // testing porpuses
+using invsys.Mobile.Embarques.embarques; // real One
 
 namespace invsys.Mobile.Embarques
 {
     public partial class FrmInventarioNew : Form
     {
+        #region Propiedades
+
+        #endregion
+
         #region Contructor
-        public FrmInventarioNew(int idusuario)
+        public FrmInventarioNew(int idusuario, int idCon)
         {
+            this.IdConexion = idCon;
             this.idusuario = idusuario;
             this.InitializeComponent();
             this.dir = this.dir.Substring(0, this.dir.LastIndexOf("\\"));
@@ -205,7 +210,7 @@ namespace invsys.Mobile.Embarques
         {
             try
             {
-                this.BULK(new WSPedidos().GetInventory(this.cmbFiltro.Text + "%").Tables[0]);
+                this.BULK(new WSPedidos().GetInventory(this.cmbFiltro.Text + "%", this.IdConexion).Tables[0]);
                 int num = (int)MessageBox.Show("Carga Completa");
             }
             catch (Exception ex)
@@ -244,8 +249,9 @@ namespace invsys.Mobile.Embarques
                         Ubicacion = dataRow["ubicacion"].ToString(),
                         IdInventarioServer = Convert.ToInt32(dataRow["idArticulo"]),
                         Cantidad = Convert.ToInt32(dataRow["cantidad"])
+
                     };
-                    wsPedidos.InsertInventory(parametro);
+                    wsPedidos.InsertInventory(parametro, this.IdConexion);
                 }
                 this.EliminaInventario();
                 MessageBox.Show("Se ha enviado el inventario al servidor");
@@ -318,7 +324,8 @@ namespace invsys.Mobile.Embarques
                     if (lblIdArt.Text != "")
                         idInventarioServer = lblIdArt.Text;
 
-                    var sqlCeCommand = new SqlCeCommand("INSERT INTO Inventario VALUES(@CB,@Cantidad,@Medida,@Almacen,@Lote,@Longitud,@Norma,@Espesor,@Desc,@ubicacion,@idUsuario,@idArticulo)", this.cnn);
+                    var sqlCeCommand = new SqlCeCommand("INSERT INTO Inventario VALUES(@CB,@Cantidad,@Medida,@Almacen,@Lote,@Longitud,@Norma,@Espesor,@Desc,@ubicacion,@idUsuario,@idArticulo,@IdCon)", this.cnn);
+                    sqlCeCommand.Parameters.AddWithValue("@IdCon", this.IdConexion);
                     sqlCeCommand.Parameters.AddWithValue("@CB", txtCB.Text);
                     sqlCeCommand.Parameters.AddWithValue("@Cantidad", 1);
                     sqlCeCommand.Parameters.AddWithValue("@Medida", txtMedida.Text);

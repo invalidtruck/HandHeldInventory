@@ -132,10 +132,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://10.10.3.5:81/WSPedidos.asmx">
+    <WebReferenceUrl Include="http://embarques-srv:81/WSPedidos.asmx">
       <UrlBehavior>Static</UrlBehavior>
       <RelPath>Web References\embarques\</RelPath>
-      <UpdateFromURL>http://10.10.3.5:81/WSPedidos.asmx</UpdateFromURL>
+      <UpdateFromURL>http://embarques-srv:81/WSPedidos.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

@@ -16,7 +16,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="sFiltro" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="iIdHandheld" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="IdCon" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -39,7 +39,7 @@
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="MinValue" type="s:int" />
             <s:element minOccurs="1" maxOccurs="1" name="MaxValue" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="IdHandHeld" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="IdCon" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -58,7 +58,11 @@
         </s:complexType>
       </s:element>
       <s:element name="GetFiltro">
-        <s:complexType />
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IdCon" type="s:int" />
+          </s:sequence>
+        </s:complexType>
       </s:element>
       <s:element name="GetFiltroResponse">
         <s:complexType>
@@ -78,6 +82,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="sFiltro" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="IdCon" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -99,6 +104,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="parametro" type="tns:EmbarqueEntity" />
+            <s:element minOccurs="1" maxOccurs="1" name="IdCon" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -130,6 +136,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="parametro" type="tns:Embarque_DetalleEntity" />
+            <s:element minOccurs="1" maxOccurs="1" name="IdCon" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -159,6 +166,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="parametro" type="tns:InventarioEntity" />
+            <s:element minOccurs="1" maxOccurs="1" name="IdCon" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -182,6 +190,23 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="InsertInventoryResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetEmpresas">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetEmpresasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetEmpresasResult">
               <s:complexType>
                 <s:sequence>
                   <s:element ref="s:schema" />
@@ -242,6 +267,12 @@
   <wsdl:message name="InsertInventorySoapOut">
     <wsdl:part name="parameters" element="tns:InsertInventoryResponse" />
   </wsdl:message>
+  <wsdl:message name="GetEmpresasSoapIn">
+    <wsdl:part name="parameters" element="tns:GetEmpresas" />
+  </wsdl:message>
+  <wsdl:message name="GetEmpresasSoapOut">
+    <wsdl:part name="parameters" element="tns:GetEmpresasResponse" />
+  </wsdl:message>
   <wsdl:portType name="WSPedidosSoap">
     <wsdl:operation name="Test">
       <wsdl:input message="tns:TestSoapIn" />
@@ -274,6 +305,10 @@
     <wsdl:operation name="InsertInventory">
       <wsdl:input message="tns:InsertInventorySoapIn" />
       <wsdl:output message="tns:InsertInventorySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEmpresas">
+      <wsdl:input message="tns:GetEmpresasSoapIn" />
+      <wsdl:output message="tns:GetEmpresasSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WSPedidosSoap" type="tns:WSPedidosSoap">
@@ -350,6 +385,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetEmpresas">
+      <soap:operation soapAction="http://localhost/GetEmpresas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="WSPedidosSoap12" type="tns:WSPedidosSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -418,6 +462,15 @@
     </wsdl:operation>
     <wsdl:operation name="InsertInventory">
       <soap12:operation soapAction="http://localhost/InsertInventory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEmpresas">
+      <soap12:operation soapAction="http://localhost/GetEmpresas" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

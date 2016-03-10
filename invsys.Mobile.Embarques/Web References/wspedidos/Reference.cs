@@ -52,18 +52,18 @@ namespace invsys.Mobile.Embarques.wspedidos {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost/GetParameter", RequestNamespace="http://localhost/", ResponseNamespace="http://localhost/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetParameter(string sFiltro, int iIdHandheld) {
+        public System.Data.DataSet GetParameter(string sFiltro, int IdCon) {
             object[] results = this.Invoke("GetParameter", new object[] {
                         sFiltro,
-                        iIdHandheld});
+                        IdCon});
             return ((System.Data.DataSet)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginGetParameter(string sFiltro, int iIdHandheld, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginGetParameter(string sFiltro, int IdCon, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("GetParameter", new object[] {
                         sFiltro,
-                        iIdHandheld}, callback, asyncState);
+                        IdCon}, callback, asyncState);
         }
         
         /// <remarks/>
@@ -74,20 +74,20 @@ namespace invsys.Mobile.Embarques.wspedidos {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost/GetValues", RequestNamespace="http://localhost/", ResponseNamespace="http://localhost/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetValues(int MinValue, int MaxValue, int IdHandHeld) {
+        public System.Data.DataSet GetValues(int MinValue, int MaxValue, int IdCon) {
             object[] results = this.Invoke("GetValues", new object[] {
                         MinValue,
                         MaxValue,
-                        IdHandHeld});
+                        IdCon});
             return ((System.Data.DataSet)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginGetValues(int MinValue, int MaxValue, int IdHandHeld, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginGetValues(int MinValue, int MaxValue, int IdCon, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("GetValues", new object[] {
                         MinValue,
                         MaxValue,
-                        IdHandHeld}, callback, asyncState);
+                        IdCon}, callback, asyncState);
         }
         
         /// <remarks/>
@@ -98,14 +98,16 @@ namespace invsys.Mobile.Embarques.wspedidos {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost/GetFiltro", RequestNamespace="http://localhost/", ResponseNamespace="http://localhost/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetFiltro() {
-            object[] results = this.Invoke("GetFiltro", new object[0]);
+        public System.Data.DataSet GetFiltro(int IdCon) {
+            object[] results = this.Invoke("GetFiltro", new object[] {
+                        IdCon});
             return ((System.Data.DataSet)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginGetFiltro(System.AsyncCallback callback, object asyncState) {
-            return this.BeginInvoke("GetFiltro", new object[0], callback, asyncState);
+        public System.IAsyncResult BeginGetFiltro(int IdCon, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("GetFiltro", new object[] {
+                        IdCon}, callback, asyncState);
         }
         
         /// <remarks/>
@@ -116,16 +118,18 @@ namespace invsys.Mobile.Embarques.wspedidos {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost/GetInventory", RequestNamespace="http://localhost/", ResponseNamespace="http://localhost/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetInventory(string sFiltro) {
+        public System.Data.DataSet GetInventory(string sFiltro, int IdCon) {
             object[] results = this.Invoke("GetInventory", new object[] {
-                        sFiltro});
+                        sFiltro,
+                        IdCon});
             return ((System.Data.DataSet)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginGetInventory(string sFiltro, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginGetInventory(string sFiltro, int IdCon, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("GetInventory", new object[] {
-                        sFiltro}, callback, asyncState);
+                        sFiltro,
+                        IdCon}, callback, asyncState);
         }
         
         /// <remarks/>
@@ -136,16 +140,18 @@ namespace invsys.Mobile.Embarques.wspedidos {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost/InsertEmbarque", RequestNamespace="http://localhost/", ResponseNamespace="http://localhost/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet InsertEmbarque(EmbarqueEntity parametro) {
+        public System.Data.DataSet InsertEmbarque(EmbarqueEntity parametro, int IdCon) {
             object[] results = this.Invoke("InsertEmbarque", new object[] {
-                        parametro});
+                        parametro,
+                        IdCon});
             return ((System.Data.DataSet)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginInsertEmbarque(EmbarqueEntity parametro, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginInsertEmbarque(EmbarqueEntity parametro, int IdCon, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("InsertEmbarque", new object[] {
-                        parametro}, callback, asyncState);
+                        parametro,
+                        IdCon}, callback, asyncState);
         }
         
         /// <remarks/>
@@ -156,16 +162,18 @@ namespace invsys.Mobile.Embarques.wspedidos {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost/InsertEmbarque_Detalle", RequestNamespace="http://localhost/", ResponseNamespace="http://localhost/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet InsertEmbarque_Detalle(Embarque_DetalleEntity parametro) {
+        public System.Data.DataSet InsertEmbarque_Detalle(Embarque_DetalleEntity parametro, int IdCon) {
             object[] results = this.Invoke("InsertEmbarque_Detalle", new object[] {
-                        parametro});
+                        parametro,
+                        IdCon});
             return ((System.Data.DataSet)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginInsertEmbarque_Detalle(Embarque_DetalleEntity parametro, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginInsertEmbarque_Detalle(Embarque_DetalleEntity parametro, int IdCon, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("InsertEmbarque_Detalle", new object[] {
-                        parametro}, callback, asyncState);
+                        parametro,
+                        IdCon}, callback, asyncState);
         }
         
         /// <remarks/>
@@ -176,20 +184,40 @@ namespace invsys.Mobile.Embarques.wspedidos {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost/InsertInventory", RequestNamespace="http://localhost/", ResponseNamespace="http://localhost/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet InsertInventory(InventarioEntity parametro) {
+        public System.Data.DataSet InsertInventory(InventarioEntity parametro, int IdCon) {
             object[] results = this.Invoke("InsertInventory", new object[] {
-                        parametro});
+                        parametro,
+                        IdCon});
             return ((System.Data.DataSet)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginInsertInventory(InventarioEntity parametro, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginInsertInventory(InventarioEntity parametro, int IdCon, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("InsertInventory", new object[] {
-                        parametro}, callback, asyncState);
+                        parametro,
+                        IdCon}, callback, asyncState);
         }
         
         /// <remarks/>
         public System.Data.DataSet EndInsertInventory(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost/GetEmpresas", RequestNamespace="http://localhost/", ResponseNamespace="http://localhost/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetEmpresas() {
+            object[] results = this.Invoke("GetEmpresas", new object[0]);
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginGetEmpresas(System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("GetEmpresas", new object[0], callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet EndGetEmpresas(System.IAsyncResult asyncResult) {
             object[] results = this.EndInvoke(asyncResult);
             return ((System.Data.DataSet)(results[0]));
         }

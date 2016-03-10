@@ -433,6 +433,7 @@ namespace invsys.Mobile.Embarques
         private TabPage tabPage2;
         private DataGrid dgvInventario;
 
+        public int IdConexion { get; set; }
         public int idusuario { get; set; }
         private string dir = Assembly.GetExecutingAssembly().GetName().CodeBase;
         private bool refrescar = false;

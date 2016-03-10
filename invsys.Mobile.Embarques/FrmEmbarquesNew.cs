@@ -3,9 +3,9 @@ using System.Data;
 using System.Data.SqlServerCe;
 using System.Net;
 using System.Windows.Forms;
-//using some = invsys.Mobile.Embarques.wspedidos;
 using ErikEJ.SqlCe;
-using invsys.Mobile.Embarques.embarques;
+//using invsys.Mobile.Embarques.wspedidos; // testing porpuses
+using invsys.Mobile.Embarques.embarques; // real One
 
 
 
@@ -71,7 +71,7 @@ namespace invsys.Mobile.Embarques
 
                 ServicePointManager.Expect100Continue = false;
 
-                this.cmbFiltro.DataSource = (object)wsPedidos.GetFiltro().Tables[0];
+                this.cmbFiltro.DataSource = wsPedidos.GetFiltro(this.idConexion).Tables[0];
                 this.cmbFiltro.ValueMember = "idfiltro";
                 this.cmbFiltro.DisplayMember = "descripcion";
             }
@@ -85,8 +85,8 @@ namespace invsys.Mobile.Embarques
         {
             try
             {
-                SqlCeCommand sqlCeCommand = new SqlCeCommand("SELECT IdEmbarque,Descripcion FROM Embarque", this.cnn);
-                sqlCeCommand.Parameters.AddWithValue("@CB", (object)this.txtCB.Text);
+                SqlCeCommand sqlCeCommand = new SqlCeCommand("SELECT IdEmbarque,Descripcion FROM Embarque where IdCon = @Idcon", this.cnn);
+                sqlCeCommand.Parameters.AddWithValue("@Idcon", this.idConexion);
                 if (this.cnn.State != ConnectionState.Open)
                     this.cnn.Open();
                 SqlCeDataReader sqlCeDataReader = sqlCeCommand.ExecuteReader();
@@ -184,7 +184,8 @@ namespace invsys.Mobile.Embarques
                 }
                 if ((double)this.peso >= 35.0 && MessageBox.Show("A embarcado el peso maximo permitido (35tns)?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) != DialogResult.Yes)
                     return;
-                SqlCeCommand sqlCeCommand2 = new SqlCeCommand("INSERT INTO EmbarqueMaterial VALUES(@idE,@CB,@IdSalida,@Peso)", this.cnn);
+                SqlCeCommand sqlCeCommand2 = new SqlCeCommand("INSERT INTO EmbarqueMaterial VALUES(@idE,@CB,@IdSalida,@Peso,@IdCon)", this.cnn);
+                sqlCeCommand2.Parameters.AddWithValue("@IdCon", this.idConexion);
                 sqlCeCommand2.Parameters.AddWithValue("@idE", this.cmbEmbarque.SelectedValue);
                 sqlCeCommand2.Parameters.AddWithValue("@CB", (object)this.txtCB.Text);
                 sqlCeCommand2.Parameters.AddWithValue("@IdSalida", (object)this.lblIdSalida.Text);
@@ -277,7 +278,7 @@ namespace invsys.Mobile.Embarques
 
         private void menuItem2_Click(object sender, EventArgs e)
         {
-            int num = (int)new FrmInventarioNew(this.idusuario).ShowDialog();
+            int num = (int)new FrmInventarioNew(this.idusuario, this.idConexion).ShowDialog();
         }
 
         private void tabCaptura_Click(object sender, EventArgs e)
@@ -296,29 +297,23 @@ namespace invsys.Mobile.Embarques
             try
             {
                 this.cnn.Open();
-                new SqlCeCommand("delete from CatMaterial", this.cnn).ExecuteNonQuery();
+                new SqlCeCommand("delete from CatMaterial where IdCon =" + this.idConexion.ToString(), this.cnn).ExecuteNonQuery();
                 ServicePointManager.Expect100Continue = false;
-                WSPedidos wsPedidos = new WSPedidos();
-                DataTable dataTable1 = new DataTable();
+                var wsPedidos = new WSPedidos();
+                var dataTable1 = new DataTable();
                 DataTable dataTable2;
                 try
                 {
                     dataTable2 = wsPedidos.GetParameter(this.cmbFiltro.Text, this.IdHandHeld).Tables[0];
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     int num = (int)MessageBox.Show("No se puede conectar al servidor, favor de verificar su conexion");
                     return;
                 }
                 int MinValue = (int)dataTable2.Rows[0][0];
                 int MaxValue = (int)dataTable2.Rows[0][1];
-                str = string.Concat(new object[4]
-        {
-          (object) str,
-          (object) "tengo parametros ",
-          (object) MaxValue,
-          (object) "\n"
-        });
+                str = string.Concat(str, "tengo parametros ", MaxValue, "\n");
                 this.BULK(wsPedidos.GetValues(MinValue, MaxValue, this.IdHandHeld).Tables[0]);
                 int num1 = (int)MessageBox.Show("Termine con la carga");
             }
@@ -425,8 +420,11 @@ namespace invsys.Mobile.Embarques
             try
             {
                 ServicePointManager.Expect100Continue = false;
-                var sqlCeCommand = new SqlCeCommand("select * from embarque", this.cnn);
+                var sqlCeCommand = new SqlCeCommand("select * from embarque where IdCon =@idCon", this.cnn);
+                sqlCeCommand.Parameters.AddWithValue("@IdCon", this.idConexion);
+
                 var wsPedidos = new WSPedidos();
+
                 this.cnn.Open();
                 var sqlCeDataReader1 = sqlCeCommand.ExecuteReader();
                 var dataTable1 = new DataTable();
@@ -440,8 +438,9 @@ namespace invsys.Mobile.Embarques
                         FechaAlta = Convert.ToDateTime(dataRow1["FechaAlta"]),
                         Peso = Convert.ToDecimal(dataRow1["Peso"]),
                         Descripcion = dataRow1["Descripcion"].ToString()
+                        // IdConexion = Convert.ToInt32(dataRow1["IdCon"])
                     };
-                    wsPedidos.InsertEmbarque(parametro1);
+                    wsPedidos.InsertEmbarque(parametro1, this.idConexion);
                     var sqlCeDataReader2 = new SqlCeCommand("select * from embarqueMaterial", this.cnn).ExecuteReader();
                     var dataTable2 = new DataTable();
                     dataTable2.Load(sqlCeDataReader2);
@@ -449,13 +448,14 @@ namespace invsys.Mobile.Embarques
                     {
                         string lote = dataRow2["CodigoBarras"].ToString();
                         Embarque_DetalleEntity parametro2 = new Embarque_DetalleEntity()
-                        {
-                            FechaAlta = DateTime.Now,
-                            IdEmbarque = Convert.ToInt32(dataRow2["IdEmbarque"]),
-                            Peso = Convert.ToDecimal(dataRow1["peso"]),
-                            IdSalidaDatosAll = Convert.ToInt32(dataRow2["idSalidaDatos"])
-                        };
-                        var cancelar = (int)wsPedidos.InsertEmbarque_Detalle(parametro2).Tables[0].Rows[0][0];
+                       {
+                           FechaAlta = DateTime.Now,
+                           IdEmbarque = Convert.ToInt32(dataRow2["IdEmbarque"]),
+                           Peso = Convert.ToDecimal(dataRow1["peso"]),
+                           IdSalidaDatosAll = Convert.ToInt32(dataRow2["idSalidaDatos"]),
+                           //id= Convert.ToInt32(dataRow2["IdCon"])
+                       };
+                        var cancelar = (int)wsPedidos.InsertEmbarque_Detalle(parametro2, this.idConexion).Tables[0].Rows[0][0];
                         if (cancelar == 1)
                             MessageBox.Show(string.Format("El Lote {0} ya se encuentra en el embarque", lote));
                         return;
@@ -600,7 +600,8 @@ namespace invsys.Mobile.Embarques
             {
                 panel1.Visible = true;
                 //cargar los combos
-                var cmd = new SqlCeCommand("select * from embarque", cnn);
+                var cmd = new SqlCeCommand("select * from embarque where idCon = @IdCon", cnn);
+                cmd.Parameters.AddWithValue("@IdCon", this.idConexion);
                 if (cnn.State == ConnectionState.Closed) cnn.Open();
                 var dr = cmd.ExecuteReader();
                 var dt = new DataTable();
@@ -609,7 +610,8 @@ namespace invsys.Mobile.Embarques
                 cmbDe.DisplayMember = "Descripcion";
                 cmbDe.ValueMember = "IdEmbarque";
 
-                var cmd2 = new SqlCeCommand("select * from embarque", cnn);
+                var cmd2 = new SqlCeCommand("select * from embarque where idCon = @IdCon", cnn);
+                cmd.Parameters.AddWithValue("@IdCon", this.idConexion);
                 if (cnn.State == ConnectionState.Closed) cnn.Open();
                 var dr2 = cmd.ExecuteReader();
                 var dt2 = new DataTable();
