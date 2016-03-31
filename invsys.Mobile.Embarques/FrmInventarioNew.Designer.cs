@@ -116,26 +116,26 @@ namespace invsys.Mobile.Embarques
             // 
             // cmbFiltro
             // 
-            this.cmbFiltro.Items.Add("4x0");
-            this.cmbFiltro.Items.Add("6x0");
-            this.cmbFiltro.Items.Add("8x0");
-            this.cmbFiltro.Items.Add("10x0");
-            this.cmbFiltro.Items.Add("12x0");
-            this.cmbFiltro.Items.Add("14x0");
-            this.cmbFiltro.Items.Add("16x0");
-            this.cmbFiltro.Items.Add("18x0");
-            this.cmbFiltro.Items.Add("20x0");
-            this.cmbFiltro.Items.Add("24x0");
-            this.cmbFiltro.Items.Add("4x4");
-            this.cmbFiltro.Items.Add("6x6x");
-            this.cmbFiltro.Items.Add("8x8");
-            this.cmbFiltro.Items.Add("10x10");
-            this.cmbFiltro.Items.Add("12x12");
-            this.cmbFiltro.Items.Add("14x14");
-            this.cmbFiltro.Items.Add("16x16");
-            this.cmbFiltro.Items.Add("8x4");
-            this.cmbFiltro.Items.Add("10x6");
-            this.cmbFiltro.Items.Add("HELUCOIDAL");
+            this.cmbFiltro.Items.Add("4x0%");
+            this.cmbFiltro.Items.Add("6x0%");
+            this.cmbFiltro.Items.Add("8x0%");
+            this.cmbFiltro.Items.Add("10x0%");
+            this.cmbFiltro.Items.Add("12x0%");
+            this.cmbFiltro.Items.Add("14x0%%");
+            this.cmbFiltro.Items.Add("16x0%");
+            this.cmbFiltro.Items.Add("18x0%");
+            this.cmbFiltro.Items.Add("20x0%");
+            this.cmbFiltro.Items.Add("24x0%");
+            this.cmbFiltro.Items.Add("4x4%");
+            this.cmbFiltro.Items.Add("6x6x%");
+            this.cmbFiltro.Items.Add("8x8%");
+            this.cmbFiltro.Items.Add("10x10%");
+            this.cmbFiltro.Items.Add("12x12%");
+            this.cmbFiltro.Items.Add("14x14%");
+            this.cmbFiltro.Items.Add("16x16%");
+            this.cmbFiltro.Items.Add("8x4%");
+            this.cmbFiltro.Items.Add("10x6%");
+            this.cmbFiltro.Items.Add("HELUCOIDAL%");
             this.cmbFiltro.Location = new System.Drawing.Point(106, 3);
             this.cmbFiltro.Name = "cmbFiltro";
             this.cmbFiltro.Size = new System.Drawing.Size(111, 22);

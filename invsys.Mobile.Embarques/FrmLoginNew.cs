@@ -34,11 +34,13 @@ namespace invsys.Mobile.Embarques
                 cmd.Parameters.AddWithValue("@pass", textBox2.Text);
                 if ((int)cmd.ExecuteScalar() > 0)
                 {
-#if DEBUG
-                    new FrmEmbarquesNew(1, 1).Show();
-#else 
-                    new FrmEmbarquesNew(1, (int)ddlConexiones.SelectedValue).Show();
-#endif
+//#if DEBUG
+                    //new FrmEmbarquesNew(1, 1).Show();
+//#else 
+
+                    //MessageBox.Show(ddlConexiones2.SelectedValue.ToString());
+                    new FrmEmbarquesNew(1, (int)ddlConexiones2.SelectedValue).Show();
+//#endif
                     this.Hide();
                 }
                 else
@@ -131,6 +133,11 @@ namespace invsys.Mobile.Embarques
             {
                 cnn.Close();
             }
+        }
+
+        private void mnuExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

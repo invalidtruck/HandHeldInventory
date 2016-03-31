@@ -107,19 +107,20 @@ namespace invsys.Mobile.Embarques
             this.txtCB.Text = "";
             this.txtCB.Focus();
             this.lblIdArt.Text = "";
-            this.EnableDisable(false);
+            this.EnableDisable(false,false);
         }
-        private void EnableDisable(bool en)
+        private void EnableDisable(bool en , bool no )
         {
-            this.txtAlmacen.Enabled = en;
-            this.txtDesc.Enabled = en;
-            this.txtEspesor.Enabled = en;
-            this.txtLote.Enabled = en;
             this.txtLongitud.Enabled = en;
-            this.txtMedida.Enabled = en;
-            this.txtNorma.Enabled = en;
-            this.txtUbicacion.Enabled = en;
-            this.nudCantidad.Enabled = en;
+            this.txtNorma.Enabled = en; 
+            
+            this.txtAlmacen.Enabled = no;
+            this.txtDesc.Enabled = no;
+            this.txtEspesor.Enabled = no;
+            this.txtLote.Enabled = no; 
+            this.txtMedida.Enabled = no; 
+            this.txtUbicacion.Enabled = no;
+            this.nudCantidad.Enabled = no;
         }
         private void CargarInventario()
         {
@@ -166,15 +167,16 @@ namespace invsys.Mobile.Embarques
                     this.txtDesc.Text = dataTable.Rows[0]["Descripcion"].ToString();
                     this.txtUbicacion.Text = dataTable.Rows[0]["Ubicacion"].ToString();
                     this.lblIdArt.Text = dataTable.Rows[0]["IdInventarioServer"].ToString();
+                    this.EnableDisable(true,false);
                 }
                 else if (MessageBox.Show("No existe articulo con ese codigo de barras \n Desea agregarlo?", "Agregar", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 {
-                    this.EnableDisable(true);
+                    this.EnableDisable(true,true);
                 }
                 else
                 {
                     this.Clean();
-                    this.EnableDisable(false);
+                    this.EnableDisable(false,false);
                 }
             }
             catch (Exception ex)
@@ -210,7 +212,8 @@ namespace invsys.Mobile.Embarques
         {
             try
             {
-                this.BULK(new WSPedidos().GetInventory(this.cmbFiltro.Text + "%", this.IdConexion).Tables[0]);
+                ServicePointManager.Expect100Continue = false;
+                this.BULK(new WSPedidos().GetInventory(this.cmbFiltro.Text, this.IdConexion).Tables[0]);
                 int num = (int)MessageBox.Show("Carga Completa");
             }
             catch (Exception ex)
@@ -251,6 +254,7 @@ namespace invsys.Mobile.Embarques
                         Cantidad = Convert.ToInt32(dataRow["cantidad"])
 
                     };
+                    ServicePointManager.Expect100Continue = false;
                     wsPedidos.InsertInventory(parametro, this.IdConexion);
                 }
                 this.EliminaInventario();

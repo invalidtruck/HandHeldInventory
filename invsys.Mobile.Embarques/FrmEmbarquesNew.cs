@@ -33,18 +33,21 @@ namespace invsys.Mobile.Embarques
             this.cnn = new SqlCeConnection(this.cnnstr);
             try
             {
-                IPHostEntry ipEntry = Dns.GetHostByName(Dns.GetHostName());
-                IPAddress[] addr = ipEntry.AddressList;
-                foreach (var ips in addr)
-                {
-                    try
-                    {
-                        this.IdHandHeld = Convert.ToInt32(addr[0].ToString().Replace(".", ""));
-                    }
-                    catch (Exception)
-                    {
-                    }
-                }
+                var x = System.IO.File.OpenText(this.dir + "\\IdHandheld.ivt");
+                this.IdHandHeld = Convert.ToInt32(x.ReadLine().Trim());
+
+                //IPHostEntry ipEntry = Dns.GetHostByName(Dns.GetHostName());
+                //IPAddress[] addr = ipEntry.AddressList;
+                //foreach (var ips in addr)
+                //{
+                //    try
+                //    {
+                //        this.IdHandHeld = Convert.ToInt32(addr[0].ToString().Replace(".", ""));
+                //    }
+                //    catch (Exception)
+                //    {
+                //    }
+                //}
 
             }
             catch (Exception ex)
@@ -93,13 +96,17 @@ namespace invsys.Mobile.Embarques
                 DataTable dataTable = new DataTable();
                 dataTable.Load((IDataReader)sqlCeDataReader);
                 if (dataTable.Rows.Count <= 0)
+                {
+                    this.cmbEmbarque.DataSource = null;
                     return;
+                }
                 this.cmbEmbarque.DataSource = (object)dataTable;
                 this.cmbEmbarque.ValueMember = "IdEmbarque";
                 this.cmbEmbarque.DisplayMember = "Descripcion";
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
             }
             finally
             {
@@ -111,8 +118,9 @@ namespace invsys.Mobile.Embarques
         {
             try
             {
-                SqlCeCommand sqlCeCommand = new SqlCeCommand("SELECT * FROM CatMaterial WHERE CodigoBarras = @CB ", this.cnn);
-                sqlCeCommand.Parameters.AddWithValue("@CB", (object)this.txtCB.Text);
+                SqlCeCommand sqlCeCommand = new SqlCeCommand("SELECT * FROM CatMaterial WHERE CodigoBarras = @CB and idCon = @IdCon ", this.cnn);
+                sqlCeCommand.Parameters.AddWithValue("@CB", this.txtCB.Text);
+                sqlCeCommand.Parameters.AddWithValue("@IdCon", this.idConexion);
                 this.cnn.Open();
                 SqlCeDataReader sqlCeDataReader = sqlCeCommand.ExecuteReader();
                 if (sqlCeDataReader.Read())
@@ -221,30 +229,41 @@ namespace invsys.Mobile.Embarques
             {
                 if (this.txtCB.Text.Trim() == "")
                     return;
-                SqlCeCommand sqlCeCommand = new SqlCeCommand("select * from catMaterial where lote = @CB", this.cnn);
+                SqlCeCommand sqlCeCommand = new SqlCeCommand("select * from catMaterial where lote = @CB and IdCon = @IdCon", this.cnn);
                 this.cnn.Open();
                 sqlCeCommand.Parameters.AddWithValue("@CB", (object)this.txtCB.Text);
+                sqlCeCommand.Parameters.AddWithValue("@IdCon", this.idConexion);
                 SqlCeDataReader sqlCeDataReader = sqlCeCommand.ExecuteReader();
                 DataTable dataTable = new DataTable();
                 dataTable.Load((IDataReader)sqlCeDataReader);
-                if (dataTable.Rows.Count > 0)
+                int sel = 0;
+                if (dataTable.Rows.Count == 1)
                 {
-                    this.lblMedida.Text = dataTable.Rows[0]["medida"].ToString();
-                    this.lblAlmacen.Text = dataTable.Rows[0]["Almacen"].ToString();
-                    this.lblLote.Text = dataTable.Rows[0]["Lote"].ToString();
-                    this.lblLongitud.Text = dataTable.Rows[0]["Longitud"].ToString();
-                    this.lblNorma.Text = dataTable.Rows[0]["Norma"].ToString();
-                    this.lblEspesor.Text = dataTable.Rows[0]["Espesor"].ToString();
-                    this.lblDesc.Text = dataTable.Rows[0]["Descripcion"].ToString();
-                    this.lblUbicacion.Text = dataTable.Rows[0]["Ubicacion"].ToString();
-                    this.lblIdSalida.Text = dataTable.Rows[0]["IdSalidaDatos"].ToString();
-                    this.lblPesoTeorico.Text = dataTable.Rows[0]["PesoTeorico"].ToString();
+                    sel = 0;
+                }
+                else if (dataTable.Rows.Count > 1)
+                {
+                    var str = string.Format("Existen {0} de un registro con este Codigo, seleccione cual desea agregar");
+                    sel = Convert.ToInt32(Microsoft.VisualBasic.Interaction.InputBox(str, "Seleccione", "1", -1, -1));
                 }
                 else
                 {
                     int num = (int)MessageBox.Show("No existe articulo con ese codigo de barras");
                     this.clean();
+                    return;
                 }
+
+                this.lblMedida.Text = dataTable.Rows[sel]["medida"].ToString();
+                this.lblAlmacen.Text = dataTable.Rows[sel]["Almacen"].ToString();
+                this.lblLote.Text = dataTable.Rows[sel]["Lote"].ToString();
+                this.lblLongitud.Text = dataTable.Rows[sel]["Longitud"].ToString();
+                this.lblNorma.Text = dataTable.Rows[sel]["Norma"].ToString();
+                this.lblEspesor.Text = dataTable.Rows[sel]["Espesor"].ToString();
+                this.lblDesc.Text = dataTable.Rows[sel]["Descripcion"].ToString();
+                this.lblUbicacion.Text = dataTable.Rows[sel]["Ubicacion"].ToString();
+                this.lblIdSalida.Text = dataTable.Rows[sel]["IdSalidaDatos"].ToString();
+                this.lblPesoTeorico.Text = dataTable.Rows[sel]["PesoTeorico"].ToString();
+
             }
             catch (Exception ex)
             {
@@ -288,7 +307,7 @@ namespace invsys.Mobile.Embarques
         private void menuNuevoEmbarque_Click(object sender, EventArgs e)
         {
             this.refrescar = true;
-            int num = (int)new FrmAddEmbarqueN(this.idusuario).ShowDialog();
+            int num = (int)new FrmAddEmbarqueN(this.idusuario, this.idConexion).ShowDialog();
         }
 
         private void CargarDatosWS()
@@ -296,6 +315,7 @@ namespace invsys.Mobile.Embarques
             string str = "";
             try
             {
+
                 this.cnn.Open();
                 new SqlCeCommand("delete from CatMaterial where IdCon =" + this.idConexion.ToString(), this.cnn).ExecuteNonQuery();
                 ServicePointManager.Expect100Continue = false;
@@ -304,17 +324,26 @@ namespace invsys.Mobile.Embarques
                 DataTable dataTable2;
                 try
                 {
-                    dataTable2 = wsPedidos.GetParameter(this.cmbFiltro.Text, this.IdHandHeld).Tables[0];
+                    dataTable2 = wsPedidos.GetParameter(this.cmbFiltro.Text, this.idConexion, this.IdHandHeld).Tables[0];
                 }
                 catch (Exception ex)
                 {
                     int num = (int)MessageBox.Show("No se puede conectar al servidor, favor de verificar su conexion");
                     return;
                 }
+                
+
                 int MinValue = (int)dataTable2.Rows[0][0];
                 int MaxValue = (int)dataTable2.Rows[0][1];
+
+                if (MinValue ==0 | MaxValue ==0)
+                {
+                    MessageBox.Show("No existen lotes con estos parametros: \n {0}", this.cmbFiltro.Text);
+                    return;
+                }
+
                 str = string.Concat(str, "tengo parametros ", MaxValue, "\n");
-                this.BULK(wsPedidos.GetValues(MinValue, MaxValue, this.IdHandHeld).Tables[0]);
+                this.BULK(wsPedidos.GetValues(MinValue, MaxValue, this.idConexion, this.IdHandHeld).Tables[0]);
                 int num1 = (int)MessageBox.Show("Termine con la carga");
             }
             catch (WebException ex)
@@ -440,7 +469,7 @@ namespace invsys.Mobile.Embarques
                         Descripcion = dataRow1["Descripcion"].ToString()
                         // IdConexion = Convert.ToInt32(dataRow1["IdCon"])
                     };
-                    wsPedidos.InsertEmbarque(parametro1, this.idConexion);
+                    var IdEmbarqueInterno = wsPedidos.InsertEmbarque(parametro1, this.idConexion).Tables[0].Rows[0][0];
                     var sqlCeDataReader2 = new SqlCeCommand("select * from embarqueMaterial", this.cnn).ExecuteReader();
                     var dataTable2 = new DataTable();
                     dataTable2.Load(sqlCeDataReader2);
@@ -450,15 +479,22 @@ namespace invsys.Mobile.Embarques
                         Embarque_DetalleEntity parametro2 = new Embarque_DetalleEntity()
                        {
                            FechaAlta = DateTime.Now,
-                           IdEmbarque = Convert.ToInt32(dataRow2["IdEmbarque"]),
+                           IdEmbarque = (int)IdEmbarqueInterno,//IdEmbarqueInterno,// Convert.ToInt32(dataRow2["IdEmbarque"]),
                            Peso = Convert.ToDecimal(dataRow1["peso"]),
                            IdSalidaDatosAll = Convert.ToInt32(dataRow2["idSalidaDatos"]),
                            //id= Convert.ToInt32(dataRow2["IdCon"])
                        };
                         var cancelar = (int)wsPedidos.InsertEmbarque_Detalle(parametro2, this.idConexion).Tables[0].Rows[0][0];
                         if (cancelar == 1)
+                        {
                             MessageBox.Show(string.Format("El Lote {0} ya se encuentra en el embarque", lote));
-                        return;
+                            return;
+                        }
+                        if (cancelar == 2)
+                        {
+                            MessageBox.Show("es 2");
+                            return;
+                        }
                     }
                 }
                 this.BorrarEmbarques();
@@ -492,10 +528,16 @@ namespace invsys.Mobile.Embarques
         {
             try
             {
+                int ide = (int)cmbEmbarque.SelectedValue;
+
                 if (this.cnn.State == ConnectionState.Closed)
                     this.cnn.Open();
-                new SqlCeCommand("DELETE FROM EMBARQUE", this.cnn).ExecuteNonQuery();
-                new SqlCeCommand("DELETE FROM EmbarqueMaterial", this.cnn).ExecuteNonQuery();
+                var cmd = new SqlCeCommand("DELETE FROM EMBARQUE WHERE IdEmbarque = @IdE", this.cnn);
+                cmd.Parameters.AddWithValue("@IdE", ide);
+                cmd.ExecuteNonQuery();
+                var cmd2 = new SqlCeCommand("DELETE FROM EmbarqueMaterial WHERE IdEmbarque = @IdE", this.cnn);
+                cmd2.Parameters.AddWithValue("@IdE", ide);
+                cmd2.ExecuteNonQuery();
                 int num = (int)MessageBox.Show("Se ha eliminado la información de embarques");
                 this.CargarEmbarques();
             }
@@ -524,15 +566,23 @@ namespace invsys.Mobile.Embarques
 
         private void BULK(DataTable dt)
         {
-            SqlCeBulkCopyOptions options = new SqlCeBulkCopyOptions();
-
-            options = options |= SqlCeBulkCopyOptions.KeepNulls;
-
-            using (SqlCeBulkCopy bc = new SqlCeBulkCopy(this.cnnstr, options))
+            try
             {
-                bc.DestinationTableName = "CatMaterial";
-                bc.WriteToServer(dt);
+                SqlCeBulkCopyOptions options = new SqlCeBulkCopyOptions();
+
+                options = options |= SqlCeBulkCopyOptions.KeepNulls;
+
+                using (SqlCeBulkCopy bc = new SqlCeBulkCopy(this.cnnstr, options))
+                {
+                    bc.DestinationTableName = "CatMaterial";
+                    bc.WriteToServer(dt);
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
 
         }
 

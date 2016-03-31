@@ -63,6 +63,7 @@ namespace invsys.Mobile.Embarques
             // mnuExit
             // 
             this.mnuExit.Text = "Salir";
+            this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
             // 
             // menuItem2
             // 
