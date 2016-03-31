@@ -3,9 +3,9 @@ using System.Data;
 using System.Data.SqlServerCe;
 using System.Net;
 using System.Windows.Forms;
-//using some = invsys.Mobile.Embarques.wspedidos;
 using ErikEJ.SqlCe;
-using invsys.Mobile.Embarques.embarques;
+//using invsys.Mobile.Embarques.wspedidos; // testing porpuses
+using invsys.Mobile.Embarques.embarques; // real One
 
 
 
@@ -23,8 +23,9 @@ namespace invsys.Mobile.Embarques
 
 
         }
-        public FrmEmbarquesNew(int iduser)
+        public FrmEmbarquesNew(int iduser, int idCon)
         {
+            this.idConexion = idCon;
             this.idusuario = iduser;
             this.InitializeComponent();
             this.dir = this.dir.Substring(0, this.dir.LastIndexOf("\\"));
@@ -32,18 +33,21 @@ namespace invsys.Mobile.Embarques
             this.cnn = new SqlCeConnection(this.cnnstr);
             try
             {
-                IPHostEntry ipEntry = Dns.GetHostByName(Dns.GetHostName());
-                IPAddress[] addr = ipEntry.AddressList;
-                foreach (var ips in addr)
-                {
-                    try
-                    {
-                        this.IdHandHeld = Convert.ToInt32(addr[0].ToString().Replace(".", ""));
-                    }
-                    catch (Exception)
-                    {
-                    }
-                }
+                var x = System.IO.File.OpenText(this.dir + "\\IdHandheld.ivt");
+                this.IdHandHeld = Convert.ToInt32(x.ReadLine().Trim());
+
+                //IPHostEntry ipEntry = Dns.GetHostByName(Dns.GetHostName());
+                //IPAddress[] addr = ipEntry.AddressList;
+                //foreach (var ips in addr)
+                //{
+                //    try
+                //    {
+                //        this.IdHandHeld = Convert.ToInt32(addr[0].ToString().Replace(".", ""));
+                //    }
+                //    catch (Exception)
+                //    {
+                //    }
+                //}
 
             }
             catch (Exception ex)
@@ -70,7 +74,7 @@ namespace invsys.Mobile.Embarques
 
                 ServicePointManager.Expect100Continue = false;
 
-                this.cmbFiltro.DataSource = (object)wsPedidos.GetFiltro().Tables[0];
+                this.cmbFiltro.DataSource = wsPedidos.GetFiltro(this.idConexion).Tables[0];
                 this.cmbFiltro.ValueMember = "idfiltro";
                 this.cmbFiltro.DisplayMember = "descripcion";
             }
@@ -84,21 +88,25 @@ namespace invsys.Mobile.Embarques
         {
             try
             {
-                SqlCeCommand sqlCeCommand = new SqlCeCommand("SELECT IdEmbarque,Descripcion FROM Embarque", this.cnn);
-                sqlCeCommand.Parameters.AddWithValue("@CB", (object)this.txtCB.Text);
+                SqlCeCommand sqlCeCommand = new SqlCeCommand("SELECT IdEmbarque,Descripcion FROM Embarque where IdCon = @Idcon", this.cnn);
+                sqlCeCommand.Parameters.AddWithValue("@Idcon", this.idConexion);
                 if (this.cnn.State != ConnectionState.Open)
                     this.cnn.Open();
                 SqlCeDataReader sqlCeDataReader = sqlCeCommand.ExecuteReader();
                 DataTable dataTable = new DataTable();
                 dataTable.Load((IDataReader)sqlCeDataReader);
                 if (dataTable.Rows.Count <= 0)
+                {
+                    this.cmbEmbarque.DataSource = null;
                     return;
+                }
                 this.cmbEmbarque.DataSource = (object)dataTable;
                 this.cmbEmbarque.ValueMember = "IdEmbarque";
                 this.cmbEmbarque.DisplayMember = "Descripcion";
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
             }
             finally
             {
@@ -110,8 +118,9 @@ namespace invsys.Mobile.Embarques
         {
             try
             {
-                SqlCeCommand sqlCeCommand = new SqlCeCommand("SELECT * FROM CatMaterial WHERE CodigoBarras = @CB ", this.cnn);
-                sqlCeCommand.Parameters.AddWithValue("@CB", (object)this.txtCB.Text);
+                SqlCeCommand sqlCeCommand = new SqlCeCommand("SELECT * FROM CatMaterial WHERE CodigoBarras = @CB and idCon = @IdCon ", this.cnn);
+                sqlCeCommand.Parameters.AddWithValue("@CB", this.txtCB.Text);
+                sqlCeCommand.Parameters.AddWithValue("@IdCon", this.idConexion);
                 this.cnn.Open();
                 SqlCeDataReader sqlCeDataReader = sqlCeCommand.ExecuteReader();
                 if (sqlCeDataReader.Read())
@@ -183,7 +192,8 @@ namespace invsys.Mobile.Embarques
                 }
                 if ((double)this.peso >= 35.0 && MessageBox.Show("A embarcado el peso maximo permitido (35tns)?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) != DialogResult.Yes)
                     return;
-                SqlCeCommand sqlCeCommand2 = new SqlCeCommand("INSERT INTO EmbarqueMaterial VALUES(@idE,@CB,@IdSalida,@Peso)", this.cnn);
+                SqlCeCommand sqlCeCommand2 = new SqlCeCommand("INSERT INTO EmbarqueMaterial VALUES(@idE,@CB,@IdSalida,@Peso,@IdCon)", this.cnn);
+                sqlCeCommand2.Parameters.AddWithValue("@IdCon", this.idConexion);
                 sqlCeCommand2.Parameters.AddWithValue("@idE", this.cmbEmbarque.SelectedValue);
                 sqlCeCommand2.Parameters.AddWithValue("@CB", (object)this.txtCB.Text);
                 sqlCeCommand2.Parameters.AddWithValue("@IdSalida", (object)this.lblIdSalida.Text);
@@ -219,30 +229,41 @@ namespace invsys.Mobile.Embarques
             {
                 if (this.txtCB.Text.Trim() == "")
                     return;
-                SqlCeCommand sqlCeCommand = new SqlCeCommand("select * from catMaterial where lote = @CB", this.cnn);
+                SqlCeCommand sqlCeCommand = new SqlCeCommand("select * from catMaterial where lote = @CB and IdCon = @IdCon", this.cnn);
                 this.cnn.Open();
                 sqlCeCommand.Parameters.AddWithValue("@CB", (object)this.txtCB.Text);
+                sqlCeCommand.Parameters.AddWithValue("@IdCon", this.idConexion);
                 SqlCeDataReader sqlCeDataReader = sqlCeCommand.ExecuteReader();
                 DataTable dataTable = new DataTable();
                 dataTable.Load((IDataReader)sqlCeDataReader);
-                if (dataTable.Rows.Count > 0)
+                int sel = 0;
+                if (dataTable.Rows.Count == 1)
                 {
-                    this.lblMedida.Text = dataTable.Rows[0]["medida"].ToString();
-                    this.lblAlmacen.Text = dataTable.Rows[0]["Almacen"].ToString();
-                    this.lblLote.Text = dataTable.Rows[0]["Lote"].ToString();
-                    this.lblLongitud.Text = dataTable.Rows[0]["Longitud"].ToString();
-                    this.lblNorma.Text = dataTable.Rows[0]["Norma"].ToString();
-                    this.lblEspesor.Text = dataTable.Rows[0]["Espesor"].ToString();
-                    this.lblDesc.Text = dataTable.Rows[0]["Descripcion"].ToString();
-                    this.lblUbicacion.Text = dataTable.Rows[0]["Ubicacion"].ToString();
-                    this.lblIdSalida.Text = dataTable.Rows[0]["IdSalidaDatos"].ToString();
-                    this.lblPesoTeorico.Text = dataTable.Rows[0]["PesoTeorico"].ToString();
+                    sel = 0;
+                }
+                else if (dataTable.Rows.Count > 1)
+                {
+                    var str = string.Format("Existen {0} de un registro con este Codigo, seleccione cual desea agregar");
+                    sel = Convert.ToInt32(Microsoft.VisualBasic.Interaction.InputBox(str, "Seleccione", "1", -1, -1));
                 }
                 else
                 {
                     int num = (int)MessageBox.Show("No existe articulo con ese codigo de barras");
                     this.clean();
+                    return;
                 }
+
+                this.lblMedida.Text = dataTable.Rows[sel]["medida"].ToString();
+                this.lblAlmacen.Text = dataTable.Rows[sel]["Almacen"].ToString();
+                this.lblLote.Text = dataTable.Rows[sel]["Lote"].ToString();
+                this.lblLongitud.Text = dataTable.Rows[sel]["Longitud"].ToString();
+                this.lblNorma.Text = dataTable.Rows[sel]["Norma"].ToString();
+                this.lblEspesor.Text = dataTable.Rows[sel]["Espesor"].ToString();
+                this.lblDesc.Text = dataTable.Rows[sel]["Descripcion"].ToString();
+                this.lblUbicacion.Text = dataTable.Rows[sel]["Ubicacion"].ToString();
+                this.lblIdSalida.Text = dataTable.Rows[sel]["IdSalidaDatos"].ToString();
+                this.lblPesoTeorico.Text = dataTable.Rows[sel]["PesoTeorico"].ToString();
+
             }
             catch (Exception ex)
             {
@@ -276,7 +297,7 @@ namespace invsys.Mobile.Embarques
 
         private void menuItem2_Click(object sender, EventArgs e)
         {
-            int num = (int)new FrmInventarioNew(this.idusuario).ShowDialog();
+            int num = (int)new FrmInventarioNew(this.idusuario, this.idConexion).ShowDialog();
         }
 
         private void tabCaptura_Click(object sender, EventArgs e)
@@ -286,7 +307,7 @@ namespace invsys.Mobile.Embarques
         private void menuNuevoEmbarque_Click(object sender, EventArgs e)
         {
             this.refrescar = true;
-            int num = (int)new FrmAddEmbarqueN(this.idusuario).ShowDialog();
+            int num = (int)new FrmAddEmbarqueN(this.idusuario, this.idConexion).ShowDialog();
         }
 
         private void CargarDatosWS()
@@ -294,31 +315,35 @@ namespace invsys.Mobile.Embarques
             string str = "";
             try
             {
+
                 this.cnn.Open();
-                new SqlCeCommand("delete from CatMaterial", this.cnn).ExecuteNonQuery();
+                new SqlCeCommand("delete from CatMaterial where IdCon =" + this.idConexion.ToString(), this.cnn).ExecuteNonQuery();
                 ServicePointManager.Expect100Continue = false;
-                WSPedidos wsPedidos = new WSPedidos();
-                DataTable dataTable1 = new DataTable();
+                var wsPedidos = new WSPedidos();
+                var dataTable1 = new DataTable();
                 DataTable dataTable2;
                 try
                 {
-                    dataTable2 = wsPedidos.GetParameter(this.cmbFiltro.Text, this.IdHandHeld).Tables[0];
+                    dataTable2 = wsPedidos.GetParameter(this.cmbFiltro.Text, this.idConexion, this.IdHandHeld).Tables[0];
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     int num = (int)MessageBox.Show("No se puede conectar al servidor, favor de verificar su conexion");
                     return;
                 }
+                
+
                 int MinValue = (int)dataTable2.Rows[0][0];
                 int MaxValue = (int)dataTable2.Rows[0][1];
-                str = string.Concat(new object[4]
-        {
-          (object) str,
-          (object) "tengo parametros ",
-          (object) MaxValue,
-          (object) "\n"
-        });
-                this.BULK(wsPedidos.GetValues(MinValue, MaxValue, this.IdHandHeld).Tables[0]);
+
+                if (MinValue ==0 | MaxValue ==0)
+                {
+                    MessageBox.Show("No existen lotes con estos parametros: \n {0}", this.cmbFiltro.Text);
+                    return;
+                }
+
+                str = string.Concat(str, "tengo parametros ", MaxValue, "\n");
+                this.BULK(wsPedidos.GetValues(MinValue, MaxValue, this.idConexion, this.IdHandHeld).Tables[0]);
                 int num1 = (int)MessageBox.Show("Termine con la carga");
             }
             catch (WebException ex)
@@ -424,8 +449,11 @@ namespace invsys.Mobile.Embarques
             try
             {
                 ServicePointManager.Expect100Continue = false;
-                var sqlCeCommand = new SqlCeCommand("select * from embarque", this.cnn);
+                var sqlCeCommand = new SqlCeCommand("select * from embarque where IdCon =@idCon", this.cnn);
+                sqlCeCommand.Parameters.AddWithValue("@IdCon", this.idConexion);
+
                 var wsPedidos = new WSPedidos();
+
                 this.cnn.Open();
                 var sqlCeDataReader1 = sqlCeCommand.ExecuteReader();
                 var dataTable1 = new DataTable();
@@ -439,8 +467,9 @@ namespace invsys.Mobile.Embarques
                         FechaAlta = Convert.ToDateTime(dataRow1["FechaAlta"]),
                         Peso = Convert.ToDecimal(dataRow1["Peso"]),
                         Descripcion = dataRow1["Descripcion"].ToString()
+                        // IdConexion = Convert.ToInt32(dataRow1["IdCon"])
                     };
-                    wsPedidos.InsertEmbarque(parametro1);
+                    var IdEmbarqueInterno = wsPedidos.InsertEmbarque(parametro1, this.idConexion).Tables[0].Rows[0][0];
                     var sqlCeDataReader2 = new SqlCeCommand("select * from embarqueMaterial", this.cnn).ExecuteReader();
                     var dataTable2 = new DataTable();
                     dataTable2.Load(sqlCeDataReader2);
@@ -448,16 +477,24 @@ namespace invsys.Mobile.Embarques
                     {
                         string lote = dataRow2["CodigoBarras"].ToString();
                         Embarque_DetalleEntity parametro2 = new Embarque_DetalleEntity()
-                        {
-                            FechaAlta = DateTime.Now,
-                            IdEmbarque = Convert.ToInt32(dataRow2["IdEmbarque"]),
-                            Peso = Convert.ToDecimal(dataRow1["peso"]),
-                            IdSalidaDatosAll = Convert.ToInt32(dataRow2["idSalidaDatos"])
-                        };
-                        var cancelar = (int)wsPedidos.InsertEmbarque_Detalle(parametro2).Tables[0].Rows[0][0];
+                       {
+                           FechaAlta = DateTime.Now,
+                           IdEmbarque = (int)IdEmbarqueInterno,//IdEmbarqueInterno,// Convert.ToInt32(dataRow2["IdEmbarque"]),
+                           Peso = Convert.ToDecimal(dataRow1["peso"]),
+                           IdSalidaDatosAll = Convert.ToInt32(dataRow2["idSalidaDatos"]),
+                           //id= Convert.ToInt32(dataRow2["IdCon"])
+                       };
+                        var cancelar = (int)wsPedidos.InsertEmbarque_Detalle(parametro2, this.idConexion).Tables[0].Rows[0][0];
                         if (cancelar == 1)
+                        {
                             MessageBox.Show(string.Format("El Lote {0} ya se encuentra en el embarque", lote));
-                        return;
+                            return;
+                        }
+                        if (cancelar == 2)
+                        {
+                            MessageBox.Show("es 2");
+                            return;
+                        }
                     }
                 }
                 this.BorrarEmbarques();
@@ -491,10 +528,16 @@ namespace invsys.Mobile.Embarques
         {
             try
             {
+                int ide = (int)cmbEmbarque.SelectedValue;
+
                 if (this.cnn.State == ConnectionState.Closed)
                     this.cnn.Open();
-                new SqlCeCommand("DELETE FROM EMBARQUE", this.cnn).ExecuteNonQuery();
-                new SqlCeCommand("DELETE FROM EmbarqueMaterial", this.cnn).ExecuteNonQuery();
+                var cmd = new SqlCeCommand("DELETE FROM EMBARQUE WHERE IdEmbarque = @IdE", this.cnn);
+                cmd.Parameters.AddWithValue("@IdE", ide);
+                cmd.ExecuteNonQuery();
+                var cmd2 = new SqlCeCommand("DELETE FROM EmbarqueMaterial WHERE IdEmbarque = @IdE", this.cnn);
+                cmd2.Parameters.AddWithValue("@IdE", ide);
+                cmd2.ExecuteNonQuery();
                 int num = (int)MessageBox.Show("Se ha eliminado la información de embarques");
                 this.CargarEmbarques();
             }
@@ -523,15 +566,23 @@ namespace invsys.Mobile.Embarques
 
         private void BULK(DataTable dt)
         {
-            SqlCeBulkCopyOptions options = new SqlCeBulkCopyOptions();
-
-            options = options |= SqlCeBulkCopyOptions.KeepNulls;
-
-            using (SqlCeBulkCopy bc = new SqlCeBulkCopy(this.cnnstr, options))
+            try
             {
-                bc.DestinationTableName = "CatMaterial";
-                bc.WriteToServer(dt);
+                SqlCeBulkCopyOptions options = new SqlCeBulkCopyOptions();
+
+                options = options |= SqlCeBulkCopyOptions.KeepNulls;
+
+                using (SqlCeBulkCopy bc = new SqlCeBulkCopy(this.cnnstr, options))
+                {
+                    bc.DestinationTableName = "CatMaterial";
+                    bc.WriteToServer(dt);
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
 
         }
 
@@ -599,7 +650,8 @@ namespace invsys.Mobile.Embarques
             {
                 panel1.Visible = true;
                 //cargar los combos
-                var cmd = new SqlCeCommand("select * from embarque", cnn);
+                var cmd = new SqlCeCommand("select * from embarque where idCon = @IdCon", cnn);
+                cmd.Parameters.AddWithValue("@IdCon", this.idConexion);
                 if (cnn.State == ConnectionState.Closed) cnn.Open();
                 var dr = cmd.ExecuteReader();
                 var dt = new DataTable();
@@ -608,7 +660,8 @@ namespace invsys.Mobile.Embarques
                 cmbDe.DisplayMember = "Descripcion";
                 cmbDe.ValueMember = "IdEmbarque";
 
-                var cmd2 = new SqlCeCommand("select * from embarque", cnn);
+                var cmd2 = new SqlCeCommand("select * from embarque where idCon = @IdCon", cnn);
+                cmd.Parameters.AddWithValue("@IdCon", this.idConexion);
                 if (cnn.State == ConnectionState.Closed) cnn.Open();
                 var dr2 = cmd.ExecuteReader();
                 var dt2 = new DataTable();
