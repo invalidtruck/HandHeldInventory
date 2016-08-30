@@ -52,7 +52,9 @@ namespace invsys.Mobile.Embarques
             }
             catch (Exception ex)
             {
-                throw ex;
+                MessageBox.Show("Func: Constructor FrmEmbarques \n Valores: idcon=" + this.idConexion 
+                + "\n IdHandHeld=" + this.IdHandHeld); 
+                MessageBox.Show(ex.Message);
             }
 
         }
@@ -80,6 +82,7 @@ namespace invsys.Mobile.Embarques
             }
             catch (Exception ex)
             {
+                MessageBox.Show("Func: CargarFiltro \n Valores :idcon" + this.idConexion);
                 MessageBox.Show(ex.Message.ToString());
             }
         }
@@ -106,6 +109,7 @@ namespace invsys.Mobile.Embarques
             }
             catch (Exception ex)
             {
+                MessageBox.Show("Func: CargarEmbarques \n Valores :idcon" + this.idConexion); 
                 MessageBox.Show(ex.Message);
             }
             finally
@@ -488,7 +492,7 @@ namespace invsys.Mobile.Embarques
                         if (cancelar == 1)
                         {
                             MessageBox.Show(string.Format("El Lote {0} ya se encuentra en el embarque", lote));
-                            return;
+                            continue;
                         }
                         if (cancelar == 2)
                         {
@@ -649,6 +653,7 @@ namespace invsys.Mobile.Embarques
             try
             {
                 panel1.Visible = true;
+                panel1.Dock = DockStyle.Fill;
                 //cargar los combos
                 var cmd = new SqlCeCommand("select * from embarque where idCon = @IdCon", cnn);
                 cmd.Parameters.AddWithValue("@IdCon", this.idConexion);
