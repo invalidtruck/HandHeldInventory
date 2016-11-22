@@ -4,8 +4,8 @@ using System.Data.SqlServerCe;
 using System.Net;
 using System.Windows.Forms;
 using ErikEJ.SqlCe;
-//using invsys.Mobile.Embarques.wspedidos; // testing porpuses
-using invsys.Mobile.Embarques.embarques; // real One
+using invsys.Mobile.Embarques.embarques;
+using System.Threading;
 
 
 
@@ -19,6 +19,7 @@ namespace invsys.Mobile.Embarques
             InitializeComponent();
             this.dir = this.dir.Substring(0, this.dir.LastIndexOf("\\"));
             this.cnnstr = "Data Source=" + (this.dir + "\\EmbInv.sdf") + ";Max Database Size=4091";
+            //this.cnnstr = DB.getcnnString();
             this.cnn = new SqlCeConnection(this.cnnstr);
 
 
@@ -33,44 +34,30 @@ namespace invsys.Mobile.Embarques
             this.cnn = new SqlCeConnection(this.cnnstr);
             try
             {
-                var x = System.IO.File.OpenText(this.dir + "\\IdHandheld.ivt");
+                var x = System.IO.File.OpenText(this.dir + "\\config.ivt");
                 this.IdHandHeld = Convert.ToInt32(x.ReadLine().Trim());
-
-                //IPHostEntry ipEntry = Dns.GetHostByName(Dns.GetHostName());
-                //IPAddress[] addr = ipEntry.AddressList;
-                //foreach (var ips in addr)
-                //{
-                //    try
-                //    {
-                //        this.IdHandHeld = Convert.ToInt32(addr[0].ToString().Replace(".", ""));
-                //    }
-                //    catch (Exception)
-                //    {
-                //    }
-                //}
+                x.Close();
 
             }
             catch (Exception ex)
             {
-                throw ex;
+                MessageBox.Show("Func: Constructor FrmEmbarques \n Valores: idcon=" + this.idConexion
+                + "\n IdHandHeld=" + this.IdHandHeld);
+                MessageBox.Show(ex.Message);
             }
 
         }
         private void FrmEmbarquesNew_Load_1(object sender, EventArgs e)
         {
             this.AutoScaleMode = AutoScaleMode.Dpi;
-            this.CargarFiltro();
+           // this.CargarFiltro();
             this.CargarEmbarques();
         }
         private void CargarFiltro()
         {
             try
             {
-#if !DEBUG
-                var wsPedidos = new some.WSPedidos();
-#else
                 var wsPedidos = new WSPedidos();
-#endif
 
                 ServicePointManager.Expect100Continue = false;
 
@@ -80,6 +67,7 @@ namespace invsys.Mobile.Embarques
             }
             catch (Exception ex)
             {
+                MessageBox.Show("Func: CargarFiltro \n Valores :idcon" + this.idConexion);
                 MessageBox.Show(ex.Message.ToString());
             }
         }
@@ -106,6 +94,7 @@ namespace invsys.Mobile.Embarques
             }
             catch (Exception ex)
             {
+                MessageBox.Show("Func: CargarEmbarques \n Valores :idcon" + this.idConexion);
                 MessageBox.Show(ex.Message);
             }
             finally
@@ -324,35 +313,66 @@ namespace invsys.Mobile.Embarques
                 DataTable dataTable2;
                 try
                 {
-                    dataTable2 = wsPedidos.GetParameter(this.cmbFiltro.Text, this.idConexion, this.IdHandHeld).Tables[0];
+
+                    //dataTable2 = wsPedidos.GetParameter(this.cmbFiltro.Text, this.idConexion, this.IdHandHeld).Tables[0];
+                    dataTable2 = wsPedidos.GetParameterNew(this.idConexion, this.IdHandHeld).Tables[0];
+
                 }
                 catch (Exception ex)
                 {
-                    int num = (int)MessageBox.Show("No se puede conectar al servidor, favor de verificar su conexion");
+                    MessageBox.Show("Func: CargarDatosWS Proc: GetParameter \n Err:" + ex.Message);
+                    //int num = (int)MessageBox.Show("No se puede conectar al servidor, favor de verificar su conexion");
                     return;
                 }
-                
 
                 int MinValue = (int)dataTable2.Rows[0][0];
                 int MaxValue = (int)dataTable2.Rows[0][1];
-
-                if (MinValue ==0 | MaxValue ==0)
+                MessageBox.Show(string.Format("El total de registros son: {0}", (MaxValue - MinValue)));
+                if (MinValue == 0 | MaxValue == 0)
                 {
-                    MessageBox.Show("No existen lotes con estos parametros: \n {0}", this.cmbFiltro.Text);
+                    if (this.cmbFiltro.Visible)
+                    {
+                        MessageBox.Show("No existen lotes con estos parametros: \n {0}", this.cmbFiltro.Text);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No existen lotes en el servidor , favor de revisar con el Administrador de sistemas" );
+                    }
+                    
                     return;
                 }
+                var datos = new DataTable();
+                str = string.Concat(str, "tengo parametros ", MaxValue - MinValue, "\n");
+                try
+                { 
+                    var Start = MinValue;
+                    while (Start < MaxValue)
+                    {
+                        if (MaxValue - Start >= 3000)
+                            datos = wsPedidos.GetValues(Start, Start + 3000, this.idConexion, this.IdHandHeld).Tables[0];
+                        else
+                            datos = wsPedidos.GetValues(Start, MaxValue, this.idConexion, this.IdHandHeld).Tables[0];
 
-                str = string.Concat(str, "tengo parametros ", MaxValue, "\n");
-                this.BULK(wsPedidos.GetValues(MinValue, MaxValue, this.idConexion, this.IdHandHeld).Tables[0]);
+                        this.BULK(datos);
+                        Start = Start + 3000; 
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    int num = (int)MessageBox.Show("Func: CargarDatosWS Proc:wsPedidos Web  \n Err:" + ex.Message);
+
+                }
+
                 int num1 = (int)MessageBox.Show("Termine con la carga");
             }
             catch (WebException ex)
             {
-                int num = (int)MessageBox.Show(ex.Message);
+                int num = (int)MessageBox.Show("Func: CargarDatosWS Proc:BULK Web  \n Err:" + ex.Message);
             }
             catch (Exception ex)
             {
-                int num = (int)MessageBox.Show(str + ex.Message);
+                int num = (int)MessageBox.Show("Func: CargarDatosWS Proc:BULK \n Err:" + str + ex.Message);
             }
             finally
             {
@@ -448,16 +468,19 @@ namespace invsys.Mobile.Embarques
         {
             try
             {
+                int ide = (int)cmbEmbarque.SelectedValue;
                 ServicePointManager.Expect100Continue = false;
-                var sqlCeCommand = new SqlCeCommand("select * from embarque where IdCon =@idCon", this.cnn);
+                var sqlCeCommand = new SqlCeCommand("select * from embarque where IdCon =@idCon and IdEmbarque=@IdEmbarque", this.cnn);
                 sqlCeCommand.Parameters.AddWithValue("@IdCon", this.idConexion);
+                sqlCeCommand.Parameters.AddWithValue("@IdEmbarque", ide);
 
                 var wsPedidos = new WSPedidos();
 
                 this.cnn.Open();
                 var sqlCeDataReader1 = sqlCeCommand.ExecuteReader();
                 var dataTable1 = new DataTable();
-                dataTable1.Load((IDataReader)sqlCeDataReader1);
+                dataTable1.Load(sqlCeDataReader1);
+                var lotesenviados = "";
                 foreach (DataRow dataRow1 in dataTable1.Rows)
                 {
                     EmbarqueEntity parametro1 = new EmbarqueEntity()
@@ -466,37 +489,54 @@ namespace invsys.Mobile.Embarques
                         IdEmbarque = Convert.ToInt32(dataRow1["IdEmbarque"]),
                         FechaAlta = Convert.ToDateTime(dataRow1["FechaAlta"]),
                         Peso = Convert.ToDecimal(dataRow1["Peso"]),
-                        Descripcion = dataRow1["Descripcion"].ToString()
-                        // IdConexion = Convert.ToInt32(dataRow1["IdCon"])
+                        Descripcion = dataRow1["Descripcion"].ToString(),
+                        IdHandheld = this.IdHandHeld
                     };
                     var IdEmbarqueInterno = wsPedidos.InsertEmbarque(parametro1, this.idConexion).Tables[0].Rows[0][0];
                     var sqlCeDataReader2 = new SqlCeCommand("select * from embarqueMaterial", this.cnn).ExecuteReader();
                     var dataTable2 = new DataTable();
                     dataTable2.Load(sqlCeDataReader2);
+
+
                     foreach (DataRow dataRow2 in dataTable2.Rows)
                     {
                         string lote = dataRow2["CodigoBarras"].ToString();
                         Embarque_DetalleEntity parametro2 = new Embarque_DetalleEntity()
                        {
                            FechaAlta = DateTime.Now,
-                           IdEmbarque = (int)IdEmbarqueInterno,//IdEmbarqueInterno,// Convert.ToInt32(dataRow2["IdEmbarque"]),
+                           IdEmbarque = (int)IdEmbarqueInterno,
                            Peso = Convert.ToDecimal(dataRow1["peso"]),
                            IdSalidaDatosAll = Convert.ToInt32(dataRow2["idSalidaDatos"]),
-                           //id= Convert.ToInt32(dataRow2["IdCon"])
+                           IdHandheld = this.IdHandHeld
                        };
-                        var cancelar = (int)wsPedidos.InsertEmbarque_Detalle(parametro2, this.idConexion).Tables[0].Rows[0][0];
-                        if (cancelar == 1)
+                        try
                         {
-                            MessageBox.Show(string.Format("El Lote {0} ya se encuentra en el embarque", lote));
-                            return;
+                            var cancelar = (int)wsPedidos.InsertEmbarque_Detalle(parametro2, this.idConexion).Tables[0].Rows[0][0];
+                            if (cancelar == 1)
+                            {
+                                MessageBox.Show(string.Format("El Lote {0} ya se encuentra en el embarque", lote));
+                                continue;
+                            }
+                            if (cancelar == 2)
+                            {
+                                MessageBox.Show("es 2");
+                                return;
+                            }
+                            else
+                            {
+                                lotesenviados += "\n" + lote.ToString();
+                            }
                         }
-                        if (cancelar == 2)
+                        catch (Exception ex)
                         {
-                            MessageBox.Show("es 2");
-                            return;
+                            MessageBox.Show(String.Format("El lote {0} no ha marcado error en el servidor se continuara con el proceso omitiendo este lote", lote));
+                            continue;
                         }
+
+
                     }
                 }
+                MessageBox.Show(String.Format("Se ha(n) enviado el(los) siguiente(s) lote(s): {0} al servidor", lotesenviados));
                 this.BorrarEmbarques();
             }
             catch (Exception ex)
@@ -649,6 +689,7 @@ namespace invsys.Mobile.Embarques
             try
             {
                 panel1.Visible = true;
+                panel1.Dock = DockStyle.Fill;
                 //cargar los combos
                 var cmd = new SqlCeCommand("select * from embarque where idCon = @IdCon", cnn);
                 cmd.Parameters.AddWithValue("@IdCon", this.idConexion);

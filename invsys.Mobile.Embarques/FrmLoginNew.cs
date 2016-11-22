@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Net; 
+using System.Net;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,18 +8,28 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlServerCe;
-//using invsys.Mobile.Embarques.wspedidos; // testing porpuses
 using invsys.Mobile.Embarques.embarques; // real One
 
 namespace invsys.Mobile.Embarques
 {
     public partial class FrmLoginNew : Form
     {
+
+        public int IdHandHeld { get; set; }
         public FrmLoginNew()
         {
             InitializeComponent();
             this.dir = this.dir.Substring(0, this.dir.LastIndexOf("\\"));
-            this.cnn = new SqlCeConnection("Data Source=" + (this.dir + "\\EmbInv.sdf"));
+            this.cnn = new SqlCeConnection("Data Source=" + (this.dir + "\\EmbInv.sdf" + ";Max Database Size=4091"));
+
+            try
+            {
+                var x = System.IO.File.OpenText(this.dir + "\\config.ivt");
+                this.IdHandHeld = Convert.ToInt32(x.ReadLine().Trim());
+                x.Close();
+            }
+            catch (Exception) { }
+
         }
 
         private void BtnAcceder_Click(object sender, EventArgs e)
@@ -28,19 +38,12 @@ namespace invsys.Mobile.Embarques
             {
                 if (cnn.State == ConnectionState.Closed)
                     cnn.Open();
-
                 var cmd = new SqlCeCommand("select count(1) from catUsuarios where Usuario = @us and contrasena =@pass", cnn);
                 cmd.Parameters.AddWithValue("@us", textBox1.Text);
                 cmd.Parameters.AddWithValue("@pass", textBox2.Text);
                 if ((int)cmd.ExecuteScalar() > 0)
                 {
-//#if DEBUG
-                    //new FrmEmbarquesNew(1, 1).Show();
-//#else 
-
-                    //MessageBox.Show(ddlConexiones2.SelectedValue.ToString());
-                    new FrmEmbarquesNew(1, (int)ddlConexiones2.SelectedValue).Show();
-//#endif
+                    new FrmEmbarquesNew(this.IdHandHeld, (int)ddlConexiones2.SelectedValue).Show();
                     this.Hide();
                 }
                 else
@@ -50,7 +53,6 @@ namespace invsys.Mobile.Embarques
                     textBox2.Text = "";
                     textBox1.Focus();
                 }
-
             }
             catch (Exception ex)
             {

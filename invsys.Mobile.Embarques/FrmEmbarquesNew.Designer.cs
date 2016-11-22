@@ -150,10 +150,9 @@ namespace invsys.Mobile.Embarques
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.cmbDe);
             this.panel1.Controls.Add(this.lblPed1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Location = new System.Drawing.Point(0, 350);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(227, 401);
+            this.panel1.Size = new System.Drawing.Size(227, 51);
             this.panel1.Visible = false;
             // 
             // BtnCanTrans
@@ -215,6 +214,7 @@ namespace invsys.Mobile.Embarques
             this.cmbFiltro.Name = "cmbFiltro";
             this.cmbFiltro.Size = new System.Drawing.Size(126, 22);
             this.cmbFiltro.TabIndex = 18;
+            this.cmbFiltro.Visible = false;
             // 
             // BtnGrabar
             // 
@@ -451,16 +451,16 @@ namespace invsys.Mobile.Embarques
             this.tabLista.Controls.Add(this.dgvCatalogo);
             this.tabLista.Location = new System.Drawing.Point(0, 0);
             this.tabLista.Name = "tabLista";
-            this.tabLista.Size = new System.Drawing.Size(240, 245);
+            this.tabLista.Size = new System.Drawing.Size(232, 242);
             this.tabLista.Text = "Lista";
             // 
             // label3
             // 
             this.label3.BackColor = System.Drawing.Color.Silver;
             this.label3.Dock = System.Windows.Forms.DockStyle.Right;
-            this.label3.Location = new System.Drawing.Point(128, 0);
+            this.label3.Location = new System.Drawing.Point(120, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(112, 26);
+            this.label3.Size = new System.Drawing.Size(112, 23);
             this.label3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // lblArt
@@ -469,7 +469,7 @@ namespace invsys.Mobile.Embarques
             this.lblArt.Dock = System.Windows.Forms.DockStyle.Left;
             this.lblArt.Location = new System.Drawing.Point(0, 0);
             this.lblArt.Name = "lblArt";
-            this.lblArt.Size = new System.Drawing.Size(113, 26);
+            this.lblArt.Size = new System.Drawing.Size(113, 23);
             this.lblArt.Text = "Art: 0";
             this.lblArt.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
@@ -477,9 +477,9 @@ namespace invsys.Mobile.Embarques
             // 
             this.dgvCatalogo.BackgroundColor = System.Drawing.Color.White;
             this.dgvCatalogo.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.dgvCatalogo.Location = new System.Drawing.Point(0, 26);
+            this.dgvCatalogo.Location = new System.Drawing.Point(0, 23);
             this.dgvCatalogo.Name = "dgvCatalogo";
-            this.dgvCatalogo.Size = new System.Drawing.Size(240, 219);
+            this.dgvCatalogo.Size = new System.Drawing.Size(232, 219);
             this.dgvCatalogo.TabIndex = 1;
             this.dgvCatalogo.DoubleClick += new System.EventHandler(this.dgvCatalogo_DoubleClick);
             // 

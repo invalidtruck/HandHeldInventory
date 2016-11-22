@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DiscoveryClientResultsFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Results>
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.DiscoveryDocumentReference" url="http://7.112.66.164:81/WSPedidos.asmx?disco" filename="WSPedidos.disco" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://7.112.66.164:81/WSPedidos.asmx?wsdl" filename="WSPedidos.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.DiscoveryDocumentReference" url="http://7.112.66.164:99/WSPedidos.asmx?disco" filename="WSPedidos.disco" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://7.112.66.164:99/WSPedidos.asmx?wsdl" filename="WSPedidos.wsdl" />
   </Results>
 </DiscoveryClientResultsFile>
