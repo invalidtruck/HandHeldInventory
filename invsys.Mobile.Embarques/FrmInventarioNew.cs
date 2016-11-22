@@ -44,9 +44,7 @@ namespace invsys.Mobile.Embarques
             catch (Exception ex)
             {
             }
-
-
-            SqlCeBulkCopyOptions options = new SqlCeBulkCopyOptions();
+            var options = new SqlCeBulkCopyOptions();
 
             options = options |= SqlCeBulkCopyOptions.KeepNulls;
 
@@ -107,18 +105,18 @@ namespace invsys.Mobile.Embarques
             this.txtCB.Text = "";
             this.txtCB.Focus();
             this.lblIdArt.Text = "";
-            this.EnableDisable(false,false);
+            this.EnableDisable(false, false);
         }
-        private void EnableDisable(bool en , bool no )
+        private void EnableDisable(bool en, bool no)
         {
             this.txtLongitud.Enabled = en;
-            this.txtNorma.Enabled = en; 
-            
+            this.txtNorma.Enabled = en;
+
             this.txtAlmacen.Enabled = no;
             this.txtDesc.Enabled = no;
             this.txtEspesor.Enabled = no;
-            this.txtLote.Enabled = no; 
-            this.txtMedida.Enabled = no; 
+            this.txtLote.Enabled = no;
+            this.txtMedida.Enabled = no;
             this.txtUbicacion.Enabled = no;
             this.nudCantidad.Enabled = no;
         }
@@ -150,11 +148,12 @@ namespace invsys.Mobile.Embarques
             {
                 if (this.txtCB.Text.Trim() == "")
                     return;
-                SqlCeCommand sqlCeCommand = new SqlCeCommand("select * from CatInventario where Lote = @lote", this.cnn);
-                this.cnn.Open();
+                var sqlCeCommand = new SqlCeCommand("select * from CatInventario where Lote = @lote", this.cnn);
+                if (this.cnn.State == ConnectionState.Closed)
+                    this.cnn.Open();
                 sqlCeCommand.Parameters.AddWithValue("@lote", txtCB.Text);
-                SqlCeDataReader sqlCeDataReader = sqlCeCommand.ExecuteReader();
-                DataTable dataTable = new DataTable();
+                var sqlCeDataReader = sqlCeCommand.ExecuteReader();
+                var dataTable = new DataTable();
                 dataTable.Load((IDataReader)sqlCeDataReader);
                 if (dataTable.Rows.Count > 0)
                 {
@@ -167,16 +166,16 @@ namespace invsys.Mobile.Embarques
                     this.txtDesc.Text = dataTable.Rows[0]["Descripcion"].ToString();
                     this.txtUbicacion.Text = dataTable.Rows[0]["Ubicacion"].ToString();
                     this.lblIdArt.Text = dataTable.Rows[0]["IdInventarioServer"].ToString();
-                    this.EnableDisable(true,false);
+                    this.EnableDisable(true, false);
                 }
                 else if (MessageBox.Show("No existe articulo con ese codigo de barras \n Desea agregarlo?", "Agregar", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 {
-                    this.EnableDisable(true,true);
+                    this.EnableDisable(true, true);
                 }
                 else
                 {
                     this.Clean();
-                    this.EnableDisable(false,false);
+                    this.EnableDisable(false, false);
                 }
             }
             catch (Exception ex)
@@ -196,6 +195,26 @@ namespace invsys.Mobile.Embarques
         private void FrmInventario_Load(object sender, EventArgs e)
         {
             this.CargarInventario();
+            this.CargarFiltro();
+        }
+
+        private void CargarFiltro()
+        {
+            try
+            {
+                var wsPedidos = new WSPedidos();
+
+                ServicePointManager.Expect100Continue = false;
+
+                this.cmbFiltro.DataSource = wsPedidos.GetFiltro(this.IdConexion).Tables[0];
+                this.cmbFiltro.ValueMember = "idfiltro";
+                this.cmbFiltro.DisplayMember = "descripcion";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Func: CargarFiltro \n Valores :idcon" + this.IdConexion);
+                MessageBox.Show(ex.Message.ToString());
+            }
         }
         private void txtCB_Validated(object sender, EventArgs e)
         {
@@ -213,7 +232,9 @@ namespace invsys.Mobile.Embarques
             try
             {
                 ServicePointManager.Expect100Continue = false;
-                this.BULK(new WSPedidos().GetInventory(this.cmbFiltro.Text, this.IdConexion).Tables[0]);
+                var dt = new WSPedidos().GetInventory(this.cmbFiltro.Text, this.IdConexion).Tables[0];
+
+                this.BULK(dt);
                 int num = (int)MessageBox.Show("Carga Completa");
             }
             catch (Exception ex)
@@ -230,11 +251,13 @@ namespace invsys.Mobile.Embarques
             try
             {
                 ServicePointManager.Expect100Continue = false;
-                WSPedidos wsPedidos = new WSPedidos();
-                SqlCeCommand sqlCeCommand = new SqlCeCommand("select * FROM Inventario", this.cnn);
-                this.cnn.Open();
-                SqlCeDataReader sqlCeDataReader = sqlCeCommand.ExecuteReader();
-                DataTable dataTable = new DataTable();
+                var wsPedidos = new WSPedidos();
+                var sqlCeCommand = new SqlCeCommand("select * FROM Inventario", this.cnn);
+                if (this.cnn.State == ConnectionState.Closed)
+                    this.cnn.Open();
+
+                var sqlCeDataReader = sqlCeCommand.ExecuteReader();
+                var dataTable = new DataTable();
                 dataTable.Load((IDataReader)sqlCeDataReader);
                 foreach (DataRow dataRow in (InternalDataCollectionBase)dataTable.Rows)
                 {
@@ -366,9 +389,5 @@ namespace invsys.Mobile.Embarques
                 this.CargarInfoLote();
             }
         }
-
-
-
-
     }
 }

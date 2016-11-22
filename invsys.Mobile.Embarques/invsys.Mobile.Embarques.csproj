@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DB.cs" />
     <Compile Include="FrmAddEmbarqueN.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,53 +133,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
-    <Compile Include="Web References\wspedidos\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.map</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://7.112.66.164:81/WSPedidos.asmx">
-      <UrlBehavior>Static</UrlBehavior>
-      <RelPath>Web References\embarques\</RelPath>
-      <UpdateFromURL>http://7.112.66.164:81/WSPedidos.asmx</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>
-      </CachedAppSettingsObjectName>
-      <CachedSettingsPropName>
-      </CachedSettingsPropName>
-    </WebReferenceUrl>
-    <WebReferenceUrl Include="http://wspedidos.somee.com/wspedidos.asmx">
-      <UrlBehavior>Static</UrlBehavior>
-      <RelPath>Web References\wspedidos\</RelPath>
-      <UpdateFromURL>http://wspedidos.somee.com/wspedidos.asmx</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>
-      </CachedAppSettingsObjectName>
-      <CachedSettingsPropName>
-      </CachedSettingsPropName>
-    </WebReferenceUrl>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="EmbInv.sdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Web References\wspedidos\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Web References\wspedidos\wspedidos.disco" />
-    <Content Include="IdHandheld.ivt">
+    <Content Include="config.ivt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Web References\embarques\Reference.map">
@@ -187,7 +150,21 @@
     </None>
     <None Include="Web References\embarques\WSPedidos.disco" />
     <None Include="Web References\embarques\WSPedidos.wsdl" />
-    <None Include="Web References\wspedidos\wspedidos.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://7.112.66.164:99/WSPedidos.asmx">
+      <UrlBehavior>Static</UrlBehavior>
+      <RelPath>Web References\embarques\</RelPath>
+      <UpdateFromURL>http://7.112.66.164:99/WSPedidos.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>
+      </CachedAppSettingsObjectName>
+      <CachedSettingsPropName>
+      </CachedSettingsPropName>
+    </WebReferenceUrl>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>

@@ -29,6 +29,7 @@ namespace invsys.Mobile.Embarques
             this.InitializeComponent();
             this.dir = this.dir.Substring(0, this.dir.LastIndexOf("\\"));
             this.cnn = new SqlCeConnection("Data Source=" + (this.dir + "\\EmbInv.sdf"));
+            //this.cnn = new SqlCeConnection("Data Source=" + DB.getcnnString());
         }
         private void Cancelar_Click_1(object sender, EventArgs e)
         {

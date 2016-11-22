@@ -35,6 +35,28 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetParameterNew">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IdCon" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="IdHandheld" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetParameterNewResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetParameterNewResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetValues">
         <s:complexType>
           <s:sequence>
@@ -118,6 +140,7 @@
           <s:element minOccurs="1" maxOccurs="1" name="FechaAlta" type="s:dateTime" />
           <s:element minOccurs="1" maxOccurs="1" name="Peso" type="s:decimal" />
           <s:element minOccurs="1" maxOccurs="1" name="IdUsuario" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="IdHandheld" type="s:int" />
         </s:sequence>
       </s:complexType>
       <s:element name="InsertEmbarqueResponse">
@@ -148,6 +171,7 @@
           <s:element minOccurs="1" maxOccurs="1" name="IdSalidaDatosAll" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="Peso" type="s:decimal" />
           <s:element minOccurs="1" maxOccurs="1" name="FechaAlta" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="IdHandheld" type="s:int" />
         </s:sequence>
       </s:complexType>
       <s:element name="InsertEmbarque_DetalleResponse">
@@ -233,6 +257,12 @@
   <wsdl:message name="GetParameterSoapOut">
     <wsdl:part name="parameters" element="tns:GetParameterResponse" />
   </wsdl:message>
+  <wsdl:message name="GetParameterNewSoapIn">
+    <wsdl:part name="parameters" element="tns:GetParameterNew" />
+  </wsdl:message>
+  <wsdl:message name="GetParameterNewSoapOut">
+    <wsdl:part name="parameters" element="tns:GetParameterNewResponse" />
+  </wsdl:message>
   <wsdl:message name="GetValuesSoapIn">
     <wsdl:part name="parameters" element="tns:GetValues" />
   </wsdl:message>
@@ -284,6 +314,10 @@
       <wsdl:input message="tns:GetParameterSoapIn" />
       <wsdl:output message="tns:GetParameterSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetParameterNew">
+      <wsdl:input message="tns:GetParameterNewSoapIn" />
+      <wsdl:output message="tns:GetParameterNewSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetValues">
       <wsdl:input message="tns:GetValuesSoapIn" />
       <wsdl:output message="tns:GetValuesSoapOut" />
@@ -326,6 +360,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetParameter">
       <soap:operation soapAction="http://localhost/GetParameter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetParameterNew">
+      <soap:operation soapAction="http://localhost/GetParameterNew" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -417,6 +460,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetParameterNew">
+      <soap12:operation soapAction="http://localhost/GetParameterNew" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetValues">
       <soap12:operation soapAction="http://localhost/GetValues" style="document" />
       <wsdl:input>
@@ -483,10 +535,10 @@
   </wsdl:binding>
   <wsdl:service name="WSPedidos">
     <wsdl:port name="WSPedidosSoap" binding="tns:WSPedidosSoap">
-      <soap:address location="http://7.112.66.164:81/WSPedidos.asmx" />
+      <soap:address location="http://7.112.66.164:99/WSPedidos.asmx" />
     </wsdl:port>
     <wsdl:port name="WSPedidosSoap12" binding="tns:WSPedidosSoap12">
-      <soap12:address location="http://7.112.66.164:81/WSPedidos.asmx" />
+      <soap12:address location="http://7.112.66.164:99/WSPedidos.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

@@ -214,6 +214,7 @@ namespace invsys.Mobile.Embarques
             this.cmbFiltro.Name = "cmbFiltro";
             this.cmbFiltro.Size = new System.Drawing.Size(126, 22);
             this.cmbFiltro.TabIndex = 18;
+            this.cmbFiltro.Visible = false;
             // 
             // BtnGrabar
             // 

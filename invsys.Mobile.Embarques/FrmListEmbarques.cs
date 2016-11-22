@@ -30,10 +30,11 @@ namespace invsys.Mobile.Embarques
             this.InitializeComponent();
             this.dir = this.dir.Substring(0, this.dir.LastIndexOf("\\"));
             this.cnnstr = "Data Source=" + (this.dir + "\\EmbInv.sdf") + ";Max Database Size=4091";
+            //this.cnnstr = "Data Source=" + DB.getcnnString();
             this.cnn = new SqlCeConnection(this.cnnstr);
             try
             {
-                var x = System.IO.File.OpenText(this.dir + "\\IdHandheld.ivt");
+                var x = System.IO.File.OpenText(this.dir + "\\config.ivt");
                 this.IdHandHeld = Convert.ToInt32(x.ReadLine().Trim());
             }
             catch (Exception ex)
@@ -82,7 +83,8 @@ namespace invsys.Mobile.Embarques
 
                 var wsPedidos = new WSPedidos();
 
-                this.cnn.Open();
+                if (this.cnn.State == ConnectionState.Closed)
+                    this.cnn.Open();
                 var sqlCeDataReader1 = sqlCeCommand.ExecuteReader();
                 var dataTable1 = new DataTable();
                 dataTable1.Load((IDataReader)sqlCeDataReader1);
