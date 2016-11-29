@@ -105,7 +105,8 @@
       <s:element name="GetInventory">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="sFiltro" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="MinValue" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="MaxValue" type="s:int" />
             <s:element minOccurs="1" maxOccurs="1" name="IdCon" type="s:int" />
           </s:sequence>
         </s:complexType>
@@ -114,6 +115,27 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="GetInventoryResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetInventoryParameters">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IdCon" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetInventoryParametersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetInventoryParametersResult">
               <s:complexType>
                 <s:sequence>
                   <s:element ref="s:schema" />
@@ -281,6 +303,12 @@
   <wsdl:message name="GetInventorySoapOut">
     <wsdl:part name="parameters" element="tns:GetInventoryResponse" />
   </wsdl:message>
+  <wsdl:message name="GetInventoryParametersSoapIn">
+    <wsdl:part name="parameters" element="tns:GetInventoryParameters" />
+  </wsdl:message>
+  <wsdl:message name="GetInventoryParametersSoapOut">
+    <wsdl:part name="parameters" element="tns:GetInventoryParametersResponse" />
+  </wsdl:message>
   <wsdl:message name="InsertEmbarqueSoapIn">
     <wsdl:part name="parameters" element="tns:InsertEmbarque" />
   </wsdl:message>
@@ -329,6 +357,10 @@
     <wsdl:operation name="GetInventory">
       <wsdl:input message="tns:GetInventorySoapIn" />
       <wsdl:output message="tns:GetInventorySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetInventoryParameters">
+      <wsdl:input message="tns:GetInventoryParametersSoapIn" />
+      <wsdl:output message="tns:GetInventoryParametersSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="InsertEmbarque">
       <wsdl:input message="tns:InsertEmbarqueSoapIn" />
@@ -396,6 +428,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetInventory">
       <soap:operation soapAction="http://localhost/GetInventory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInventoryParameters">
+      <soap:operation soapAction="http://localhost/GetInventoryParameters" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -489,6 +530,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetInventory">
       <soap12:operation soapAction="http://localhost/GetInventory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInventoryParameters">
+      <soap12:operation soapAction="http://localhost/GetInventoryParameters" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

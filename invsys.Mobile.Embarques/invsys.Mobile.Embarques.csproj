@@ -50,6 +50,7 @@
       <HintPath>DLLSQL\ErikEJ.SqlCe.NetCF.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.WindowsCE.Forms" />
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />

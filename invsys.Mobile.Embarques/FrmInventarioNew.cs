@@ -12,7 +12,7 @@ namespace invsys.Mobile.Embarques
     public partial class FrmInventarioNew : Form
     {
         #region Propiedades
-
+        public string cnnstr { get; set; }
         #endregion
 
         #region Contructor
@@ -22,7 +22,9 @@ namespace invsys.Mobile.Embarques
             this.idusuario = idusuario;
             this.InitializeComponent();
             this.dir = this.dir.Substring(0, this.dir.LastIndexOf("\\"));
-            this.cnn = new SqlCeConnection("Data Source=" + (this.dir + "\\EmbInv.sdf"));
+            this.cnnstr = "Data Source=" + (this.dir + "\\EmbInv.sdf") + ";Max Database Size=4091";
+
+            this.cnn = new SqlCeConnection(this.cnnstr);
         }
         public FrmInventarioNew()
         {
@@ -33,17 +35,7 @@ namespace invsys.Mobile.Embarques
         #region Metodos
         private void BULK(DataTable dt)
         {
-            try
-            {
-                var cmd = new SqlCeCommand("DELETE CatInventario", cnn);
-                if (cnn.State == ConnectionState.Closed)
-                    cnn.Open();
 
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-            }
             var options = new SqlCeBulkCopyOptions();
 
             options = options |= SqlCeBulkCopyOptions.KeepNulls;
@@ -106,18 +98,19 @@ namespace invsys.Mobile.Embarques
             this.txtCB.Focus();
             this.lblIdArt.Text = "";
             this.EnableDisable(false, false);
+
         }
         private void EnableDisable(bool en, bool no)
         {
             this.txtLongitud.Enabled = en;
             this.txtNorma.Enabled = en;
+            this.txtUbicacion.Enabled = en;
 
             this.txtAlmacen.Enabled = no;
             this.txtDesc.Enabled = no;
             this.txtEspesor.Enabled = no;
             this.txtLote.Enabled = no;
             this.txtMedida.Enabled = no;
-            this.txtUbicacion.Enabled = no;
             this.nudCantidad.Enabled = no;
         }
         private void CargarInventario()
@@ -195,7 +188,7 @@ namespace invsys.Mobile.Embarques
         private void FrmInventario_Load(object sender, EventArgs e)
         {
             this.CargarInventario();
-            this.CargarFiltro();
+            //this.CargarFiltro();
         }
 
         private void CargarFiltro()
@@ -229,22 +222,58 @@ namespace invsys.Mobile.Embarques
         }
         private void menuItem4_Click_1(object sender, EventArgs e)
         {
+
+            ServicePointManager.Expect100Continue = false;
+
+            var dts = new WSPedidos().GetInventoryParameters(this.IdConexion).Tables[0];
+            int MinValue = (int)dts.Rows[0][1];
+            int MaxValue = (int)dts.Rows[0][0];
+            //Panel pnfs = new Panel();
+            //pnfs.Dock = DockStyle.Fill;
+            //ProgressBar pbar = new ProgressBar();
+            //pbar.Dock = DockStyle.Top;
+            //pbar.Maximum= ma
+
+
+            var cmd = new SqlCeCommand("DELETE CatInventario", cnn);
+            if (cnn.State == ConnectionState.Closed)
+                cnn.Open();
+
+            cmd.ExecuteNonQuery();
+            cnn.Close();
+
+            var wsPedidos = new WSPedidos();
+            var datos = new DataTable();
             try
             {
-                ServicePointManager.Expect100Continue = false;
-                var dt = new WSPedidos().GetInventory(this.cmbFiltro.Text, this.IdConexion).Tables[0];
+                var Start = MinValue;
+                while (Start < MaxValue)
+                {
+                    if (MaxValue - Start >= 3000)
+                    {
+                        var inv = wsPedidos.GetInventory(Start, Start + 3000, this.IdConexion);
+                        datos = inv.Tables[0];
+                    }
+                    else
+                        datos = wsPedidos.GetInventory(Start, MaxValue, this.IdConexion).Tables[0];
 
-                this.BULK(dt);
-                int num = (int)MessageBox.Show("Carga Completa");
+                    this.BULK(datos);
+                    Start = Start + 3000;
+                }
+                MessageBox.Show("Carga Completa");
             }
             catch (Exception ex)
             {
-                int num = (int)MessageBox.Show("fallo la carga de datos\n " + ex.Message);
+                MessageBox.Show("Func: CargarDatosWS Proc:wsPedidos Web  \n Err:" + ex.Message);
+
             }
             finally
             {
                 this.cnn.Close();
             }
+
+
+
         }
         private void menuItem5_Click_1(object sender, EventArgs e)
         {
@@ -280,7 +309,8 @@ namespace invsys.Mobile.Embarques
                     ServicePointManager.Expect100Continue = false;
                     wsPedidos.InsertInventory(parametro, this.IdConexion);
                 }
-                this.EliminaInventario();
+                this.EliminaInventario(); 
+                this.dgvInventario.DataSource = null;
                 MessageBox.Show("Se ha enviado el inventario al servidor");
             }
             catch (Exception ex)
@@ -339,34 +369,33 @@ namespace invsys.Mobile.Embarques
                 var cmd = new SqlCeCommand("select count(1) from inventario where lote= @lote", cnn);
                 cmd.Parameters.AddWithValue("@lote", txtCB.Text);
                 if ((int)cmd.ExecuteScalar() > 0)
-                {
-                    if (new SqlCeCommand("UPDATE Inventario set cantidad = cantidad  + @cantidad where CodigoBarras = @CB").ExecuteNonQuery() > 0)
+                    if (MessageBox.Show("Ya existe un registro con ese codigo de lote \n ¿Desea agregar uno nuevo?", "Alerta",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1) == DialogResult.No)
                     {
-                        int num = (int)MessageBox.Show("Agregados!");
+                        this.Clean();
+                        return;
                     }
-                }
-                else
-                {
-                    var idInventarioServer = "0";
-                    if (lblIdArt.Text != "")
-                        idInventarioServer = lblIdArt.Text;
 
-                    var sqlCeCommand = new SqlCeCommand("INSERT INTO Inventario VALUES(@CB,@Cantidad,@Medida,@Almacen,@Lote,@Longitud,@Norma,@Espesor,@Desc,@ubicacion,@idUsuario,@idArticulo,@IdCon)", this.cnn);
-                    sqlCeCommand.Parameters.AddWithValue("@IdCon", this.IdConexion);
-                    sqlCeCommand.Parameters.AddWithValue("@CB", txtCB.Text);
-                    sqlCeCommand.Parameters.AddWithValue("@Cantidad", 1);
-                    sqlCeCommand.Parameters.AddWithValue("@Medida", txtMedida.Text);
-                    sqlCeCommand.Parameters.AddWithValue("@Lote", txtLote.Text);
-                    sqlCeCommand.Parameters.AddWithValue("@Longitud", txtLongitud.Text);
-                    sqlCeCommand.Parameters.AddWithValue("@Norma", txtNorma.Text);
-                    sqlCeCommand.Parameters.AddWithValue("@Espesor", txtEspesor.Text);
-                    sqlCeCommand.Parameters.AddWithValue("@Desc", txtDesc.Text);
-                    sqlCeCommand.Parameters.AddWithValue("@Almacen", txtAlmacen.Text);
-                    sqlCeCommand.Parameters.AddWithValue("@ubicacion", txtUbicacion.Text);
-                    sqlCeCommand.Parameters.AddWithValue("@idArticulo", idInventarioServer);
-                    sqlCeCommand.Parameters.AddWithValue("@idUsuario", idusuario);
-                    sqlCeCommand.ExecuteReader();
-                }
+                var idInventarioServer = "0";
+                if (lblIdArt.Text != "")
+                    idInventarioServer = lblIdArt.Text;
+
+                var sqlCeCommand = new SqlCeCommand("INSERT INTO Inventario VALUES(@CB,@Cantidad,@Medida,@Almacen,@Lote,@Longitud,@Norma,@Espesor,@Desc,@ubicacion,@idUsuario,@idArticulo,@IdCon)", this.cnn);
+                sqlCeCommand.Parameters.AddWithValue("@IdCon", this.IdConexion);
+                sqlCeCommand.Parameters.AddWithValue("@CB", txtCB.Text);
+                sqlCeCommand.Parameters.AddWithValue("@Cantidad", 1);
+                sqlCeCommand.Parameters.AddWithValue("@Medida", txtMedida.Text);
+                sqlCeCommand.Parameters.AddWithValue("@Lote", txtLote.Text);
+                sqlCeCommand.Parameters.AddWithValue("@Longitud", txtLongitud.Text);
+                sqlCeCommand.Parameters.AddWithValue("@Norma", txtNorma.Text);
+                sqlCeCommand.Parameters.AddWithValue("@Espesor", txtEspesor.Text);
+                sqlCeCommand.Parameters.AddWithValue("@Desc", txtDesc.Text);
+                sqlCeCommand.Parameters.AddWithValue("@Almacen", txtAlmacen.Text);
+                sqlCeCommand.Parameters.AddWithValue("@ubicacion", txtUbicacion.Text);
+                sqlCeCommand.Parameters.AddWithValue("@idArticulo", idInventarioServer);
+                sqlCeCommand.Parameters.AddWithValue("@idUsuario", idusuario);
+                sqlCeCommand.ExecuteReader();
+
                 this.CargarInventario();
                 this.Clean();
             }

@@ -304,8 +304,10 @@ namespace invsys.Mobile.Embarques
             string str = "";
             try
             {
-
-                this.cnn.Open();
+                if (this.cnn.State==ConnectionState.Closed)
+                {
+                    this.cnn.Open(); 
+                } 
                 new SqlCeCommand("delete from CatMaterial where IdCon =" + this.idConexion.ToString(), this.cnn).ExecuteNonQuery();
                 ServicePointManager.Expect100Continue = false;
                 var wsPedidos = new WSPedidos();
@@ -363,7 +365,6 @@ namespace invsys.Mobile.Embarques
                     int num = (int)MessageBox.Show("Func: CargarDatosWS Proc:wsPedidos Web  \n Err:" + ex.Message);
 
                 }
-
                 int num1 = (int)MessageBox.Show("Termine con la carga");
             }
             catch (WebException ex)
@@ -536,6 +537,8 @@ namespace invsys.Mobile.Embarques
 
                     }
                 }
+
+                dgvCatalogo.DataSource = null;
                 MessageBox.Show(String.Format("Se ha(n) enviado el(los) siguiente(s) lote(s): {0} al servidor", lotesenviados));
                 this.BorrarEmbarques();
             }
