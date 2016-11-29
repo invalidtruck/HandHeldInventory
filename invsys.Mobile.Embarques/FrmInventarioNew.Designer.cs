@@ -72,6 +72,7 @@ namespace invsys.Mobile.Embarques
             this.lblIdArt = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dgvInventario = new System.Windows.Forms.DataGrid();
+            this.notification1 = new Microsoft.WindowsCE.Forms.Notification();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -116,30 +117,11 @@ namespace invsys.Mobile.Embarques
             // 
             // cmbFiltro
             // 
-            this.cmbFiltro.Items.Add("4x0%");
-            this.cmbFiltro.Items.Add("6x0%");
-            this.cmbFiltro.Items.Add("8x0%");
-            this.cmbFiltro.Items.Add("10x0%");
-            this.cmbFiltro.Items.Add("12x0%");
-            this.cmbFiltro.Items.Add("14x0%%");
-            this.cmbFiltro.Items.Add("16x0%");
-            this.cmbFiltro.Items.Add("18x0%");
-            this.cmbFiltro.Items.Add("20x0%");
-            this.cmbFiltro.Items.Add("24x0%");
-            this.cmbFiltro.Items.Add("4x4%");
-            this.cmbFiltro.Items.Add("6x6x%");
-            this.cmbFiltro.Items.Add("8x8%");
-            this.cmbFiltro.Items.Add("10x10%");
-            this.cmbFiltro.Items.Add("12x12%");
-            this.cmbFiltro.Items.Add("14x14%");
-            this.cmbFiltro.Items.Add("16x16%");
-            this.cmbFiltro.Items.Add("8x4%");
-            this.cmbFiltro.Items.Add("10x6%");
-            this.cmbFiltro.Items.Add("HELUCOIDAL%");
             this.cmbFiltro.Location = new System.Drawing.Point(106, 3);
             this.cmbFiltro.Name = "cmbFiltro";
             this.cmbFiltro.Size = new System.Drawing.Size(111, 22);
             this.cmbFiltro.TabIndex = 67;
+            this.cmbFiltro.Visible = false;
             // 
             // label11
             // 
@@ -373,7 +355,7 @@ namespace invsys.Mobile.Embarques
             this.tabPage2.Controls.Add(this.dgvInventario);
             this.tabPage2.Location = new System.Drawing.Point(0, 0);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(215, 356);
+            this.tabPage2.Size = new System.Drawing.Size(223, 359);
             this.tabPage2.Text = "Material en Inventario";
             // 
             // dgvInventario
@@ -382,9 +364,13 @@ namespace invsys.Mobile.Embarques
             this.dgvInventario.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvInventario.Location = new System.Drawing.Point(0, 0);
             this.dgvInventario.Name = "dgvInventario";
-            this.dgvInventario.Size = new System.Drawing.Size(215, 356);
+            this.dgvInventario.Size = new System.Drawing.Size(223, 359);
             this.dgvInventario.TabIndex = 0;
             this.dgvInventario.DoubleClick += new System.EventHandler(this.dgvInventario_DoubleClick);
+            // 
+            // notification1
+            // 
+            this.notification1.Text = "notification1";
             // 
             // FrmInventarioNew
             // 
@@ -446,6 +432,7 @@ namespace invsys.Mobile.Embarques
         private MenuItem menuItem5;
         private MenuItem menuItem6;
         private Button button1;
-     
+        private Microsoft.WindowsCE.Forms.Notification notification1;
+
     }
 }

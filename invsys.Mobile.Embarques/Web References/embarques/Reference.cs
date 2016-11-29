@@ -30,7 +30,7 @@ namespace invsys.Mobile.Embarques.embarques {
         /// <remarks/>
         public WSPedidos() {
             this.Url = "http://10.10.3.5:81/WSPedidos.asmx";
-            //this.Url = "http://7.112.66.164:99/WSPedidos.asmx";
+            //this.Url = "http://7.112.66.164:81/WSPedidos.asmx";
         }
         
         /// <remarks/>
@@ -145,22 +145,44 @@ namespace invsys.Mobile.Embarques.embarques {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost/GetInventory", RequestNamespace="http://localhost/", ResponseNamespace="http://localhost/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetInventory(string sFiltro, int IdCon) {
+        public System.Data.DataSet GetInventory(int MinValue, int MaxValue, int IdCon) {
             object[] results = this.Invoke("GetInventory", new object[] {
-                        sFiltro,
+                        MinValue,
+                        MaxValue,
                         IdCon});
             return ((System.Data.DataSet)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginGetInventory(string sFiltro, int IdCon, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginGetInventory(int MinValue, int MaxValue, int IdCon, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("GetInventory", new object[] {
-                        sFiltro,
+                        MinValue,
+                        MaxValue,
                         IdCon}, callback, asyncState);
         }
         
         /// <remarks/>
         public System.Data.DataSet EndGetInventory(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost/GetInventoryParameters", RequestNamespace="http://localhost/", ResponseNamespace="http://localhost/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetInventoryParameters(int IdCon) {
+            object[] results = this.Invoke("GetInventoryParameters", new object[] {
+                        IdCon});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginGetInventoryParameters(int IdCon, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("GetInventoryParameters", new object[] {
+                        IdCon}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet EndGetInventoryParameters(System.IAsyncResult asyncResult) {
             object[] results = this.EndInvoke(asyncResult);
             return ((System.Data.DataSet)(results[0]));
         }
