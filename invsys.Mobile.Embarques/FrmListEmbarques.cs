@@ -110,9 +110,19 @@ namespace invsys.Mobile.Embarques
                         {
                             FechaAlta = DateTime.Now,
                             IdEmbarque = (int)IdEmbarqueInterno,//IdEmbarqueInterno,// Convert.ToInt32(dataRow2["IdEmbarque"]),
-                            Peso = Convert.ToDecimal(dataRow1["peso"]),
-                            IdSalidaDatosAll = Convert.ToInt32(dataRow2["idSalidaDatos"]),
-                            //id= Convert.ToInt32(dataRow2["IdCon"])
+                            Peso = Convert.ToDecimal(dataRow1["Peso"]),
+                            Almacen = dataRow1["Almacen"].ToString(),
+                            Cantidad = (int)dataRow1["Cantidad"],
+                            CodigoArticulo = dataRow1["CodigoArticulo"].ToString(),
+                            Descripcion = dataRow1["Descripcion"].ToString(),
+                            Espesor = dataRow1["Espesor"].ToString(),
+                            IdHandheld = this.IdHandHeld,
+                            Longitud = dataRow1["Longitud"].ToString(),
+                            Lote = dataRow1["Lote"].ToString(),
+                            Medida = dataRow1["Medida"].ToString(),
+                            Norma = dataRow1["Norma"].ToString(),
+                            PesoTeorico = Convert.ToDecimal(dataRow1["PesoTeorico"].ToString()),
+                            Ubicacion = dataRow1["Ubicacion"].ToString()
                         };
                         var cancelar = (int)wsPedidos.InsertEmbarque_Detalle(parametro2, this.idConexion).Tables[0].Rows[0][0];
                         if (cancelar == 1)
@@ -127,7 +137,7 @@ namespace invsys.Mobile.Embarques
                         }
                     }
                 }
-                 
+
             }
             catch (Exception ex)
             {

@@ -29,8 +29,8 @@ namespace invsys.Mobile.Embarques.embarques {
         
         /// <remarks/>
         public WSPedidos() {
+            //this.Url = "http://7.112.66.164:99/WSPedidos.asmx";
             this.Url = "http://10.10.3.5:81/WSPedidos.asmx";
-            //this.Url = "http://7.112.66.164:81/WSPedidos.asmx";
         }
         
         /// <remarks/>
@@ -522,13 +522,33 @@ namespace invsys.Mobile.Embarques.embarques {
         
         private int idEmbarqueField;
         
-        private int idSalidaDatosAllField;
+        private string codigoArticuloField;
         
         private decimal pesoField;
         
         private System.DateTime fechaAltaField;
         
         private int idHandheldField;
+        
+        private int cantidadField;
+        
+        private string medidaField;
+        
+        private string almacenField;
+        
+        private string loteField;
+        
+        private string longitudField;
+        
+        private string normaField;
+        
+        private string espesorField;
+        
+        private string descripcionField;
+        
+        private string ubicacionField;
+        
+        private decimal pesoTeoricoField;
         
         /// <remarks/>
         public int IdEmbarque {
@@ -541,12 +561,12 @@ namespace invsys.Mobile.Embarques.embarques {
         }
         
         /// <remarks/>
-        public int IdSalidaDatosAll {
+        public string CodigoArticulo {
             get {
-                return this.idSalidaDatosAllField;
+                return this.codigoArticuloField;
             }
             set {
-                this.idSalidaDatosAllField = value;
+                this.codigoArticuloField = value;
             }
         }
         
@@ -577,6 +597,106 @@ namespace invsys.Mobile.Embarques.embarques {
             }
             set {
                 this.idHandheldField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int Cantidad {
+            get {
+                return this.cantidadField;
+            }
+            set {
+                this.cantidadField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Medida {
+            get {
+                return this.medidaField;
+            }
+            set {
+                this.medidaField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Almacen {
+            get {
+                return this.almacenField;
+            }
+            set {
+                this.almacenField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Lote {
+            get {
+                return this.loteField;
+            }
+            set {
+                this.loteField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Longitud {
+            get {
+                return this.longitudField;
+            }
+            set {
+                this.longitudField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Norma {
+            get {
+                return this.normaField;
+            }
+            set {
+                this.normaField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Espesor {
+            get {
+                return this.espesorField;
+            }
+            set {
+                this.espesorField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Descripcion {
+            get {
+                return this.descripcionField;
+            }
+            set {
+                this.descripcionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Ubicacion {
+            get {
+                return this.ubicacionField;
+            }
+            set {
+                this.ubicacionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public decimal PesoTeorico {
+            get {
+                return this.pesoTeoricoField;
+            }
+            set {
+                this.pesoTeoricoField = value;
             }
         }
     }
