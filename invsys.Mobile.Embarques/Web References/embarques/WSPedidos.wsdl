@@ -190,10 +190,20 @@
       <s:complexType name="Embarque_DetalleEntity">
         <s:sequence>
           <s:element minOccurs="1" maxOccurs="1" name="IdEmbarque" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="IdSalidaDatosAll" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="CodigoArticulo" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="Peso" type="s:decimal" />
           <s:element minOccurs="1" maxOccurs="1" name="FechaAlta" type="s:dateTime" />
           <s:element minOccurs="1" maxOccurs="1" name="IdHandheld" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Cantidad" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Medida" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Almacen" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Lote" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Longitud" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Norma" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Espesor" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Descripcion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Ubicacion" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="PesoTeorico" type="s:decimal" />
         </s:sequence>
       </s:complexType>
       <s:element name="InsertEmbarque_DetalleResponse">

@@ -50,7 +50,7 @@ namespace invsys.Mobile.Embarques
         private void FrmEmbarquesNew_Load_1(object sender, EventArgs e)
         {
             this.AutoScaleMode = AutoScaleMode.Dpi;
-           // this.CargarFiltro();
+            // this.CargarFiltro();
             this.CargarEmbarques();
         }
         private void CargarFiltro()
@@ -110,7 +110,7 @@ namespace invsys.Mobile.Embarques
                 SqlCeCommand sqlCeCommand = new SqlCeCommand("SELECT * FROM CatMaterial WHERE CodigoBarras = @CB and idCon = @IdCon ", this.cnn);
                 sqlCeCommand.Parameters.AddWithValue("@CB", this.txtCB.Text);
                 sqlCeCommand.Parameters.AddWithValue("@IdCon", this.idConexion);
-                this.cnn.Open();
+                if (this.cnn.State == ConnectionState.Closed) this.cnn.Open();
                 SqlCeDataReader sqlCeDataReader = sqlCeCommand.ExecuteReader();
                 if (sqlCeDataReader.Read())
                 {
@@ -219,7 +219,8 @@ namespace invsys.Mobile.Embarques
                 if (this.txtCB.Text.Trim() == "")
                     return;
                 SqlCeCommand sqlCeCommand = new SqlCeCommand("select * from catMaterial where lote = @CB and IdCon = @IdCon", this.cnn);
-                this.cnn.Open();
+                if (this.cnn.State == ConnectionState.Closed)
+                    this.cnn.Open();
                 sqlCeCommand.Parameters.AddWithValue("@CB", (object)this.txtCB.Text);
                 sqlCeCommand.Parameters.AddWithValue("@IdCon", this.idConexion);
                 SqlCeDataReader sqlCeDataReader = sqlCeCommand.ExecuteReader();
@@ -232,8 +233,24 @@ namespace invsys.Mobile.Embarques
                 }
                 else if (dataTable.Rows.Count > 1)
                 {
-                    var str = string.Format("Existen {0} de un registro con este Codigo, seleccione cual desea agregar");
-                    sel = Convert.ToInt32(Microsoft.VisualBasic.Interaction.InputBox(str, "Seleccione", "1", -1, -1));
+                    var str = string.Format("Existen {0} de un registro con este Lote, seleccione cual desea agregar", dataTable.Rows.Count);
+                    var count = 1;
+                    foreach (DataRow item in dataTable.Rows)
+                    {
+                        str += string.Format("\n {0}.- lote: {1} Almacen: {2}", count, item["lote"].ToString(), item["Almacen"].ToString());
+                        count++;
+                    }
+
+                    try
+                    {
+                        sel = Convert.ToInt32(Microsoft.VisualBasic.Interaction.InputBox(str, "Seleccione", "1", -1, -1));
+                    }
+                    catch (Exception ex)
+                    {
+                        txtCB.Focus();
+                        return;
+                    }
+                    sel = sel - 1;
                 }
                 else
                 {
@@ -241,6 +258,7 @@ namespace invsys.Mobile.Embarques
                     this.clean();
                     return;
                 }
+
 
                 this.lblMedida.Text = dataTable.Rows[sel]["medida"].ToString();
                 this.lblAlmacen.Text = dataTable.Rows[sel]["Almacen"].ToString();
@@ -304,10 +322,10 @@ namespace invsys.Mobile.Embarques
             string str = "";
             try
             {
-                if (this.cnn.State==ConnectionState.Closed)
+                if (this.cnn.State == ConnectionState.Closed)
                 {
-                    this.cnn.Open(); 
-                } 
+                    this.cnn.Open();
+                }
                 new SqlCeCommand("delete from CatMaterial where IdCon =" + this.idConexion.ToString(), this.cnn).ExecuteNonQuery();
                 ServicePointManager.Expect100Continue = false;
                 var wsPedidos = new WSPedidos();
@@ -338,15 +356,15 @@ namespace invsys.Mobile.Embarques
                     }
                     else
                     {
-                        MessageBox.Show("No existen lotes en el servidor , favor de revisar con el Administrador de sistemas" );
+                        MessageBox.Show("No existen lotes en el servidor , favor de revisar con el Administrador de sistemas");
                     }
-                    
+
                     return;
                 }
                 var datos = new DataTable();
                 str = string.Concat(str, "tengo parametros ", MaxValue - MinValue, "\n");
                 try
-                { 
+                {
                     var Start = MinValue;
                     while (Start < MaxValue)
                     {
@@ -356,7 +374,7 @@ namespace invsys.Mobile.Embarques
                             datos = wsPedidos.GetValues(Start, MaxValue, this.idConexion, this.IdHandHeld).Tables[0];
 
                         this.BULK(datos);
-                        Start = Start + 3000; 
+                        Start = Start + 3000;
                     }
 
                 }
@@ -472,12 +490,13 @@ namespace invsys.Mobile.Embarques
                 int ide = (int)cmbEmbarque.SelectedValue;
                 ServicePointManager.Expect100Continue = false;
                 var sqlCeCommand = new SqlCeCommand("select * from embarque where IdCon =@idCon and IdEmbarque=@IdEmbarque", this.cnn);
+
                 sqlCeCommand.Parameters.AddWithValue("@IdCon", this.idConexion);
                 sqlCeCommand.Parameters.AddWithValue("@IdEmbarque", ide);
 
                 var wsPedidos = new WSPedidos();
-
-                this.cnn.Open();
+                if (this.cnn.State == ConnectionState.Closed)
+                    this.cnn.Open();
                 var sqlCeDataReader1 = sqlCeCommand.ExecuteReader();
                 var dataTable1 = new DataTable();
                 dataTable1.Load(sqlCeDataReader1);
@@ -494,9 +513,23 @@ namespace invsys.Mobile.Embarques
                         IdHandheld = this.IdHandHeld
                     };
                     var IdEmbarqueInterno = wsPedidos.InsertEmbarque(parametro1, this.idConexion).Tables[0].Rows[0][0];
-                    var sqlCeDataReader2 = new SqlCeCommand("select * from embarqueMaterial", this.cnn).ExecuteReader();
+
+                     var str = "select * from embarqueMaterial em " +
+                              "join catMaterial  cm " +
+                              "on em.codigobarras = cm.lote " +
+                              "where cm.IdCon =@idCon and IdEmbarque=@IdEmbarque";
+                     var sqlCeCommand2 = new SqlCeCommand(str, this.cnn);
+
+
+                    sqlCeCommand2.Parameters.AddWithValue("@IdCon", this.idConexion);
+                    sqlCeCommand2.Parameters.AddWithValue("@IdEmbarque", ide);
+
                     var dataTable2 = new DataTable();
+                    var sqlCeDataReader2 = sqlCeCommand2.ExecuteReader();
+                    
                     dataTable2.Load(sqlCeDataReader2);
+
+                    //dataTable2.Load(sqlCeDataReader2);
 
 
                     foreach (DataRow dataRow2 in dataTable2.Rows)
@@ -504,11 +537,26 @@ namespace invsys.Mobile.Embarques
                         string lote = dataRow2["CodigoBarras"].ToString();
                         Embarque_DetalleEntity parametro2 = new Embarque_DetalleEntity()
                        {
-                           FechaAlta = DateTime.Now,
+                           //FechaAlta = DateTime.Now,
+                           //IdEmbarque = (int)IdEmbarqueInterno,
+                           //Peso = Convert.ToDecimal(dataRow1["peso"]),
+                           //IdSalidaDatosAll = Convert.ToInt32(dataRow2["idSalidaDatos"]),
+                           //IdHandheld = this.IdHandHeld
                            IdEmbarque = (int)IdEmbarqueInterno,
+                           CodigoArticulo = dataRow2["CodigoArticulo"].ToString(),
                            Peso = Convert.ToDecimal(dataRow1["peso"]),
-                           IdSalidaDatosAll = Convert.ToInt32(dataRow2["idSalidaDatos"]),
-                           IdHandheld = this.IdHandHeld
+                           FechaAlta = DateTime.Now,
+                           IdHandheld = this.IdHandHeld,
+                           Cantidad = 0,//Convert.ToInt32(dataRow2["Cantidad"]),
+                           Medida = dataRow2["Medida"].ToString(),
+                           Almacen = dataRow2["Almacen"].ToString(),
+                           Lote = dataRow2["Lote"].ToString(),
+                           Longitud = dataRow2["Longitud"].ToString(),
+                           Norma = dataRow2["Norma"].ToString(),
+                           Espesor = dataRow2["Espesor"].ToString(),
+                           Descripcion = dataRow2["Descripcion"].ToString(),
+                           Ubicacion = dataRow2["Ubicacion"].ToString(),
+                           PesoTeorico = Convert.ToDecimal(dataRow2["PesoTeorico"])
                        };
                         try
                         {
