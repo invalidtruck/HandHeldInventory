@@ -102,6 +102,27 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetComentarios">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IdCon" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetComentariosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetComentariosResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetInventory">
         <s:complexType>
           <s:sequence>
@@ -242,6 +263,7 @@
           <s:element minOccurs="0" maxOccurs="1" name="Descripcion" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Ubicacion" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="IdUsuario" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Comentarios" type="s:string" />
         </s:sequence>
       </s:complexType>
       <s:element name="InsertInventoryResponse">
@@ -307,6 +329,12 @@
   <wsdl:message name="GetFiltroSoapOut">
     <wsdl:part name="parameters" element="tns:GetFiltroResponse" />
   </wsdl:message>
+  <wsdl:message name="GetComentariosSoapIn">
+    <wsdl:part name="parameters" element="tns:GetComentarios" />
+  </wsdl:message>
+  <wsdl:message name="GetComentariosSoapOut">
+    <wsdl:part name="parameters" element="tns:GetComentariosResponse" />
+  </wsdl:message>
   <wsdl:message name="GetInventorySoapIn">
     <wsdl:part name="parameters" element="tns:GetInventory" />
   </wsdl:message>
@@ -363,6 +391,10 @@
     <wsdl:operation name="GetFiltro">
       <wsdl:input message="tns:GetFiltroSoapIn" />
       <wsdl:output message="tns:GetFiltroSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetComentarios">
+      <wsdl:input message="tns:GetComentariosSoapIn" />
+      <wsdl:output message="tns:GetComentariosSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetInventory">
       <wsdl:input message="tns:GetInventorySoapIn" />
@@ -429,6 +461,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetFiltro">
       <soap:operation soapAction="http://localhost/GetFiltro" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetComentarios">
+      <soap:operation soapAction="http://localhost/GetComentarios" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -531,6 +572,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetFiltro">
       <soap12:operation soapAction="http://localhost/GetFiltro" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetComentarios">
+      <soap12:operation soapAction="http://localhost/GetComentarios" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

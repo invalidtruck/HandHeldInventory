@@ -30,7 +30,7 @@ namespace invsys.Mobile.Embarques.embarques {
         /// <remarks/>
         public WSPedidos() {
             //this.Url = "http://7.112.66.164:99/WSPedidos.asmx";
-            this.Url = "http://10.10.3.5:81/WSPedidos.asmx";
+            this.Url = "http://10.10.3.5:99/WSPedidos.asmx";
         }
         
         /// <remarks/>
@@ -139,6 +139,26 @@ namespace invsys.Mobile.Embarques.embarques {
         
         /// <remarks/>
         public System.Data.DataSet EndGetFiltro(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost/GetComentarios", RequestNamespace="http://localhost/", ResponseNamespace="http://localhost/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetComentarios(int IdCon) {
+            object[] results = this.Invoke("GetComentarios", new object[] {
+                        IdCon});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginGetComentarios(int IdCon, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("GetComentarios", new object[] {
+                        IdCon}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet EndGetComentarios(System.IAsyncResult asyncResult) {
             object[] results = this.EndInvoke(asyncResult);
             return ((System.Data.DataSet)(results[0]));
         }
@@ -393,6 +413,8 @@ namespace invsys.Mobile.Embarques.embarques {
         
         private int idUsuarioField;
         
+        private string comentariosField;
+        
         /// <remarks/>
         public int IdInventarioServer {
             get {
@@ -510,6 +532,16 @@ namespace invsys.Mobile.Embarques.embarques {
             }
             set {
                 this.idUsuarioField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Comentarios {
+            get {
+                return this.comentariosField;
+            }
+            set {
+                this.comentariosField = value;
             }
         }
     }
