@@ -92,7 +92,7 @@ namespace invsys.Mobile.Embarques
             this.txtLote.Text = "";
             this.txtMedida.Text = "";
             this.txtNorma.Text = "";
-            this.txtUbicacion.Text = "";
+            //this.txtUbicacion.Text = "";
             this.txtCB.Text = "";
             this.txtCB.Focus();
             this.lblIdArt.Text = "";
@@ -102,7 +102,7 @@ namespace invsys.Mobile.Embarques
         private void EnableDisable(bool en, bool no)
         {
             this.txtNorma.Enabled = en;
-            this.txtUbicacion.Enabled = en;
+            //this.txtUbicacion.Enabled = en;
             this.txtAlmacen.Enabled = no;
             this.txtDesc.Enabled = no;
             this.txtEspesor.Enabled = no;
@@ -154,7 +154,8 @@ namespace invsys.Mobile.Embarques
                     this.txtNorma.Text = dataTable.Rows[0]["Norma"].ToString();
                     this.txtEspesor.Text = dataTable.Rows[0]["Espesor"].ToString();
                     this.txtDesc.Text = dataTable.Rows[0]["Descripcion"].ToString();
-                    this.txtUbicacion.Text = dataTable.Rows[0]["Ubicacion"].ToString();
+                    //if (txtUbicacion.Text.Trim().Length > 0)
+                    //    this.txtUbicacion.Text = dataTable.Rows[0]["Ubicacion"].ToString();
                     this.lblIdArt.Text = dataTable.Rows[0]["IdInventarioServer"].ToString();
                     this.EnableDisable(true, false);
                 }
@@ -334,7 +335,7 @@ namespace invsys.Mobile.Embarques
                     sqlCecom.Parameters.AddWithValue("@lote", dataRow[0]);
                     if (this.cnn.State == ConnectionState.Closed)
                         this.cnn.Open();
-                    var comentarios = ""; 
+                    var comentarios = "";
 
                     var dr = sqlCecom.ExecuteReader();
                     var dt = new DataTable();
@@ -488,10 +489,10 @@ namespace invsys.Mobile.Embarques
                 }
 
                 var comentario = "";
-                if (cmbComentario.Text.ToLower().Contains("Agregar comentario"))
-                    comentario = Microsoft.VisualBasic.Interaction.InputBox("Agregar Comentario", "Seleccione", "1", -1, -1);
-                else if (cmbComentario.Text.ToLower().Contains("tiene doble numero"))
-                    comentario = "Tiene doble numero: " + Microsoft.VisualBasic.Interaction.InputBox("Agregar Comentario", "Seleccione", "1", -1, -1);
+                if (cmbComentario.Text.ToLower().Contains("otro"))
+                    comentario = Microsoft.VisualBasic.Interaction.InputBox("Agregar Comentario \n \"Otro\" ", "Seleccione", "", -1, -1);
+                else if (cmbComentario.Text.ToLower().Contains("tiene doble número"))
+                    comentario = "Tiene doble numero: " + Microsoft.VisualBasic.Interaction.InputBox("Agregar Comentario:\n Tiene doble número", "Seleccione", "", -1, -1);
                 else
                     comentario = cmbComentario.Text;
 

@@ -167,6 +167,12 @@
       </CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\invsys.Mobile.Logic\invsys.Mobile.Logic.csproj">
+      <Project>{8AB27C43-9C42-44BC-B506-4C57755A2731}</Project>
+      <Name>invsys.Mobile.Logic</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>

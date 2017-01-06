@@ -14,8 +14,7 @@ namespace invsys.Mobile.Embarques
         /// </summary>
         private System.ComponentModel.IContainer components = null;
         private System.Windows.Forms.MainMenu mainMenu1;
-        private string dir = Assembly.GetExecutingAssembly().GetName().CodeBase;
-        private SqlCeConnection cnn;
+       
 
         /// <summary>
         /// Clean up any resources being used.

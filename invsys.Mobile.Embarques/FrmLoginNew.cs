@@ -9,59 +9,34 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlServerCe;
 using invsys.Mobile.Embarques.embarques; // real One
+using invsys.Mobile.Logic.Login;
+using invsys.Mobile.Logic;
 
 namespace invsys.Mobile.Embarques
 {
     public partial class FrmLoginNew : Form
     {
+        #region "Events"
+        public FrmLoginNew() { InitializeComponent(); }
 
-        public int IdHandHeld { get; set; }
-        public FrmLoginNew()
-        {
-            InitializeComponent();
-            this.dir = this.dir.Substring(0, this.dir.LastIndexOf("\\"));
-            this.cnn = new SqlCeConnection("Data Source=" + (this.dir + "\\EmbInv.sdf" + ";Max Database Size=4091"));
-
-            try
-            {
-                var x = System.IO.File.OpenText(this.dir + "\\config.ivt");
-                this.IdHandHeld = Convert.ToInt32(x.ReadLine().Trim());
-                x.Close();
-            }
-            catch (Exception) { }
-
-        }
+        private void FrmLoginNew_Load(object sender, EventArgs e)
+        { DDLConexionesEmpresas(); }
 
         private void BtnAcceder_Click(object sender, EventArgs e)
         {
-            try
+            var err = "";
+            var EstaLogueado = new Login().GetLogin(textBox1.Text, textBox2.Text, out err);
+
+            if (err != null) { MessageBox.Show(err); return; }
+            if (EstaLogueado) new FrmEmbarquesNew(Core.IdHandHeld, (int)ddlConexiones2.SelectedValue).Show();
+            else
             {
-                if (cnn.State == ConnectionState.Closed)
-                    cnn.Open();
-                var cmd = new SqlCeCommand("select count(1) from catUsuarios where Usuario = @us and contrasena =@pass", cnn);
-                cmd.Parameters.AddWithValue("@us", textBox1.Text);
-                cmd.Parameters.AddWithValue("@pass", textBox2.Text);
-                if ((int)cmd.ExecuteScalar() > 0)
-                {
-                    new FrmEmbarquesNew(this.IdHandHeld, (int)ddlConexiones2.SelectedValue).Show();
-                    this.Hide();
-                }
-                else
-                {
-                    MessageBox.Show("Usuario y/o contraseña no valida");
-                    textBox1.Text = "";
-                    textBox2.Text = "";
-                    textBox1.Focus();
-                }
+                MessageBox.Show("Usuario y/o contraseña no valida");
+                textBox1.Text = "";
+                textBox2.Text = "";
+                textBox1.Focus();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                this.cnn.Close();
-            }
+
         }
 
         private void BtnSalir_Click(object sender, EventArgs e)
@@ -69,77 +44,40 @@ namespace invsys.Mobile.Embarques
             Application.Exit();
         }
 
-        private void FrmLoginNew_Load(object sender, EventArgs e)
-        {
-            RefreshDDLEmpresas();
-        }
-
-        private void RefreshDDLEmpresas()
-        {
-            try
-            {
-                if (cnn.State == ConnectionState.Closed)
-                    cnn.Open();
-
-                var cmd = new SqlCeCommand("select * from catConexiones", cnn);
-                var dr = cmd.ExecuteReader();
-                var dts = new DataTable();
-                dts.Load(dr);
-                if (dts.Rows.Count > 0)
-                {
-                    this.ddlConexiones2.ValueMember = "idConexion";
-                    this.ddlConexiones2.DisplayMember = "Descripcion";
-                    this.ddlConexiones2.DataSource = dts;
-                }
-                //foreach (DataRow item in dts.Rows)
-                //{
-                //    ddlConexiones.Items.Add(new { id = item[0].ToString(), name = item[1].ToString() });
-                //}
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Favor de reportar el siguiente error al area de sistemas: \n" + ex.Message);
-            }
-        }
-
         private void mnuUpdateE_Click(object sender, EventArgs e)
         {
-            try
-            {
-                ServicePointManager.Expect100Continue = false;
-                var ws = new WSPedidos();
-
-                var ds = ws.GetEmpresas();
-
-                var dt = ds.Tables[0];
-                if (cnn.State == ConnectionState.Closed)
-                    cnn.Open();
-
-                var cmd = new SqlCeCommand("DELETE CatConexiones", cnn);
-                cmd.ExecuteNonQuery();
-                foreach (DataRow item in dt.Rows)
-                {
-
-                    cmd = new SqlCeCommand("INSERT INTO CatConexiones values( @NombreEmpresa,@IdCon)", cnn);
-                    cmd.Parameters.AddWithValue("@IdCon", item["IdCon"]);
-                    cmd.Parameters.AddWithValue("@NombreEmpresa", item["NombreEmpresa"]);
-                    cmd.ExecuteNonQuery();
-                }
-                RefreshDDLEmpresas();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                cnn.Close();
-            }
+            ServicePointManager.Expect100Continue = false;
+            var ws = new WSPedidos();
+            var err = "";
+            var ds = ws.GetEmpresas();
+            var dt = ds.Tables[0];
+            new Login().GetConexionesWS(out err, dt);
+            if (err.Length > 0)
+                MessageBox.Show(err);
         }
 
         private void mnuExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
+        #endregion
+
+        #region "Funciones"
+        private void DDLConexionesEmpresas()
+        {
+            var Err = "";
+            var dt = new Login().DDLConexionesEmpresas(out Err);
+
+
+            if (Err != null)
+                MessageBox.Show("Favor de reportar el siguiente error al area de sistemas: \n" + Err);
+            else
+            {
+                ddlConexiones2.DataSource = dt;
+                ddlConexiones2.ValueMember = "IdConexion";
+                ddlConexiones2.DisplayMember = "Descripcion";
+            }
+        }
+        #endregion
     }
 }
