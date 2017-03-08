@@ -424,7 +424,7 @@ namespace invsys.Mobile.Embarques
         public int IdConexion { get; set; }
         public int idusuario { get; set; }
         private string dir = Assembly.GetExecutingAssembly().GetName().CodeBase;
-        private bool refrescar = false;
+        //private bool refrescar = false;
         private SqlCeConnection cnn;
         private Label lblIdArt;
         private MenuItem menuItem1;

@@ -33,6 +33,8 @@ namespace invsys.Mobile.Embarques
         #endregion
 
         #region Metodos
+
+
         private void BULK(DataTable dt)
         {
             var options = new SqlCeBulkCopyOptions();
@@ -43,17 +45,20 @@ namespace invsys.Mobile.Embarques
                 bc.WriteToServer(dt);
             }
         }
-        private void EliminaInventario()
+        private void EliminaInventario(bool traerws)
         {
             try
             {
-                SqlCeCommand sqlCeCommand = new SqlCeCommand("DELETE FROM Inventario", this.cnn);
+                var cmd = new SqlCeCommand("delete Inventario", this.cnn);
                 if (this.cnn.State == ConnectionState.Closed)
                     this.cnn.Open();
-                sqlCeCommand.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();
 
-                sqlCeCommand = new SqlCeCommand("DELETE inventarioComentarios", this.cnn);
-                sqlCeCommand.ExecuteNonQuery();
+                cmd = new SqlCeCommand("delete inventarioComentarios", this.cnn);
+                cmd.ExecuteNonQuery();
+                if (traerws)
+                    this.CargaWS();
+
             }
             catch (Exception ex)
             {
@@ -114,11 +119,11 @@ namespace invsys.Mobile.Embarques
         {
             try
             {
-                SqlCeCommand sqlCeCommand = new SqlCeCommand("SELECT * FROM Inventario", this.cnn);
+                var sqlCeCommand = new SqlCeCommand("SELECT * FROM Inventario", this.cnn);
                 if (this.cnn.State != ConnectionState.Open)
                     this.cnn.Open();
-                SqlCeDataReader sqlCeDataReader = sqlCeCommand.ExecuteReader();
-                DataTable dataTable = new DataTable();
+                var sqlCeDataReader = sqlCeCommand.ExecuteReader();
+                var dataTable = new DataTable();
                 dataTable.Load((IDataReader)sqlCeDataReader);
                 this.cnn.Close();
                 this.dgvInventario.DataSource = (object)dataTable;
@@ -177,18 +182,70 @@ namespace invsys.Mobile.Embarques
                 this.cnn.Close();
             }
         }
-        #endregion
-
-        #region Eventos
-
-
-        private void FrmInventario_Load(object sender, EventArgs e)
+        private void addComment()
         {
-            this.CargarInventario();
-            //this.CargarFiltro();
-            this.CargarComentarios();
+            try
+            {
+                if (lblIdArt.Text == "")
+                    if (txtCB.Text == "")
+                    {
+                        MessageBox.Show("Favor de seleccionar un registro");
+                        return;
+                    }
+
+
+                var comentario = "";
+                if (cmbComentario.Text.ToLower().Contains("Agregar comentario"))
+                    comentario = Microsoft.VisualBasic.Interaction.InputBox("Agregar Comentario", "Seleccione", "", -1, -1);
+                else if (cmbComentario.Text.ToLower().Contains("tiene doble número"))
+                    comentario = "Tiene doble numero: " + Microsoft.VisualBasic.Interaction.InputBox("Agregar Comentario", "Seleccione", "1", -1, -1);
+                else if (cmbComentario.Text.ToLower().Contains("otro"))
+                    comentario = "Otro: " + Microsoft.VisualBasic.Interaction.InputBox("Agregar Comentario", "Seleccione", "", -1, -1);                
+                else
+                    comentario = cmbComentario.Text;
+
+                if (cnn.State == ConnectionState.Closed)
+                    cnn.Open();
+                var cmd = new SqlCeCommand("insert into inventarioComentarios(Comentario,Fecha,Lote) values(@Comentario,@Fecha,@lote)", cnn);
+                cmd.Parameters.AddWithValue("@Comentario", comentario);
+                cmd.Parameters.AddWithValue("@Fecha", DateTime.Now);
+                cmd.Parameters.AddWithValue("@lote", txtCB.Text);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Err: " + ex.Message);
+            }
+            finally
+            {
+                CargarComentariosList();
+                cnn.Close();
+            }
         }
 
+        private void CargarComentariosList()
+        {
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                    cnn.Open();
+                var cmd = new SqlCeCommand("Select * from InventarioComentarios where Lote = @lote ORDER BY Fecha DESC", cnn);
+                cmd.Parameters.AddWithValue("@lote", txtCB.Text);
+                var dt = new DataTable();
+                dt.Load(cmd.ExecuteReader());
+                lboxComentarios.DataSource = dt;
+                lboxComentarios.DisplayMember = "Comentario";
+                lboxComentarios.ValueMember = "IdComentario";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Func:CargarComentariosList \n Err:" + ex.Message);
+            }
+            finally
+            {
+                cnn.Close();
+            }
+        }
         private void CargarComentarios()
         {
             if (cnn.State == ConnectionState.Closed)
@@ -249,37 +306,28 @@ namespace invsys.Mobile.Embarques
                 MessageBox.Show(ex.Message.ToString());
             }
         }
-        private void txtCB_Validated(object sender, EventArgs e)
+        #endregion
+
+
+        private void CargaWS()
         {
-            CargarInfoLote();
-
-        }
-
-
-        private void menuItem2_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-        private void menuItem4_Click_1(object sender, EventArgs e)
-        {
-
             ServicePointManager.Expect100Continue = false;
 
             var dts = new WSPedidos().GetInventoryParameters(this.IdConexion).Tables[0];
             int MinValue = (int)dts.Rows[0][1];
             int MaxValue = (int)dts.Rows[0][0];
-            //Panel pnfs = new Panel();
-            //pnfs.Dock = DockStyle.Fill;
-            //ProgressBar pbar = new ProgressBar();
-            //pbar.Dock = DockStyle.Top;
-            //pbar.Maximum= ma
 
 
-            var cmd = new SqlCeCommand("DELETE CatInventario", cnn);
+            var cmd = new SqlCeCommand("delete  CatInventario", cnn);
             if (cnn.State == ConnectionState.Closed)
                 cnn.Open();
 
             cmd.ExecuteNonQuery();
+
+            cmd = new SqlCeCommand("ALTER TABLE [CatInventario] ALTER COLUMN idcat IDENTITY (1,1)");
+            cmd.ExecuteNonQuery();
+
+
             cnn.Close();
 
             var wsPedidos = new WSPedidos();
@@ -312,9 +360,37 @@ namespace invsys.Mobile.Embarques
                 this.cnn.Close();
             }
 
+        }
+        #region Eventos
 
+
+        private void FrmInventario_Load(object sender, EventArgs e)
+        {
+            this.CargarInventario();
+            //this.CargarFiltro();
+            this.CargarComentarios();
+        }
+
+
+        private void txtCB_Validated(object sender, EventArgs e)
+        {
+            CargarInfoLote();
 
         }
+
+
+        private void menuItem2_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        // cargar WS
+        private void menuItem4_Click_1(object sender, EventArgs e)
+        {
+            this.CargaWS();
+        }
+
+        //Enviar a WS Inventario
         private void menuItem5_Click_1(object sender, EventArgs e)
         {
             try
@@ -327,14 +403,14 @@ namespace invsys.Mobile.Embarques
 
                 var sqlCeDataReader = sqlCeCommand.ExecuteReader();
                 var dataTable = new DataTable();
-                dataTable.Load((IDataReader)sqlCeDataReader);
-                foreach (DataRow dataRow in (InternalDataCollectionBase)dataTable.Rows)
+                dataTable.Load(sqlCeDataReader);
+                foreach (DataRow dataRow in dataTable.Rows)
                 {
                     var sqlCecom = new SqlCeCommand("select comentario FROM InventarioComentarios where lote = @lote", this.cnn);
                     sqlCecom.Parameters.AddWithValue("@lote", dataRow[0]);
                     if (this.cnn.State == ConnectionState.Closed)
                         this.cnn.Open();
-                    var comentarios = ""; 
+                    var comentarios = "";
 
                     var dr = sqlCecom.ExecuteReader();
                     var dt = new DataTable();
@@ -362,7 +438,7 @@ namespace invsys.Mobile.Embarques
                     ServicePointManager.Expect100Continue = false;
                     wsPedidos.InsertInventory(parametro, this.IdConexion);
                 }
-                this.EliminaInventario();
+                this.EliminaInventario(true);
                 this.dgvInventario.DataSource = null;
                 MessageBox.Show("Se ha enviado el inventario al servidor");
             }
@@ -379,7 +455,7 @@ namespace invsys.Mobile.Embarques
         private void menuItem6_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("¿Esta seguro que desea eliminar el inventario?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
-                this.EliminaInventario();
+                this.EliminaInventario(false);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -407,7 +483,7 @@ namespace invsys.Mobile.Embarques
                 }
                 catch (Exception ex)
                 {
-
+                    MessageBox.Show("Error:" + ex.Message);
                 }
             }
         }
@@ -461,7 +537,6 @@ namespace invsys.Mobile.Embarques
                 this.cnn.Close();
             }
         }
-        #endregion
 
         private void txtCB_KeyDown(object sender, KeyEventArgs e)
         {
@@ -476,72 +551,17 @@ namespace invsys.Mobile.Embarques
         {
             addComment();
         }
-
-        private void addComment()
-        {
-            try
-            {
-                if (lblIdArt.Text == "")
-                {
-                    MessageBox.Show("Favor de seleccionar un registro");
-                    return;
-                }
-
-                var comentario = "";
-                if (cmbComentario.Text.ToLower().Contains("Agregar comentario"))
-                    comentario = Microsoft.VisualBasic.Interaction.InputBox("Agregar Comentario", "Seleccione", "1", -1, -1);
-                else if (cmbComentario.Text.ToLower().Contains("tiene doble numero"))
-                    comentario = "Tiene doble numero: " + Microsoft.VisualBasic.Interaction.InputBox("Agregar Comentario", "Seleccione", "1", -1, -1);
-                else
-                    comentario = cmbComentario.Text;
-
-                if (cnn.State == ConnectionState.Closed)
-                    cnn.Open();
-                var cmd = new SqlCeCommand("insert into inventarioComentarios(Comentario,Fecha,Lote) values(@Comentario,@Fecha,@lote)", cnn);
-                cmd.Parameters.AddWithValue("@Comentario", comentario);
-                cmd.Parameters.AddWithValue("@Fecha", DateTime.Now);
-                cmd.Parameters.AddWithValue("@lote", txtCB.Text);
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Err: " + ex.Message);
-            }
-            finally
-            {
-                CargarComentariosList();
-                cnn.Close();
-            }
-        }
-
-        private void CargarComentariosList()
-        {
-            try
-            {
-                if (cnn.State == ConnectionState.Closed)
-                    cnn.Open();
-                var cmd = new SqlCeCommand("Select * from InventarioComentarios where Lote = @lote ORDER BY Fecha DESC", cnn);
-                cmd.Parameters.AddWithValue("@lote", txtCB.Text);
-                var dt = new DataTable();
-                dt.Load(cmd.ExecuteReader());
-                lboxComentarios.DataSource = dt;
-                lboxComentarios.DisplayMember = "Comentario";
-                lboxComentarios.ValueMember = "IdComentario";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Func:CargarComentariosList \n Err:" + ex.Message);
-            }
-            finally
-            {
-                cnn.Close();
-            }
-        }
-
         private void mnuComentarios_Click(object sender, EventArgs e)
         {
             CargarComentariosWS();
         }
+
+        #endregion
+
+
+
+
+
 
     }
 }

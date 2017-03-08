@@ -39,6 +39,7 @@ namespace invsys.Mobile.Embarques
                 if (cnn.State == ConnectionState.Closed)
                     cnn.Open();
                 var cmd = new SqlCeCommand("select count(1) from catUsuarios where Usuario = @us and contrasena =@pass", cnn);
+                var cmd2 = new SqlCeCommand(invsys.core.DB.Login.FIND_USER, cnn);
                 cmd.Parameters.AddWithValue("@us", textBox1.Text);
                 cmd.Parameters.AddWithValue("@pass", textBox2.Text);
                 if ((int)cmd.ExecuteScalar() > 0)

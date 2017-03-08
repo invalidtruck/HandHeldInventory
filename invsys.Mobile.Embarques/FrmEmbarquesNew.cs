@@ -14,16 +14,7 @@ namespace invsys.Mobile.Embarques
     public partial class FrmEmbarquesNew : Form
     {
         private SqlCeConnection cnn;
-        public FrmEmbarquesNew()
-        {
-            InitializeComponent();
-            this.dir = this.dir.Substring(0, this.dir.LastIndexOf("\\"));
-            this.cnnstr = "Data Source=" + (this.dir + "\\EmbInv.sdf") + ";Max Database Size=4091";
-            //this.cnnstr = DB.getcnnString();
-            this.cnn = new SqlCeConnection(this.cnnstr);
-
-
-        }
+        
         public FrmEmbarquesNew(int iduser, int idCon)
         {
             this.idConexion = idCon;
@@ -245,7 +236,7 @@ namespace invsys.Mobile.Embarques
                     {
                         sel = Convert.ToInt32(Microsoft.VisualBasic.Interaction.InputBox(str, "Seleccione", "1", -1, -1));
                     }
-                    catch (Exception ex)
+                    catch  
                     {
                         txtCB.Focus();
                         return;
@@ -415,7 +406,7 @@ namespace invsys.Mobile.Embarques
                 {
                     idemb = (int)((System.Data.DataRowView)(cmbEmbarque.SelectedValue)).Row[0];
                 }
-                catch (Exception ex)
+                catch 
                 {
                     idemb = (int)cmbEmbarque.SelectedValue;
                 }
@@ -441,8 +432,9 @@ namespace invsys.Mobile.Embarques
                 }
                 this.dgvCatalogo.DataSource = (object)dataTable2;
             }
-            catch (Exception ex)
+            catch  
             {
+
             }
             finally
             {
@@ -576,7 +568,7 @@ namespace invsys.Mobile.Embarques
                                 lotesenviados += "\n" + lote.ToString();
                             }
                         }
-                        catch (Exception ex)
+                        catch  
                         {
                             MessageBox.Show(String.Format("El lote {0} no ha marcado error en el servidor se continuara con el proceso omitiendo este lote", lote));
                             continue;
@@ -707,7 +699,7 @@ namespace invsys.Mobile.Embarques
                     cmd.Parameters.AddWithValue("@cb", row2Del);
                     cmd.ExecuteNonQuery();
                 }
-                catch (Exception ex)
+                catch
                 {
 
                 }
@@ -763,7 +755,7 @@ namespace invsys.Mobile.Embarques
                 cmbA.DisplayMember = "Descripcion";
                 cmbA.ValueMember = "IdEmbarque";
             }
-            catch (Exception ex)
+            catch  
             {
             }
             finally { cnn.Close(); }
@@ -796,7 +788,7 @@ namespace invsys.Mobile.Embarques
                     panel1.Visible = false;
 
                 }
-                catch (Exception ex)
+                catch  
                 {
                 }
                 finally
