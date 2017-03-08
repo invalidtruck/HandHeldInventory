@@ -17,9 +17,9 @@ namespace invsys.Mobile.Embarques
         private string dir = Assembly.GetExecutingAssembly().GetName().CodeBase;
         private int IdHandHeld = 0;
         private string cnnstr = "";
-        private float peso = 0.0f;
-        private float pesoMaterial = 0.0f;
-        private bool refrescar = false;
+        //private float peso = 0.0f;
+        //private float pesoMaterial = 0.0f;
+        //private bool refrescar = false;
         public int idusuario { get; set; }
         public int idConexion { get; set; }
 
