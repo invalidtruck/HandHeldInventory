@@ -60,23 +60,14 @@ namespace invsys.Mobile.Embarques
             this.cmbEmbarque = new System.Windows.Forms.ComboBox();
             this.pnlDesc = new System.Windows.Forms.Panel();
             this.lblPesoTeorico = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
             this.lblAlmacen = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.lblDesc = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
             this.lblUbicacion = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
             this.lblEspesor = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
             this.lblNorma = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
             this.lblLongitud = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.lblLote = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.lblMedida = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.BtnBuscar = new System.Windows.Forms.Button();
             this.BtnLimpiar = new System.Windows.Forms.Button();
             this.BtnAgregar = new System.Windows.Forms.Button();
@@ -95,6 +86,12 @@ namespace invsys.Mobile.Embarques
             this.menuItem5 = new System.Windows.Forms.MenuItem();
             this.menuItem3 = new System.Windows.Forms.MenuItem();
             this.MenuSalir = new System.Windows.Forms.MenuItem();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtCarga = new System.Windows.Forms.TextBox();
+            this.txtLinea = new System.Windows.Forms.TextBox();
+            this.txtValor = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabCaptura.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -250,154 +247,88 @@ namespace invsys.Mobile.Embarques
             // 
             // pnlDesc
             // 
+            this.pnlDesc.Controls.Add(this.txtValor);
+            this.pnlDesc.Controls.Add(this.txtLinea);
+            this.pnlDesc.Controls.Add(this.txtCarga);
+            this.pnlDesc.Controls.Add(this.label6);
+            this.pnlDesc.Controls.Add(this.label5);
+            this.pnlDesc.Controls.Add(this.label4);
             this.pnlDesc.Controls.Add(this.lblIdSalida);
             this.pnlDesc.Controls.Add(this.lblPesoTeorico);
-            this.pnlDesc.Controls.Add(this.label11);
             this.pnlDesc.Controls.Add(this.lblAlmacen);
-            this.pnlDesc.Controls.Add(this.label7);
             this.pnlDesc.Controls.Add(this.lblDesc);
-            this.pnlDesc.Controls.Add(this.label15);
             this.pnlDesc.Controls.Add(this.lblUbicacion);
-            this.pnlDesc.Controls.Add(this.label14);
             this.pnlDesc.Controls.Add(this.lblEspesor);
-            this.pnlDesc.Controls.Add(this.label12);
             this.pnlDesc.Controls.Add(this.lblNorma);
-            this.pnlDesc.Controls.Add(this.label10);
             this.pnlDesc.Controls.Add(this.lblLongitud);
-            this.pnlDesc.Controls.Add(this.label8);
             this.pnlDesc.Controls.Add(this.lblLote);
-            this.pnlDesc.Controls.Add(this.label6);
             this.pnlDesc.Controls.Add(this.lblMedida);
-            this.pnlDesc.Controls.Add(this.label4);
             this.pnlDesc.Location = new System.Drawing.Point(7, 85);
             this.pnlDesc.Name = "pnlDesc";
             this.pnlDesc.Size = new System.Drawing.Size(212, 216);
             // 
             // lblPesoTeorico
             // 
-            this.lblPesoTeorico.Location = new System.Drawing.Point(113, 174);
+            this.lblPesoTeorico.Location = new System.Drawing.Point(202, 174);
             this.lblPesoTeorico.Name = "lblPesoTeorico";
-            this.lblPesoTeorico.Size = new System.Drawing.Size(99, 20);
-            // 
-            // label11
-            // 
-            this.label11.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.label11.Location = new System.Drawing.Point(10, 174);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(97, 20);
-            this.label11.Text = "Peso Teorico:";
+            this.lblPesoTeorico.Size = new System.Drawing.Size(10, 20);
+            this.lblPesoTeorico.Visible = false;
             // 
             // lblAlmacen
             // 
-            this.lblAlmacen.Location = new System.Drawing.Point(113, 154);
+            this.lblAlmacen.Location = new System.Drawing.Point(202, 154);
             this.lblAlmacen.Name = "lblAlmacen";
-            this.lblAlmacen.Size = new System.Drawing.Size(99, 20);
-            // 
-            // label7
-            // 
-            this.label7.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.label7.Location = new System.Drawing.Point(10, 154);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(70, 20);
-            this.label7.Text = "Almacen:";
+            this.lblAlmacen.Size = new System.Drawing.Size(10, 20);
+            this.lblAlmacen.Visible = false;
             // 
             // lblDesc
             // 
-            this.lblDesc.Location = new System.Drawing.Point(91, 1);
+            this.lblDesc.Location = new System.Drawing.Point(204, 1);
             this.lblDesc.Name = "lblDesc";
-            this.lblDesc.Size = new System.Drawing.Size(151, 33);
-            // 
-            // label15
-            // 
-            this.label15.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.label15.Location = new System.Drawing.Point(10, 3);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(83, 20);
-            this.label15.Text = "Descripción:";
+            this.lblDesc.Size = new System.Drawing.Size(38, 33);
+            this.lblDesc.Visible = false;
             // 
             // lblUbicacion
             // 
-            this.lblUbicacion.Location = new System.Drawing.Point(113, 134);
+            this.lblUbicacion.Location = new System.Drawing.Point(202, 134);
             this.lblUbicacion.Name = "lblUbicacion";
-            this.lblUbicacion.Size = new System.Drawing.Size(99, 20);
-            // 
-            // label14
-            // 
-            this.label14.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.label14.Location = new System.Drawing.Point(10, 134);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(70, 20);
-            this.label14.Text = "Ubicación:";
+            this.lblUbicacion.Size = new System.Drawing.Size(10, 20);
+            this.lblUbicacion.Visible = false;
             // 
             // lblEspesor
             // 
-            this.lblEspesor.Location = new System.Drawing.Point(113, 114);
+            this.lblEspesor.Location = new System.Drawing.Point(202, 114);
             this.lblEspesor.Name = "lblEspesor";
-            this.lblEspesor.Size = new System.Drawing.Size(99, 20);
-            // 
-            // label12
-            // 
-            this.label12.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.label12.Location = new System.Drawing.Point(10, 114);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(65, 20);
-            this.label12.Text = "Espesor:";
+            this.lblEspesor.Size = new System.Drawing.Size(10, 20);
+            this.lblEspesor.Visible = false;
             // 
             // lblNorma
             // 
-            this.lblNorma.Location = new System.Drawing.Point(113, 94);
+            this.lblNorma.Location = new System.Drawing.Point(202, 94);
             this.lblNorma.Name = "lblNorma";
-            this.lblNorma.Size = new System.Drawing.Size(99, 20);
-            // 
-            // label10
-            // 
-            this.label10.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.label10.Location = new System.Drawing.Point(10, 94);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(54, 20);
-            this.label10.Text = "Norma:";
+            this.lblNorma.Size = new System.Drawing.Size(10, 20);
+            this.lblNorma.Visible = false;
             // 
             // lblLongitud
             // 
-            this.lblLongitud.Location = new System.Drawing.Point(113, 74);
+            this.lblLongitud.Location = new System.Drawing.Point(202, 74);
             this.lblLongitud.Name = "lblLongitud";
-            this.lblLongitud.Size = new System.Drawing.Size(99, 20);
-            // 
-            // label8
-            // 
-            this.label8.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.label8.Location = new System.Drawing.Point(10, 74);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(65, 20);
-            this.label8.Text = "Longitud:";
+            this.lblLongitud.Size = new System.Drawing.Size(10, 20);
+            this.lblLongitud.Visible = false;
             // 
             // lblLote
             // 
-            this.lblLote.Location = new System.Drawing.Point(113, 54);
+            this.lblLote.Location = new System.Drawing.Point(202, 54);
             this.lblLote.Name = "lblLote";
-            this.lblLote.Size = new System.Drawing.Size(99, 20);
-            // 
-            // label6
-            // 
-            this.label6.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.label6.Location = new System.Drawing.Point(10, 54);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(54, 20);
-            this.label6.Text = "Lote:";
+            this.lblLote.Size = new System.Drawing.Size(10, 20);
+            this.lblLote.Visible = false;
             // 
             // lblMedida
             // 
-            this.lblMedida.Location = new System.Drawing.Point(113, 34);
+            this.lblMedida.Location = new System.Drawing.Point(202, 34);
             this.lblMedida.Name = "lblMedida";
-            this.lblMedida.Size = new System.Drawing.Size(99, 20);
-            // 
-            // label4
-            // 
-            this.label4.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.label4.Location = new System.Drawing.Point(10, 34);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(54, 20);
-            this.label4.Text = "Medida:";
+            this.lblMedida.Size = new System.Drawing.Size(10, 20);
+            this.lblMedida.Visible = false;
             // 
             // BtnBuscar
             // 
@@ -534,6 +465,54 @@ namespace invsys.Mobile.Embarques
             this.MenuSalir.Popup += new System.EventHandler(this.MenuSalir_Popup);
             this.MenuSalir.Click += new System.EventHandler(this.MenuSalir_Click);
             // 
+            // label4
+            // 
+            this.label4.Location = new System.Drawing.Point(10, 14);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(78, 20);
+            this.label4.Text = "No. Carga";
+            // 
+            // label5
+            // 
+            this.label5.Location = new System.Drawing.Point(10, 38);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(78, 20);
+            this.label5.Text = "Linea";
+            // 
+            // label6
+            // 
+            this.label6.Location = new System.Drawing.Point(10, 65);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(78, 20);
+            this.label6.Text = "Label";
+            // 
+            // txtCarga
+            // 
+            this.txtCarga.Location = new System.Drawing.Point(68, 10);
+            this.txtCarga.MaxLength = 25;
+            this.txtCarga.Name = "txtCarga";
+            this.txtCarga.Size = new System.Drawing.Size(145, 21);
+            this.txtCarga.TabIndex = 23;
+            this.txtCarga.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCarga_KeyDown);
+            // 
+            // txtLinea
+            // 
+            this.txtLinea.Location = new System.Drawing.Point(68, 37);
+            this.txtLinea.MaxLength = 25;
+            this.txtLinea.Name = "txtLinea";
+            this.txtLinea.Size = new System.Drawing.Size(145, 21);
+            this.txtLinea.TabIndex = 29;
+            this.txtLinea.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtLinea_KeyDown);
+            // 
+            // txtValor
+            // 
+            this.txtValor.Location = new System.Drawing.Point(68, 64);
+            this.txtValor.MaxLength = 25;
+            this.txtValor.Name = "txtValor";
+            this.txtValor.Size = new System.Drawing.Size(145, 21);
+            this.txtValor.TabIndex = 30;
+            this.txtValor.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtValor_KeyDown);
+            // 
             // FrmEmbarquesNew
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -569,23 +548,14 @@ namespace invsys.Mobile.Embarques
         private System.Windows.Forms.ComboBox cmbEmbarque;
         private System.Windows.Forms.Panel pnlDesc;
         private System.Windows.Forms.Label lblPesoTeorico;
-        private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label lblAlmacen;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label lblDesc;
-        private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label lblUbicacion;
-        private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label lblEspesor;
-        private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label lblNorma;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label lblLongitud;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label lblLote;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label lblMedida;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button BtnBuscar;
         private System.Windows.Forms.Button BtnLimpiar;
         private System.Windows.Forms.Button BtnAgregar;
@@ -611,6 +581,12 @@ namespace invsys.Mobile.Embarques
         private ComboBox cmbA;
         private Label label2;
         private ComboBox cmbDe;
+        private Label label6;
+        private Label label5;
+        private Label label4;
+        private TextBox txtValor;
+        private TextBox txtLinea;
+        private TextBox txtCarga;
 
     }
 }
