@@ -801,6 +801,21 @@ namespace invsys.Mobile.Embarques
                 MessageBox.Show("Es el mismo pedido, favor de seleccionar otro");
             }
         }
+
+        private void txtValor_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void txtLinea_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void txtCarga_KeyDown(object sender, KeyEventArgs e)
+        {
+            //todo
+        }
     }
 }
 
