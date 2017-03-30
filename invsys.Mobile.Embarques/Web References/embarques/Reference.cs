@@ -29,8 +29,8 @@ namespace invsys.Mobile.Embarques.embarques {
         
         /// <remarks/>
         public WSPedidos() {
-            //this.Url = "http://7.112.66.164:99/WSPedidos.asmx";
-            this.Url = "http://10.10.3.5:99/WSPedidos.asmx";
+            this.Url = "http://localhost:52149/WSPedidos.asmx";
+            //this.Url = "http://10.10.3.5:99/WSPedidos.asmx";
         }
         
         /// <remarks/>
@@ -581,6 +581,12 @@ namespace invsys.Mobile.Embarques.embarques {
         private string ubicacionField;
         
         private decimal pesoTeoricoField;
+
+        private string NoCargaField;
+
+        private string LineaField;
+
+        private string PosicionField;
         
         /// <remarks/>
         public int IdEmbarque {
@@ -729,6 +735,45 @@ namespace invsys.Mobile.Embarques.embarques {
             }
             set {
                 this.pesoTeoricoField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string NoCarga
+        {
+            get
+            {
+                return this.NoCargaField;
+            }
+            set
+            {
+                this.NoCargaField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string Linea
+        {
+            get
+            {
+                return this.LineaField;
+            }
+            set
+            {
+                this.LineaField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string Posicion
+        {
+            get
+            {
+                return this.PosicionField;
+            }
+            set
+            {
+                this.PosicionField = value;
             }
         }
     }

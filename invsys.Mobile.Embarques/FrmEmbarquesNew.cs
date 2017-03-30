@@ -172,12 +172,15 @@ namespace invsys.Mobile.Embarques
                 }
                 if ((double)this.peso >= 35.0 && MessageBox.Show("A embarcado el peso maximo permitido (35tns)?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) != DialogResult.Yes)
                     return;
-                SqlCeCommand sqlCeCommand2 = new SqlCeCommand("INSERT INTO EmbarqueMaterial VALUES(@idE,@CB,@IdSalida,@Peso,@IdCon)", this.cnn);
+                SqlCeCommand sqlCeCommand2 = new SqlCeCommand("INSERT INTO EmbarqueMaterial VALUES(@idE,@CB,@IdSalida,@Peso,@IdCon, @Carga, @Linea, @Posicion)", this.cnn);
                 sqlCeCommand2.Parameters.AddWithValue("@IdCon", this.idConexion);
                 sqlCeCommand2.Parameters.AddWithValue("@idE", this.cmbEmbarque.SelectedValue);
                 sqlCeCommand2.Parameters.AddWithValue("@CB", (object)this.txtCB.Text);
                 sqlCeCommand2.Parameters.AddWithValue("@IdSalida", (object)this.lblIdSalida.Text);
                 sqlCeCommand2.Parameters.AddWithValue("@Peso", (object)num2);
+                sqlCeCommand2.Parameters.AddWithValue("@Carga", (object)this.txtCarga.Text);
+                sqlCeCommand2.Parameters.AddWithValue("@Linea", (object)this.txtLinea.Text);
+                sqlCeCommand2.Parameters.AddWithValue("@Posicion", (object)this.txtValor.Text);
                 if (this.cnn.State == ConnectionState.Closed)
                     this.cnn.Open();
                 sqlCeCommand2.ExecuteReader();
@@ -186,6 +189,8 @@ namespace invsys.Mobile.Embarques
                 sqlCeCommand3.Parameters.AddWithValue("@IdEmbarque", this.cmbEmbarque.SelectedValue);
                 sqlCeCommand3.ExecuteNonQuery();
                 this.CargarEmbarques_Detalle();
+                MessageBox.Show("El lote se agrego");
+                txtValor.Text = (Convert.ToInt32(txtValor.Text) + 1).ToString();
             }
             catch (Exception ex)
             {
@@ -209,6 +214,27 @@ namespace invsys.Mobile.Embarques
             {
                 if (this.txtCB.Text.Trim() == "")
                     return;
+                if (cmbEmbarque.SelectedValue == null)
+                {
+                    MessageBox.Show("Favor de seleccionar Embarque");
+                    this.txtCB.Text = "";
+                    return;
+                }
+                if (txtCarga.Text =="")
+                {
+                    MessageBox.Show("Favor de capturar No. carga");
+                    this.txtCB.Text = "";
+                    this.txtCarga.Focus();
+                    return;
+                }
+
+                if (txtLinea.Text == "")
+                {
+                    MessageBox.Show("Favor de capturar linea");
+                    this.txtCB.Text = "";
+                    this.txtLinea.Focus();
+                    return;
+                }
                 SqlCeCommand sqlCeCommand = new SqlCeCommand("select * from catMaterial where lote = @CB and IdCon = @IdCon", this.cnn);
                 if (this.cnn.State == ConnectionState.Closed)
                     this.cnn.Open();
@@ -261,7 +287,7 @@ namespace invsys.Mobile.Embarques
                 this.lblUbicacion.Text = dataTable.Rows[sel]["Ubicacion"].ToString();
                 this.lblIdSalida.Text = dataTable.Rows[sel]["IdSalidaDatos"].ToString();
                 this.lblPesoTeorico.Text = dataTable.Rows[sel]["PesoTeorico"].ToString();
-
+                BtnAdd_Click(null, null);
             }
             catch (Exception ex)
             {
@@ -548,7 +574,10 @@ namespace invsys.Mobile.Embarques
                            Espesor = dataRow2["Espesor"].ToString(),
                            Descripcion = dataRow2["Descripcion"].ToString(),
                            Ubicacion = dataRow2["Ubicacion"].ToString(),
-                           PesoTeorico = Convert.ToDecimal(dataRow2["PesoTeorico"])
+                           PesoTeorico = Convert.ToDecimal(dataRow2["PesoTeorico"]),
+                           Linea = dataRow2["Linea"].ToString(),
+                           Posicion = dataRow2["Posicion"].ToString(),
+                           NoCarga = dataRow2["NoCarga"].ToString()
                        };
                         try
                         {
@@ -804,18 +833,21 @@ namespace invsys.Mobile.Embarques
 
         private void txtValor_KeyDown(object sender, KeyEventArgs e)
         {
-
+            
         }
 
         private void txtLinea_KeyDown(object sender, KeyEventArgs e)
         {
-
+            txtValor.Text = "1";
         }
 
         private void txtCarga_KeyDown(object sender, KeyEventArgs e)
         {
             //todo
         }
+        //Para el boton salto de linea
+        // txtLinea.Text = (Convert.ToInt32(txtLinea.Text) + 1).ToString()
+        //txtValor.Text = "1";
     }
 }
 
