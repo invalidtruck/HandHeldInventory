@@ -29,8 +29,8 @@ namespace invsys.Mobile.Embarques.embarques {
         
         /// <remarks/>
         public WSPedidos() {
-            this.Url = "http://localhost:52149/WSPedidos.asmx";
-            //this.Url = "http://10.10.3.5:99/WSPedidos.asmx";
+            this.Url = "http://192.168.2.14/hand/WSPedidos.asmx";
+            //this.Url = "http://1user3 0.10.3.5:99/WSPedidos.asmx";
         }
         
         /// <remarks/>

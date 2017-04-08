@@ -152,6 +152,7 @@ namespace invsys.Mobile.Embarques
                 dataTable.Load((IDataReader)sqlCeDataReader);
                 if (dataTable.Rows.Count > 0)
                 {
+                    this.txtCB.Text = dataTable.Rows[0]["CB"].ToString();
                     this.txtMedida.Text = dataTable.Rows[0]["medida"].ToString();
                     this.txtAlmacen.Text = dataTable.Rows[0]["Almacen"].ToString();
                     this.txtLote.Text = dataTable.Rows[0]["Lote"].ToString();

@@ -17,6 +17,7 @@ namespace invsys.Mobile.Embarques
         
         public FrmEmbarquesNew(int iduser, int idCon)
         {
+
             this.idConexion = idCon;
             this.idusuario = iduser;
             this.InitializeComponent();
@@ -577,25 +578,34 @@ namespace invsys.Mobile.Embarques
                            PesoTeorico = Convert.ToDecimal(dataRow2["PesoTeorico"]),
                            Linea = dataRow2["Linea"].ToString(),
                            Posicion = dataRow2["Posicion"].ToString(),
-                           NoCarga = dataRow2["NoCarga"].ToString()
+                           NoCarga = dataRow2["Carga"].ToString()
                        };
                         try
                         {
-                            var cancelar = (int)wsPedidos.InsertEmbarque_Detalle(parametro2, this.idConexion).Tables[0].Rows[0][0];
-                            if (cancelar == 1)
+                            try
                             {
-                                MessageBox.Show(string.Format("El Lote {0} ya se encuentra en el embarque", lote));
-                                continue;
+                                var cancelar = (int)wsPedidos.InsertEmbarque_Detalle(parametro2, this.idConexion).Tables[0].Rows[0][0];
+                                if (cancelar == 1)
+                                {
+                                    MessageBox.Show(string.Format("El Lote {0} ya se encuentra en el embarque", lote));
+                                    continue;
+                                }
+                                if (cancelar == 2)
+                                {
+                                    MessageBox.Show("es 2");
+                                    return;
+                                }
+                                else
+                                {
+                                    lotesenviados += "\n" + lote.ToString();
+                                }
                             }
-                            if (cancelar == 2)
+                            catch (Exception)
                             {
-                                MessageBox.Show("es 2");
-                                return;
+                                
+                                throw;
                             }
-                            else
-                            {
-                                lotesenviados += "\n" + lote.ToString();
-                            }
+                            
                         }
                         catch  
                         {
